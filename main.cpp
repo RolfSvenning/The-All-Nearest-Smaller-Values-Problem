@@ -1,52 +1,54 @@
 #include <iostream>
+#include <string>
+#include <random>
 
+#include <parlay/primitives.h>
+#include <parlay/sequence.h>
+#include <parlay/random.h>
+#include <parlay/internal/get_time.h>
 
-//
-// Created by Rolf on 9/20/2023.
-//
+#include "cartesian_tree.h"
 
+// **************************************************************
+// Driver
+// **************************************************************
 
-#include "parlaylib/include/parlay/parallel.h"
-#include "parlaylib/include/parlay/primitives.h"
-#include "parlaylib/include/parlay/sequence.h"
+parlay::sequence<long> generate_values(long n) {
+    parlay::random_generator gen;
+    std::uniform_int_distribution<long> dis(0, n-1);
 
-parlay::sequence<long> prime_sieve(long n) {
-    if (n < 2) return {};
-    else {
-        long sqrt = std::sqrt(n);
-        auto primes_sqrt = prime_sieve(sqrt);
-        parlay::sequence<bool> flags(n+1, true);  // flags to mark the primes
-        flags[0] = flags[1] = false;              // 0 and 1 are not prime
-        parlay::parallel_for(0, primes_sqrt.size(), [&] (size_t i) {
-            long prime = primes_sqrt[i];
-            parlay::parallel_for(2, n/prime + 1, [&] (size_t j) {
-                flags[prime * j] = false;
-            });
-        }, 1);
-        return parlay::filter(parlay::iota<long>(n+1),
-                              [&](size_t i) { return flags[i]; });
-    }
-}
-
-int test(long n) {
-    parlay::sequence<int> A = parlay::sequence<int>(n);
-    // parlay::parallel_for(0, primes_sqrt.size(), [&] (size_t i) {
-    parlay::parallel_for(0, n - 1, [&] (int i){
-        A[i] = i;
+    return parlay::tabulate(n, [&] (long i) {
+        auto r = gen[i];
+        return dis(r);
     });
-    return A[5];
 }
 
-int main() {
-    int n = 100;
-    int res = test(n);
-    std::cout << res;
+int main(int argc, char* argv[]) {
+    auto usage = "Usage: cartesian_tree <n>";
+    if (argc != 2) std::cout << usage << std::endl;
+    else {
+        long n;
+        try { n = std::stol(argv[1]); }
+        catch (...) { std::cout << usage << std::endl; return 1; }
 
-    parlay::sequence<long> res2 = prime_sieve(n);
-    std::cout << "   ";
-    for(int i : res2){
-        std::cout << i;
-        std::cout << " ";
+        parlay::sequence<long> values = generate_values(n);
+        parlay::sequence<long> parents;
+        parlay::internal::timer t("Time");
+        for (int i=0; i < 5; i++) {
+            parents = cartesian_tree(values);
+            t.next("Cartesian Tree");
+        }
+
+        auto h = parlay::tabulate(n, [&] (long i) {
+            long depth = 1;
+            while (i != parents[i]) {
+                i = parents[i];
+                depth++;
+            }
+            return depth;});
+
+        std::cout << "depth of tree: "
+                  << parlay::reduce(h, parlay::maximum<long>())
+                  << std::endl;
     }
-    return 0;
 }
