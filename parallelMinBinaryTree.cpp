@@ -25,7 +25,7 @@ void fixNode(int i, parlay::sequence<long>& A, long n){
   if (i > n - 2) return;
 // PARALLEL
   if (parallel){
-  parlay::par_do(
+  parlay::par_do_if(i < n / 1024, // i < 512
           [&]() {fixNode(i * 2 + 1, A, n);},
          [&]() {fixNode(i * 2 + 2, A, n);}
       );
