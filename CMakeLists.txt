@@ -3,14 +3,17 @@ project(ANSV2)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(ANSV2 main.cpp
-)
+add_executable(ANSV2 main.cpp)
 
 target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)
 
 add_executable(parallelMinBinaryTree parallelMinBinaryTree.cpp)
 target_include_directories(parallelMinBinaryTree PUBLIC parlaylib/include)
+
+add_executable(loopTest loopTest.cpp)
+target_include_directories(loopTest PUBLIC parlaylib/include)
+
 
 set(EXAMPLES "primes" "BFS" "word_counts" "tokens" "filter" "linefit"
         "mcss" "quickhull" "pagerank" "spanning_tree" "maximal_matching"
