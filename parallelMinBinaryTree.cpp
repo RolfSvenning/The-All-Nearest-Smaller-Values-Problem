@@ -1,6 +1,7 @@
 //
-// Created by Rolf on 9/20/2023.
+// Setting number of threads: PARLAY_NUM_THREADS=x
 //
+
 #include <iostream>
 
 #include "parlay/io.h"
@@ -37,6 +38,29 @@ void fixNode(int i, parlay::sequence<long>& A, long n){
 //  std::cout << parlay::to_chars(A) << std::endl;
   A[i] = std::min(A[i * 2 + 1], A[i * 2 + 2]);
 //  std::cout << i << std::endl;
+}
+
+// if left_i (right_i) is equal to -1 it means that it has no left (right) child
+struct node {
+    long val;
+    struct node * left_i;
+    struct node * right_i;
+    struct node * parent;
+};
+
+// start: first index with an element
+// end: last index with an element
+node fixNode2(parlay::sequence<node>& A, long start, long end) {
+    if (end < start) return node{-1, nullptr, nullptr, nullptr};
+    long mid_i = (start + end) / 2;
+    node mid = A[mid_i];
+    auto B = A.subseq(0,2);
+    node rootLeft_i = fixNode2(A, start, mid_i - 1);
+    node rootRight_i = fixNode2(A, mid_i + 1, end);
+    mid = node(A[mid_i].val, &rootLeft_i, &rootRight_i);
+    rootLeft_i.parent = &mid;
+    rootRight_i.parent = &mid;
+    return mid;
 }
 
 int main(int argc, char* argv[]){
