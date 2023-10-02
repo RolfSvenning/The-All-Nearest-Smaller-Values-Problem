@@ -20,6 +20,7 @@ struct node {
   struct node * parent;
 };
 
+
 parlay::sequence<node> generate_values(long n) {
   parlay::random_generator gen;
   std::uniform_int_distribution<long> dis(0, n-1);
@@ -31,41 +32,52 @@ parlay::sequence<node> generate_values(long n) {
 }
 
 
-
 // start: first index with an element
 // end: last index with an element
-long fixNode2(parlay::sequence<node>& A, long start, long end) {
-  long mid_i = (start + end) / 2;
-  if (end < start) return -1;
-  long rootLeft_i = fixNode2(A, start, mid_i - 1);
-  long rootRight_i = fixNode2(A, mid_i + 1, end);
-  node & mid = A[mid_i];
-  
+void fixNode2(parlay::sequence<node>& A, long start, long end) {
+    if (end < start) return;
 
-  node & left = A[rootLeft_i];
-  node & right = A[rootRight_i];
+    long mid_i = (start + end) / 2;
+    long leftEnd = mid_i - 1;
+    long rightStart = mid_i + 1;
+    if (parallel) {
+        parlay::par_do_if((end - start) > 512,
+                          [&]() { fixNode2(A, start, leftEnd);},
+                          [&]() { fixNode2(A, rightStart, end);}
+        );
+    } else {
+        fixNode2(A, start, leftEnd);
+        fixNode2(A, rightStart, end);
+    }
 
-  long leftMinVal;
-  if (rootLeft_i != -1) {
-    leftMinVal = left.minVal;
-    mid.left_i = &left;
-    left.parent = &mid;
-  } else {
-    leftMinVal = A.size();
-  }
+    node & mid = A[mid_i];
 
-  long rightMinVal;
-  if (rootRight_i != -1) {
-    rightMinVal = right.minVal;
-    mid.right_i = &right;
-    right.parent = &mid;
-  } else {
-    rightMinVal = A.size();
-  }
 
-  mid.minVal = std::min(mid.val, std::min(leftMinVal, rightMinVal));
+    long leftMinVal;
+    if (leftEnd < start) {
+        long rootLeft_i = (start + leftEnd) / 2;
+        node & left = A[rootLeft_i];
+        leftMinVal = left.minVal;
+        mid.left_i = &left;
+        left.parent = &mid;
+    } else {
+        leftMinVal = A.size();
+    }
+
+
+    long rightMinVal;
+    if (end < rightStart) {
+        long rootRight_i = (rightStart + end) / 2;
+        node & right = A[rootRight_i];
+        rightMinVal = right.minVal;
+        mid.right_i = &right;
+        right.parent = &mid;
+    } else {
+        rightMinVal = A.size();
+    }
+
+    mid.minVal = std::min(mid.val, std::min(leftMinVal, rightMinVal));
 //  std::cout << "values: " << " " << left.minVal << " " << mid.minVal << " "  << right.minVal << std::endl;
-  return mid_i;
 }
 
 int main(int argc, char* argv[]){
