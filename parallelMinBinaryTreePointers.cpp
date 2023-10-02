@@ -27,7 +27,7 @@ parlay::sequence<node> generate_values(long n) {
 
   return parlay::tabulate(n, [&] (long i) {
     auto r = gen[i];
-    return node{dis(r), 999, nullptr, nullptr, nullptr};
+    return node{dis(r), n + 1, nullptr, nullptr, nullptr};
   });
 }
 

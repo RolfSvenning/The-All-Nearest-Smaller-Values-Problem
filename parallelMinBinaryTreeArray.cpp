@@ -2,12 +2,12 @@
 // Setting number of threads: PARLAY_NUM_THREADS=x
 //
 
+#include "parallelMinBinaryTreeArray.h"
 #include <iostream>
-
 #include "parlay/io.h"
-#include <parlay/primitives.h>
-#include <parlay/random.h>
-#include <parlay/sequence.h>
+#include "parlay/primitives.h"
+#include "parlay/random.h"
+#include "parlay/sequence.h"
 
 bool parallel = true;
 

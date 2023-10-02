@@ -3,19 +3,46 @@ project(ANSV2)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(ANSV2 main.cpp)
+#include_directories(${CMAKE_SOURCE_DIR})
 
+add_executable(ANSV2 main.cpp)
 target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)
 
-add_executable(parallelMinBinaryTree parallelMinBinaryTreeArray.cpp)
-target_include_directories(parallelMinBinaryTree PUBLIC parlaylib/include)
+add_executable(parallelMinBinaryTreeArray parallelMinBinaryTreeArray.cpp
+        parallelMinBinaryTreeArray.h)
+target_include_directories(parallelMinBinaryTreeArray PUBLIC parlaylib/include)
 
 add_executable(loopTest loopTest.cpp)
 target_include_directories(loopTest PUBLIC parlaylib/include)
 
 add_executable(parallelMinBinaryTreePointers parallelMinBinaryTreePointers.cpp)
 target_include_directories(parallelMinBinaryTreePointers PUBLIC parlaylib/include)
+
+add_executable(ANSV_nlogn_work ANSV_nlogn_work.cpp
+        test.cpp
+        test.h)
+target_include_directories(ANSV_nlogn_work PUBLIC parlaylib/include)
+
+## -------------------------------------------------------------------
+##                       Library definition
+#
+#add_library(parlay INTERFACE)
+#set(PARLAY_INCLUDE_DIR "${PARLAY_SOURCE_DIR}/include")
+#target_include_directories(parlay INTERFACE
+#        $<BUILD_INTERFACE:${PARLAY_INCLUDE_DIR}>
+#        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+#
+#option(PARLAY_USE_CXX_20 "Require Parlay to build with C++20")
+#if (PARLAY_USE_CXX_20)
+#    target_compile_features(parlay INTERFACE cxx_std_20)
+#else()
+#    target_compile_features(parlay INTERFACE cxx_std_17)
+#endif()
+#
+## Link against system threads
+#find_package(Threads REQUIRED)
+#target_link_libraries(parlay INTERFACE Threads::Threads)
 
 
 set(EXAMPLES "primes" "BFS" "word_counts" "tokens" "filter" "linefit"
