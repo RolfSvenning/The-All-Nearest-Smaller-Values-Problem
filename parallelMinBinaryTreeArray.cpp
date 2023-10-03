@@ -22,20 +22,29 @@ parlay::sequence<long> generate_values(long n) {
   });
 }
 
+long parent(long i){
+    return (i - 1) / 2;
+}
+
+long child(long i, long c){
+    assert (1 <= c and c <=2);
+    return 2 * i + c;
+}
+
 void fixNode(int i, parlay::sequence<long>& A, long n){
   if (i > n - 2) return;
 // PARALLEL
   if (parallel){
   parlay::par_do_if(i < n / 1024, // i < 512
-          [&]() {fixNode(i * 2 + 1, A, n);},
-         [&]() {fixNode(i * 2 + 2, A, n);}
+          [&]() {fixNode(child(i, 1), A, n);},
+         [&]() {fixNode(child(i, 2), A, n);}
       );
   } else {
   //  SEQUENTIAL
-    fixNode(i * 2 + 1, A, n);
-    fixNode(i * 2 + 2, A, n);
+    fixNode(child(i, 1), A, n);
+    fixNode(child(i, 2), A, n);
   }
-  A[i] = std::min(A[i * 2 + 1], A[i * 2 + 2]);
+  A[i] = std::min(A[child(i, 1)], A[child(i, 2)]);
 }
 
 

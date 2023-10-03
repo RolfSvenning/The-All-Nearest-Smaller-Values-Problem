@@ -9,6 +9,10 @@
  */
 parlay::sequence<long> generate_values(long n);
 
+long parent(long i){}
+
+long child(long i, long c){}
+
 /**
  * Constructs a 'min binary tree' on the input sequence A assuming A is the output of
  * generate_values(...).
