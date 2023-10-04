@@ -3,7 +3,7 @@ project(ANSV2)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(ANSV2 main.cpp test.cpp)
+add_executable(ANSV2 main.cpp other.cpp)
 target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)
 
