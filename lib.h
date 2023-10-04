@@ -1,5 +1,5 @@
-#ifndef test
-#define test
+#ifndef lib
+#define lib
 
 struct StructOuter{
     struct StructInner{
@@ -11,7 +11,5 @@ struct StructOuter{
 
     static inline thread_local StructInner problemStruct{3};
 };
-
-//static inline StructOuter so{};
 
 #endif

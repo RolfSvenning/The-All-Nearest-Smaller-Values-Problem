@@ -1,4 +1,4 @@
-#include "test.h"
+#include "lib.h"
 
 int main() {
     StructOuter t = StructOuter{};
