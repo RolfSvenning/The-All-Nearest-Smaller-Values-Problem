@@ -2,48 +2,48 @@
 #include "parlay/sequence.h"
 #include "parlay/io.h"
 #include <iostream>
-//#include "test.h"
+#include "parallelMinBinaryTreeArray.h"
 
-bool parallel = true;
+//bool parallel = true;
 
 
 // ------------- parallelMinBinaryTreeArray COPIED -------------
 
-parlay::sequence<long> generate_values(long n) {
-    parlay::random_generator gen;
-    std::uniform_int_distribution<long> dis(0, n-1);
-
-    return parlay::tabulate(2 * n - 1, [&] (long i) {
-        if (i <= n - 2) return -1L;
-        auto r = gen[i];
-        return dis(r);
-    });
-}
-
-long parent(long i){
-    return (i - 1) / 2;
-}
-
-long child(long i, long c){
-    assert (1 <= c and c <=2);
-    return 2 * i + c;
-}
-
-void fixNode(int i, parlay::sequence<long>& A, long n){
-    if (i > n - 2) return;
-// PARALLEL
-    if (parallel){
-        parlay::par_do_if(i < n / 1024, // i < 512
-                          [&]() {fixNode(child(i, 1), A, n);},
-                          [&]() {fixNode(child(i, 2), A, n);}
-        );
-    } else {
-        //  SEQUENTIAL
-        fixNode(child(i, 1), A, n);
-        fixNode(child(i, 2), A, n);
-    }
-    A[i] = std::min(A[child(i, 1)], A[child(i, 2)]);
-}
+//parlay::sequence<long> generate_values(long n) {
+//    parlay::random_generator gen;
+//    std::uniform_int_distribution<long> dis(0, n-1);
+//
+//    return parlay::tabulate(2 * n - 1, [&] (long i) {
+//        if (i <= n - 2) return -1L;
+//        auto r = gen[i];
+//        return dis(r);
+//    });
+//}
+//
+//long parent(long i){
+//    return (i - 1) / 2;
+//}
+//
+//long child(long i, long c){
+//    assert (1 <= c and c <=2);
+//    return 2 * i + c;
+//}
+//
+//void fixNode(int i, parlay::sequence<long>& A, long n){
+//    if (i > n - 2) return;
+//// PARALLEL
+//    if (parallel){
+//        parlay::par_do_if(i < n / 1024, // i < 512
+//                          [&]() {fixNode(child(i, 1), A, n);},
+//                          [&]() {fixNode(child(i, 2), A, n);}
+//        );
+//    } else {
+//        //  SEQUENTIAL
+//        fixNode(child(i, 1), A, n);
+//        fixNode(child(i, 2), A, n);
+//    }
+//    A[i] = std::min(A[child(i, 1)], A[child(i, 2)]);
+//}
 
 // ------------- parallelMinBinaryTreeArray COPIED -------------
 
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]){
     long n;
     try { n = std::stol(argv[1]); }
     catch (...) { std::cout << usage << std::endl; return 1; }
-    assert (pow(2,log2(n)) == n);
+    assert (pow(2,floor(log2(n))) == n);
     parlay::internal::timer t("Time ");
 
     // CREATING MIN BINARY TREE ON RANDOM INPUT
@@ -117,8 +117,8 @@ int main(int argc, char* argv[]){
         getSequence(n, A, L, i);
     });
     t.next("parallel: ");
-//    std::cout << "A: " << parlay::to_chars(A) << std::endl;
-//    std::cout << "L " << parlay::to_chars(L) << std::endl;
+    std::cout << "A: " << parlay::to_chars(A) << std::endl;
+    std::cout << "L " << parlay::to_chars(L) << std::endl;
 
 
 }

@@ -12,7 +12,7 @@
 bool parallel = true;
 
 parlay::sequence<long> generate_values(long n) {
-  parlay::random_generator gen;
+  parlay::random_generator gen(1);
   std::uniform_int_distribution<long> dis(0, n-1);
 
   return parlay::tabulate(2 * n - 1, [&] (long i) {
@@ -48,7 +48,7 @@ void fixNode(int i, parlay::sequence<long>& A, long n){
 }
 
 
-int main(int argc, char* argv[]){
+int main2(int argc, char* argv[]){
   auto usage = "Usage: missing 'n' argument. "
                "Creating parallel min binary tree of n elements <n>";
   if (argc != 2){
@@ -70,8 +70,9 @@ int main(int argc, char* argv[]){
   fixNode(0, values, n);
   t.next("min binary tree");
 
-//  std::cout << "2)" << std::endl;
-//  std::cout << parlay::to_chars(values) << std::endl;
+  std::cout << "2)" << std::endl;
+  std::cout << parlay::to_chars(values) << std::endl;
   std::cout << "parallel: " << parallel << std::endl;
+  return 0;
 }
 

@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 #include_directories(${CMAKE_SOURCE_DIR})
 
-add_executable(ANSV2 main.cpp)
+add_executable(ANSV2 main.cpp parallelMinBinaryTreeArray.cpp parallelMinBinaryTreeArray.h)
 target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)
 
@@ -19,9 +19,7 @@ target_include_directories(loopTest PUBLIC parlaylib/include)
 add_executable(parallelMinBinaryTreePointers parallelMinBinaryTreePointers.cpp)
 target_include_directories(parallelMinBinaryTreePointers PUBLIC parlaylib/include)
 
-add_executable(ANSV_nlogn_work ANSV_nlogn_work.cpp
-        test.cpp
-        test.h)
+add_executable(ANSV_nlogn_work ANSV_nlogn_work.cpp parallelMinBinaryTreeArray.cpp)
 target_include_directories(ANSV_nlogn_work PUBLIC parlaylib/include)
 
 ## -------------------------------------------------------------------

@@ -9,9 +9,9 @@
  */
 parlay::sequence<long> generate_values(long n);
 
-long parent(long i){}
+long parent(long i);
 
-long child(long i, long c){}
+long child(long i, long c);
 
 /**
  * Constructs a 'min binary tree' on the input sequence A assuming A is the output of
@@ -19,6 +19,6 @@ long child(long i, long c){}
  */
 void fixNode(int i, parlay::sequence<long>& A, long n);
 
-int main(int argc, char* argv[]);
+int main2(int argc, char* argv[]);
 
 #endif //ANSV2_PARALLELMINBINARYTREE_H
