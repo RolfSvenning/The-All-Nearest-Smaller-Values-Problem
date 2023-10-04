@@ -69,7 +69,6 @@ int main(int argc, char* argv[]) {
   long s2 = parlay::reduce(A2);
   t.next("reduce (sum)");
 
-
   return s1 + s2;
 }
 

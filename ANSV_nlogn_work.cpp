@@ -4,9 +4,6 @@
 #include <iostream>
 #include "parallelMinBinaryTreeArray.h"
 
-//bool parallel = true;
-
-
 // ------------- parallelMinBinaryTreeArray COPIED -------------
 
 //parlay::sequence<long> generate_values(long n) {
@@ -119,6 +116,4 @@ int main(int argc, char* argv[]){
     t.next("parallel: ");
     std::cout << "A: " << parlay::to_chars(A) << std::endl;
     std::cout << "L " << parlay::to_chars(L) << std::endl;
-
-
 }

@@ -1,14 +1,17 @@
-#ifndef UNTITLED_TEST_H
-#define UNTITLED_TEST_H
+#ifndef test
+#define test
 
-#include "parlay/primitives.h"
+struct StructOuter{
+    struct StructInner{
+        int a;
+        StructInner(int aa) {
+            a = aa;
+        }
+    };
 
-class test {
-public:
-  test();
-  test(int i);
-    int age;
+    static inline thread_local StructInner problemStruct{3};
 };
 
+//static inline StructOuter so{};
 
-#endif //UNTITLED_TEST_H
+#endif
