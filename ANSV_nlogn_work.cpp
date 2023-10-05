@@ -4,45 +4,6 @@
 #include <iostream>
 #include "parallelMinBinaryTreeArray.h"
 
-// ------------- parallelMinBinaryTreeArray COPIED -------------
-
-//parlay::sequence<long> generate_values(long n) {
-//    parlay::random_generator gen;
-//    std::uniform_int_distribution<long> dis(0, n-1);
-//
-//    return parlay::tabulate(2 * n - 1, [&] (long i) {
-//        if (i <= n - 2) return -1L;
-//        auto r = gen[i];
-//        return dis(r);
-//    });
-//}
-//
-//long parent(long i){
-//    return (i - 1) / 2;
-//}
-//
-//long child(long i, long c){
-//    assert (1 <= c and c <=2);
-//    return 2 * i + c;
-//}
-//
-//void fixNode(int i, parlay::sequence<long>& A, long n){
-//    if (i > n - 2) return;
-//// PARALLEL
-//    if (parallel){
-//        parlay::par_do_if(i < n / 1024, // i < 512
-//                          [&]() {fixNode(child(i, 1), A, n);},
-//                          [&]() {fixNode(child(i, 2), A, n);}
-//        );
-//    } else {
-//        //  SEQUENTIAL
-//        fixNode(child(i, 1), A, n);
-//        fixNode(child(i, 2), A, n);
-//    }
-//    A[i] = std::min(A[child(i, 1)], A[child(i, 2)]);
-//}
-
-// ------------- parallelMinBinaryTreeArray COPIED -------------
 
 void getSequence(long n, const parlay::sequence<long> &A, parlay::sequence<long> &L, int i) {
 //    std::cout << "----- i: " << i << std::endl;
