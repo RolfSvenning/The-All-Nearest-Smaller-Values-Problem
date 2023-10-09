@@ -3,42 +3,35 @@ project(ANSV2)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(ANSV2 main.cpp other.cpp)
+add_executable(ANSV2 main.cpp Glue/_aux.cpp Testing/TestANSV.cpp ANSV/naive_n2_work.cpp ANSV/seq_array_n_work.cpp ANSV/seq_stack_n_work.cpp)
 target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)
 
-add_executable(parallelMinBinaryTreeArray parallelMinBinaryTreeArray.cpp)
-target_include_directories(parallelMinBinaryTreeArray PUBLIC parlaylib/include)
 
-add_executable(loopTest loopTest.cpp)
-target_include_directories(loopTest PUBLIC parlaylib/include)
-
-add_executable(parallelMinBinaryTreePointers parallelMinBinaryTreePointers.cpp)
-target_include_directories(parallelMinBinaryTreePointers PUBLIC parlaylib/include)
-
-add_executable(ANSV_nlogn_work ANSV_nlogn_work.cpp parallelMinBinaryTreeArray.cpp)
+add_executable(ANSV_nlogn_work ANSV/ANSV_nlogn_work.cpp ParallelMinBinaryTrees/parallelMinBinaryTreeArray.cpp)
 target_include_directories(ANSV_nlogn_work PUBLIC parlaylib/include)
 
-## -------------------------------------------------------------------
-##                       Library definition
-#
-#add_library(parlay INTERFACE)
-#set(PARLAY_INCLUDE_DIR "${PARLAY_SOURCE_DIR}/include")
-#target_include_directories(parlay INTERFACE
-#        $<BUILD_INTERFACE:${PARLAY_INCLUDE_DIR}>
-#        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-#
-#option(PARLAY_USE_CXX_20 "Require Parlay to build with C++20")
-#if (PARLAY_USE_CXX_20)
-#    target_compile_features(parlay INTERFACE cxx_std_20)
-#else()
-#    target_compile_features(parlay INTERFACE cxx_std_17)
-#endif()
-#
-## Link against system threads
-#find_package(Threads REQUIRED)
-#target_link_libraries(parlay INTERFACE Threads::Threads)
+function(add_myFile NAME PATH)
+    add_executable(${NAME} ${PATH}/${NAME}.cpp)
+    target_include_directories(${NAME} PUBLIC parlaylib/include)
+endfunction()
 
+# --- dir misc: my files compiled individually ---
+
+set(miscFiles "loopTest")
+foreach(file ${miscFiles})
+    add_myFile(${file} Misc)
+endforeach()
+
+# --- dir misc: my files compiled individually ---
+
+set(myFiles "parallelMinBinaryTreeArray" "parallelMinBinaryTreePointers")
+foreach(file ${myFiles})
+    add_myFile(${file} ParallelMinBinaryTrees)
+endforeach()
+
+
+# --- FROM PARLAYLIB ---
 
 set(EXAMPLES "primes" "BFS" "word_counts" "tokens" "filter" "linefit"
         "mcss" "quickhull" "pagerank" "spanning_tree" "maximal_matching"

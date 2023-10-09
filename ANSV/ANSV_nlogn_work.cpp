@@ -1,9 +1,7 @@
+#include "../ParallelMinBinaryTrees/parallelMinBinaryTreeArray.h"
 #include "parlay/primitives.h"
 #include "parlay/sequence.h"
-#include "parlay/io.h"
 #include <iostream>
-#include "parallelMinBinaryTreeArray.h"
-
 
 void getSequence(long n, const parlay::sequence<long> &A, parlay::sequence<long> &L, int i) {
 //    std::cout << "----- i: " << i << std::endl;
@@ -54,6 +52,7 @@ int main(int argc, char* argv[]){
     long n;
     try { n = std::stol(argv[1]); }
     catch (...) { std::cout << usage << std::endl; return 1; }
+    // for simplicity; this guarantees the input will be stored in its original order at the leaves
     assert (pow(2,floor(log2(n))) == n);
     parlay::internal::timer t("Time ");
 
@@ -75,6 +74,6 @@ int main(int argc, char* argv[]){
         getSequence(n, A, L, i);
     });
     t.next("parallel: ");
-    std::cout << "A: " << parlay::to_chars(A) << std::endl;
-    std::cout << "L " << parlay::to_chars(L) << std::endl;
+//    std::cout << "A: " << parlay::to_chars(A) << std::endl;
+//    std::cout << "L " << parlay::to_chars(L) << std::endl;
 }

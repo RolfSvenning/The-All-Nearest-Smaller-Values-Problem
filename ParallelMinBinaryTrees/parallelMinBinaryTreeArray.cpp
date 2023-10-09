@@ -4,7 +4,6 @@
 
 #include "parallelMinBinaryTreeArray.h"
 #include <iostream>
-#include "parlay/io.h"
 #include "parlay/primitives.h"
 #include "parlay/random.h"
 #include "parlay/sequence.h"
@@ -70,9 +69,9 @@ int main2(int argc, char* argv[]){
     fixNode(0, values, n);
     t.next("min binary tree");
 
-    std::cout << "2)" << std::endl;
-    std::cout << parlay::to_chars(values) << std::endl;
-    std::cout << "parallel: " << parallel << std::endl;
+//    std::cout << "2)" << std::endl;
+//    std::cout << parlay::to_chars(values) << std::endl;
+//    std::cout << "parallel: " << parallel << std::endl;
     return 0;
 }
 
