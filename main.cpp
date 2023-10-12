@@ -9,5 +9,7 @@ int main() {
 
     std::cout << "Hello world" << std::endl;
     std::array<int, n> A = returnRandomArray();
-    compareOutputOfNaiveSeqArraySeqStack(A);
+    compareOutputOfNaiveSeqArraySeqStack(A, true);
+//
+//    testShunZhao(A, true);
 }

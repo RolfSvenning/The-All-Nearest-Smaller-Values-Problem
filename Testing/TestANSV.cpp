@@ -8,6 +8,8 @@
 #include "../ANSV/seq_array_n_work.h"
 #include "../ANSV/seq_stack_n_work.h"
 #include "TestANSV.h"
+#include "../ANSV/nlogn_work_shun_and_zhao.h"
+
 #include "parlay/primitives.h"
 
 void compareOutputOfNaiveSeqArraySeqStack(std::array<int, n> A, bool verbose) {
@@ -38,4 +40,50 @@ void compareOutputOfNaiveSeqArraySeqStack(std::array<int, n> A, bool verbose) {
     if (verbose) printArraysVI(std::list<std::array<VI, n>>{L3, R3});
 
     assert(L2 == L3 and R2 == R3);
+
+    std::cout << " --- ANSV parallel nlogn work Shun & Zhao --- " << std::endl;
+    t.start();
+    auto [L4, R4] = testShunZhao(A); //TODO: only sets indices, not values!
+    t.next("");
+    t.stop();
+    if (verbose) printArraysVI(std::list<std::array<VI, n>>{L4, R4});
+}
+
+
+std::tuple<std::array<VI, n>, std::array<VI, n>> testShunZhao(std::array<int, n> A_) {
+  bool verbose = false;
+  int L[n];
+  int R[n];
+  int A[n];
+  for(int i=0; i < n; i++){
+    A[i] = A_[i];
+  }
+
+  ComputeANSV(A, n, L, R);
+
+  // Print the elements of the array
+  if (verbose) {
+    std::cout << "A" << std::endl;
+    for (int i : A) {
+        std::cout << i << ' ';
+    }
+
+    std::cout << std::endl << "L" << std::endl;
+    for (int i : L) {
+        std::cout << i << ' ';
+    }
+
+    std::cout << std::endl << "R" << std::endl;
+    for (int i : R) {
+        std::cout << i << ' ';
+    }
+  }
+
+  std::array<VI, n> L_;
+  std::array<VI, n> R_;
+  for(int i=0; i < n; i++){
+    L_[i].ind = L[i];
+    R_[i].ind = R[i];
+  }
+  return {L_, R_};
 }

@@ -1,6 +1,4 @@
-//
-// Created by Rolf Svenning on 12/04/2023.
-//
+
 #include "iostream"
 #include <array>
 #include <list>
