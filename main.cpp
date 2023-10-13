@@ -5,11 +5,10 @@
 
 int main() {
     int imax = std::numeric_limits<int>::max();
-    std::cout << "max int size: " << imax << std::endl;
 
-    std::cout << "Hello world" << std::endl;
     std::array<int, n> A = returnRandomArray();
-    compareOutputOfNaiveSeqArraySeqStack(A, true);
+//    std::array<int, n> A = {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}; //set constants to 16
+    compareOutputOfNaiveSeqArraySeqStack(A, false);
 //
-//    testShunZhao(A, true);
+//    testShunZhao(A);
 }

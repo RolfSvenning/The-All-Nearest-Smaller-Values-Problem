@@ -47,6 +47,10 @@ void compareOutputOfNaiveSeqArraySeqStack(std::array<int, n> A, bool verbose) {
     t.next("");
     t.stop();
     if (verbose) printArraysVI(std::list<std::array<VI, n>>{L4, R4});
+    for(int i=0; i < n; i++){
+      assert(L3[i].ind == L4[i].ind and R3[i].ind == R4[i].ind);
+    }
+    std::cout << " --- All tests passed 4/4 --- " << std::endl;
 }
 
 

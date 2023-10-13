@@ -66,7 +66,7 @@ inline int getRight_opt(int **table, int depth, int n, int index, int start) {
 
   int cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
-    if (cur * dist < index) cur ++;
+    if (cur * dist < index) cur ++; //index could (should?) also be start?
     if (cur * dist >= n) return -1;
 
     if (table[d][cur] >= value) cur = PARENT(cur);
@@ -117,6 +117,7 @@ inline int cflog2(int i) {
 }
 
 void ComputeANSV(int *a, int n, int *left, int *right) {
+  std::cout << "BLOCK_SIZE: " << BLOCK_SIZE << std::endl;
   int l2 = cflog2(n);
   int depth = l2 + 1;
   int **table = new int*[depth];
@@ -143,9 +144,9 @@ void ComputeANSV(int *a, int n, int *left, int *right) {
     m = (m + 1) / 2;
   }
 
-  parlay::parallel_for(0, n / BLOCK_SIZE, [&] (size_t i_) {
-    int i = BLOCK_SIZE * i_;
-    int j = std::min<size_t>(i + BLOCK_SIZE, n);
+  parlay::blocked_for(0, n, BLOCK_SIZE, [&] (size_t blockNumber, size_t i, size_t j) {
+//    int i = BLOCK_SIZE * i_;
+//    int j = std::min<size_t>(i + BLOCK_SIZE, n);
     ComputeANSV_Linear(a + i, j - i, left + i, right + i, i);
     int tmp = i;
     for (int k = i; k < j; k++) {
@@ -159,7 +160,9 @@ void ComputeANSV(int *a, int n, int *left, int *right) {
 
 
     tmp = j - 1;
-    for (int k = j - 1; k >=  i; k--) {
+    //casting size_t to long to avoid default conversion of negative int to size_t which
+    // will be large positive number since size_t is unsigned
+    for (int k = j - 1; k >= (long)i; k--) {
       if (right[k] == -1) {
         if (tmp != -1 && a[tmp] >= a[k]) {
           tmp = getRight_opt(table, depth, n, k, tmp);
@@ -168,7 +171,7 @@ void ComputeANSV(int *a, int n, int *left, int *right) {
       }
     }
   });
-
   for (int i = 1; i < depth; i++) delete table[i];
   delete table;
+
 }
