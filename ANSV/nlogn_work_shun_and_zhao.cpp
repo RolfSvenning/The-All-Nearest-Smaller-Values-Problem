@@ -60,21 +60,28 @@ inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
   return cur;
 }
 
+// start: index from where to start the search (where last search found its match)
+// index: original index of element looking for its match
+// cur: index of the current root of subtree stored at this depth.
+// depth: current level in tree (with bottom level being 1).
+// dist: width of current subtree.
+// cur*dist: first index covered by current subtree (since 0-indexed)
 inline int getRight_opt(int **table, int depth, int n, int index, int start) {
   int value = table[0][index];
   if (value == table[depth - 1][0]) return -1;
 
   int cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
-    if (cur * dist < index) cur ++; //index could (should?) also be start?
-    if (cur * dist >= n) return -1;
+    if (cur * dist < index) cur ++; //checks if last parent was up to the left in which case move to the right in the tree
+    if (cur * dist >= n) return -1; //current subtree past input
 
-    if (table[d][cur] >= value) cur = PARENT(cur);
+    if (table[d][cur] >= value) cur = PARENT(cur); //check if subtree with match found
     else break;
 
-    dist <<= 1;
+    dist <<= 1; //increase "width" of current subtree
   }
 
+  //going down the tree
   for ( ; d > 0; d--) {
     if (table[d - 1][LEFT(cur)] < value) cur = LEFT(cur);
     else cur = RIGHT(cur);
