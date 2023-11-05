@@ -57,7 +57,7 @@ int main(int argc, char* argv[]){
     parlay::internal::timer t("Time ");
 
     // CREATING MIN BINARY TREE ON RANDOM INPUT
-    parlay::sequence<long> A = generate_values(n);
+    parlay::sequence<long> A = generateNotFixedMinBinaryTreeOnRandomInput(n);
     t.start();
     fixNode(0, A, n);
     t.next("min binary tree");;

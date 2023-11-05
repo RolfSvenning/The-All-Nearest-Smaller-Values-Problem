@@ -8,20 +8,12 @@
 #include "parlay/primitives.h"
 #include "parlay/random.h"
 #include "parlay/sequence.h"
+#include "parallelMinBinaryTreeArray.h"
 
 bool parallel = true;
 
-// if left_i (right_i) is equal to -1 it means that it has no left (right) child
-struct node {
-  long val;
-  long minVal;
-  struct node * left_i;
-  struct node * right_i;
-  struct node * parent;
-};
 
-
-parlay::sequence<node> generate_values(long n) {
+parlay::sequence<node> generateNotFixedMinBinaryTreeOnRandomInput(long n) {
   parlay::random_generator gen;
   std::uniform_int_distribution<long> dis(0, n-1);
 
@@ -94,21 +86,21 @@ int main(int argc, char* argv[]){
   parlay::internal::timer t("Time");
 
 
-  parlay::sequence<node> values = generate_values(n);
+  parlay::sequence<node> nodes = generateNotFixedMinBinaryTreeOnRandomInput(n);
 
 //  std::cout << "1) input" << std::endl;
 //  std::cout << parlay::to_chars(parlay::tabulate(n, [&] (long i) {
-//    return values[i].val;
+//    return nodes[i].val;
 //  })) << std::endl;
 
 
   t.start();
-  fixNode2(values, 0, n - 1);
+  fixNode2(nodes, 0, n - 1);
   t.next("min binary tree");
 
 //  std::cout << "2)" << std::endl;
 //  std::cout << parlay::to_chars(parlay::tabulate(n, [&] (long i) {
-//    return values[i].minVal;
+//    return nodes[i].minVal;
 //  })) << std::endl;
 
 

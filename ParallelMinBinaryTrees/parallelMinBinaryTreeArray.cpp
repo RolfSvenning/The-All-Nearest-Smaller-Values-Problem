@@ -10,7 +10,7 @@
 
 bool parallel = true;
 
-parlay::sequence<long> generate_values(long n) {
+parlay::sequence<long> generateNotFixedMinBinaryTreeOnRandomInput(long n) {
     parlay::random_generator gen(1);
     std::uniform_int_distribution<long> dis(0, n-1);
 
@@ -64,7 +64,7 @@ int main2(int argc, char* argv[]){
 //  std::cout << "1)" << std::endl;
 //  std::cout << parlay::to_chars(values) << std::endl;
 
-    parlay::sequence<long> values = generate_values(n);
+    parlay::sequence<long> values = generateNotFixedMinBinaryTreeOnRandomInput(n);
     t.start();
     fixNode(0, values, n);
     t.next("min binary tree");

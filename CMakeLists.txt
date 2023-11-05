@@ -9,7 +9,8 @@ add_executable(ANSV2 main.cpp
         ANSV/naive_n2_work.cpp
         ANSV/seq_array_n_work.cpp
         ANSV/seq_stack_n_work.cpp
-        ANSV/nlogn_work_shun_and_zhao.cpp)
+        ANSV/nlogn_work_shun_and_zhao.cpp
+)
 target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)
 
@@ -21,6 +22,10 @@ function(add_myFile NAME PATH)
     add_executable(${NAME} ${PATH}/${NAME}.cpp)
     target_include_directories(${NAME} PUBLIC parlaylib/include)
 endfunction()
+
+# --- dir ANSV: my files compiled individually ---
+add_executable(berkmanOptimal ANSV/berkmanOptimal.cpp)
+target_include_directories(berkmanOptimal PUBLIC parlaylib/include)
 
 # --- dir misc: my files compiled individually ---
 

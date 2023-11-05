@@ -11,4 +11,5 @@ int main() {
     compareOutputOfNaiveSeqArraySeqStack(A, false);
 //
 //    testShunZhao(A);
+    return 7;
 }

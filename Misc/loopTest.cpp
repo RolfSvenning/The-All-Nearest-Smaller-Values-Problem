@@ -8,7 +8,7 @@
 
 bool parallel = true;
 
-parlay::sequence<long> generate_values(long n) {
+parlay::sequence<long> generateNotFixedMinBinaryTreeOnRandomInput(long n) {
   parlay::random_generator gen(0);
   std::uniform_int_distribution<long> dis(0, n-1);
 
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     return 1;
   }
   parlay::internal::timer t("Time");
-  parlay::sequence<long> A1 = generate_values(n);
+  parlay::sequence<long> A1 = generateNotFixedMinBinaryTreeOnRandomInput(n);
 
   // SEQUENTIAL
   std::cout << " --- SEQ ---" << std::endl;
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
 
   // PARALLEL
   std::cout << "\n --- PAR ---" << std::endl;
-  parlay::sequence<long> A2 = generate_values(n);
+  parlay::sequence<long> A2 = generateNotFixedMinBinaryTreeOnRandomInput(n);
   t.start();
   parlay::parallel_for (0, A2.size(), [&] (size_t i) {
         A2[i] += 1;
@@ -68,8 +68,9 @@ int main(int argc, char* argv[]) {
   t.next("for loop");
   long s2 = parlay::reduce(A2);
   t.next("reduce (sum)");
-
-  return s1 + s2;
+  long s = s1 + s2;
+  std::cout << "\nsum: " << s << std::endl;
+  return 0;
 }
 
 
