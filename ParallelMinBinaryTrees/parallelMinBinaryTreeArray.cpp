@@ -30,7 +30,7 @@ long child(long i, long c){
     return 2 * i + c;
 }
 
-void fixNode(int i, parlay::sequence<long>& A, long n){
+void fixNode(int i, parlay::sequence<node>& A, long n){
     if (i > n - 2) return;
 // PARALLEL
     if (parallel){
@@ -64,7 +64,7 @@ int main2(int argc, char* argv[]){
 //  std::cout << "1)" << std::endl;
 //  std::cout << parlay::to_chars(values) << std::endl;
 
-    parlay::sequence<long> values = generateNotFixedMinBinaryTreeOnRandomInput(n);
+    parlay::sequence<node> values = generateNotFixedMinBinaryTreeOnRandomInput(n);
     t.start();
     fixNode(0, values, n);
     t.next("min binary tree");
