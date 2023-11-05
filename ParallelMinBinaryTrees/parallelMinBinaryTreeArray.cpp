@@ -10,7 +10,7 @@
 
 bool parallel = true;
 
-parlay::sequence<long> generateNotFixedMinBinaryTreeOnRandomInput(long n) {
+parlay::sequence<long> generateValues(long n) {
     parlay::random_generator gen(1);
     std::uniform_int_distribution<long> dis(0, n-1);
 
@@ -30,7 +30,7 @@ long child(long i, long c){
     return 2 * i + c;
 }
 
-void fixNode(int i, parlay::sequence<node>& A, long n){
+void fixNode(int i, parlay::sequence<long>& A, long n){
     if (i > n - 2) return;
 // PARALLEL
     if (parallel){
@@ -64,7 +64,7 @@ int main2(int argc, char* argv[]){
 //  std::cout << "1)" << std::endl;
 //  std::cout << parlay::to_chars(values) << std::endl;
 
-    parlay::sequence<node> values = generateNotFixedMinBinaryTreeOnRandomInput(n);
+    parlay::sequence<long> values = generateValues(n);
     t.start();
     fixNode(0, values, n);
     t.next("min binary tree");

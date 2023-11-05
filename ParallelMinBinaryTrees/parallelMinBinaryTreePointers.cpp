@@ -8,9 +8,17 @@
 #include "parlay/primitives.h"
 #include "parlay/random.h"
 #include "parlay/sequence.h"
-#include "parallelMinBinaryTreeArray.h"
 
 bool parallel = true;
+
+// if left_i (right_i) is equal to -1 it means that it has no left (right) child
+struct node {
+    long val;
+    long minVal;
+    struct node * left_i;
+    struct node * right_i;
+    struct node * parent;
+};
 
 
 parlay::sequence<node> generateNotFixedMinBinaryTreeOnRandomInput(long n) {
