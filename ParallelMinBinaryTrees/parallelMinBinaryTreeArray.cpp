@@ -7,6 +7,7 @@
 #include "parlay/primitives.h"
 #include "parlay/random.h"
 #include "parlay/sequence.h"
+#include "parlay/io.h"
 
 bool parallel = true;
 
@@ -18,6 +19,20 @@ parlay::sequence<long> generateValues(long n) {
         if (i <= n - 2) return -1L;
         auto r = gen[i];
         return dis(r);
+    });
+}
+
+parlay::sequence<long> createBinaryTreeForInput(parlay::sequence<long>& A) {
+    long n = A.size();
+    //'d' is the number of nodes on second to last layer where input is placed
+    long d = powl(2, ceil(log2(n)) - n) + 0.5;
+    std::cout << "d: " << d << ceil(log2(n)) << n << powl(2, ceil(log2(n)) - n) + 0.5 << std::endl;
+    return parlay::tabulate(2 * n - 1, [&] (long i) {
+    if (i <= n - 2)
+      return -1L;
+    // take from the end when filling out second to last layer
+    else if (i <= n - 2 + d) return A[2 * n - 2 - i];
+    else return A[i - d - n + 1];
     });
 }
 

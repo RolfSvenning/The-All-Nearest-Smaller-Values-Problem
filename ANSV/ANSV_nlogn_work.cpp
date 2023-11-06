@@ -2,8 +2,9 @@
 #include "parlay/primitives.h"
 #include "parlay/sequence.h"
 #include <iostream>
+#include "parlay/io.h"
 
-void getSequence(long n, const parlay::sequence<long> &A, parlay::sequence<long> &L, int i) {
+void findLeftMatch(long n, const parlay::sequence<long> &A, parlay::sequence<long> &L, int i) {
 //    std::cout << "----- i: " << i << std::endl;
     long iLast = i;
     long iCurr = parent(i);
@@ -36,8 +37,13 @@ void getSequence(long n, const parlay::sequence<long> &A, parlay::sequence<long>
         }
 //        std::cout << "iCurr: " << iCurr << std::endl;
 //        std :: cout << "match is: " << A[iCurr] << std::endl;
+//        assert(1 == 0); //TODO: fix here since last level not full
         L[i - n + 1] = A[iCurr];
     }
+}
+
+void findRightMatch(long n, const parlay::sequence<long> &A, parlay::sequence<long> &L, int i) {
+    // TODO: make this
 }
 
 int main(int argc, char* argv[]){
@@ -53,27 +59,31 @@ int main(int argc, char* argv[]){
     try { n = std::stol(argv[1]); }
     catch (...) { std::cout << usage << std::endl; return 1; }
     // for simplicity; this guarantees the input will be stored in its original order at the leaves
-    assert (pow(2,floor(log2(n))) == n);
+//    assert (pow(2,floor(log2(n))) == n);
     parlay::internal::timer t("Time ");
 
-    // CREATING MIN BINARY TREE ON RANDOM INPUT
-    parlay::sequence<long> A = generateValues(n);
+    // CREATING MIN BINARY TREE FOR RANDOM INPUT OF SIZE n
+//    parlay::sequence<long> A_ = {15, 0, 8, 3, 11, 12, 14, 13, 10, 9, 6, 8, 7, 2, 1, 4};
+    parlay::sequence<long> A_ = {15, 0, 8};
+    assert(A_.size() == n);
+    parlay::sequence<long> A = createBinaryTreeForInput(A_);
     t.start();
+    std::cout << "A before fixing: " << parlay::to_chars(A) << std::endl;
     fixNode(0, A, n);
+    std::cout << "A after fixing: " << parlay::to_chars(A) << std::endl;
     t.next("min binary tree");;
 
     // --- SEQUENTIAL --- FINDING ALL LEFT MATCHES USING THE TREE
     parlay::sequence<long> L (n);
     for (int i = n - 1; i < 2 * n - 1;){
-        getSequence(n, A, L, i);
+        findLeftMatch(n, A, L, i);
         i = i + 1;
     }
     t.next("sequential: ");
     // --- PARALLEL --- FINDING ALL LEFT MATCHES USING THE TREE
-    parlay::parallel_for (n - 1, 2 * n, [&] (size_t i ){
-        getSequence(n, A, L, i);
+    parlay::parallel_for (n - 1, 2 * n, [&] (size_t i ){ findLeftMatch(n, A, L, i);
     });
     t.next("parallel: ");
-//    std::cout << "A: " << parlay::to_chars(A) << std::endl;
-//    std::cout << "L " << parlay::to_chars(L) << std::endl;
+    std::cout << "A: " << parlay::to_chars(A) << std::endl;
+    std::cout << "L " << parlay::to_chars(L) << std::endl;
 }

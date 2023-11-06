@@ -10,13 +10,15 @@
  */
 parlay::sequence<long> generateValues(long n);
 
+parlay::sequence<long> createBinaryTreeForInput(parlay::sequence<long>& A);
+
 long parent(long i);
 
 long child(long i, long c);
 
 /**
  * Constructs a 'min binary tree' on the input sequence A assuming A is the output of
- * generateNotFixedMinBinaryTreeOnRandomInput(...).
+ * generateValues(...).
  */
 void fixNode(int i, parlay::sequence<long>& A, long n);
 
