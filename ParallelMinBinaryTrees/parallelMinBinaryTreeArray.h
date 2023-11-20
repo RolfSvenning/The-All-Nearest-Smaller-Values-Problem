@@ -10,7 +10,9 @@
  */
 parlay::sequence<long> generateValues(long n);
 
-parlay::sequence<long> createBinaryTreeForInput(parlay::sequence<long>& A);
+long treeIndexToArrayIndex(long i, long d);
+
+std::tuple<parlay::sequence<long>,long> createBinaryTreeForInput(parlay::sequence<long>& A);
 
 long parent(long i);
 

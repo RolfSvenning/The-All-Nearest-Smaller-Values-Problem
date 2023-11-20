@@ -8,6 +8,7 @@
 #include "parlay/random.h"
 #include "parlay/sequence.h"
 #include "parlay/io.h"
+#include "../Glue/_aux.h"
 
 bool parallel = true;
 
@@ -15,6 +16,7 @@ parlay::sequence<long> generateValues(long n) {
     parlay::random_generator gen(1);
     std::uniform_int_distribution<long> dis(0, n-1);
 
+    assert(isPowerOfTwo(n));
     return parlay::tabulate(2 * n - 1, [&] (long i) {
         if (i <= n - 2) return -1L;
         auto r = gen[i];
@@ -22,18 +24,26 @@ parlay::sequence<long> generateValues(long n) {
     });
 }
 
-parlay::sequence<long> createBinaryTreeForInput(parlay::sequence<long>& A) {
-    long n = A.size();
-    //'d' is the number of nodes on second to last layer where input is placed
-    long d = powl(2, ceil(log2(n)) - n) + 0.5;
-    std::cout << "d: " << d << ceil(log2(n)) << n << powl(2, ceil(log2(n)) - n) + 0.5 << std::endl;
-    return parlay::tabulate(2 * n - 1, [&] (long i) {
+long treeIndexToArrayIndex(long i, long d){
+    if (i <= n - 2 + d) return i - d + 1; //2 * n - 2 - i;
+    else return i - d - n + 1;
+}
+
+std::tuple<parlay::sequence<long>,long> createBinaryTreeForInput(parlay::sequence<long>& A) {
+    unsigned long n = A.size();
+    //'d' is the number of input nodes on second to last layer
+    long d = powl(2, ceil(log2(n))) - n;
+//    std::cout << powl(2, ceil(log2(n))) - n << std::endl;
+//    std::cout << "d ceillogn n lowceillogn" << std::endl;
+//    std::cout << powl(2, ceill(log2(n))) -n << std::endl;
+//    std::cout << d << " " << ceil(log2(n)) << " " << n << " " << powl(2, ceil(log2(n)) - n) + 0.5 << std::endl;
+    parlay::sequence<long> T =  parlay::tabulate(2 * n - 1, [&] (long i) {
     if (i <= n - 2)
       return -1L;
     // take from the end when filling out second to last layer
-    else if (i <= n - 2 + d) return A[2 * n - 2 - i];
-    else return A[i - d - n + 1];
+    return A[treeIndexToArrayIndex(i, d)];
     });
+    return {T,d};
 }
 
 long parent(long i){
@@ -47,7 +57,7 @@ long child(long i, long c){
 
 void fixNode(int i, parlay::sequence<long>& A, long n){
     if (i > n - 2) return;
-// PARALLEL
+    // PARALLEL
     if (parallel){
         parlay::par_do_if(i < n / 1024, // i < 512
                           [&]() {fixNode(child(i, 1), A, n);},

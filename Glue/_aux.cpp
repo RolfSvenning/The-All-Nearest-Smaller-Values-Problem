@@ -8,6 +8,10 @@
 #include "_aux.h"
 #include "_constants.h"
 
+bool isPowerOfTwo(long x){
+  return (x>0 && ((x & (x-1)) == 0));
+}
+
 void printArrayVI(std::array<VI,n> A) {
     for (VI a : A)
         std::cout << a.ind << " ";

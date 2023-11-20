@@ -15,7 +15,7 @@ target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)
 
 
-add_executable(ANSV_nlogn_work ANSV/ANSV_nlogn_work.cpp ParallelMinBinaryTrees/parallelMinBinaryTreeArray.cpp)
+add_executable(ANSV_nlogn_work ANSV/ANSV_nlogn_work.cpp ParallelMinBinaryTrees/parallelMinBinaryTreeArray.cpp Glue/_aux.cpp ANSV/seq_array_n_work.cpp)
 target_include_directories(ANSV_nlogn_work PUBLIC parlaylib/include)
 
 function(add_myFile NAME PATH)

@@ -8,6 +8,8 @@
 #ifndef IMPLEMENTATIONS_AUX_H
 #define IMPLEMENTATIONS_AUX_H
 
+bool isPowerOfTwo(long x);
+
 void printArraysVI(const std::list<std::array<VI, n>>& arrays);
 
 void printArrayVI(std::array<VI, n> A);
