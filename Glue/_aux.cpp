@@ -19,7 +19,7 @@ bool isPowerOfTwo(long x){
 
 void printArrayVI(std::array<VI,n> A) {
     for (VI a : A)
-        std::cout << a.ind << " ";
+        std::cout << "(" << a.v << ", " << a.ind << ")";
     std::cout << std::endl;
 }
 

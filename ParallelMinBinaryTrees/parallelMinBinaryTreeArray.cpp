@@ -70,7 +70,7 @@ void convertToMinBinary(long i, parlay::sequence<long>&T, long n){
 }
 
 
-int main2(int argc, char* argv[]){
+int main3(int argc, char* argv[]){
     auto usage = "Usage: missing 'n' argument. "
                  "Creating parallel min binary tree of n elements <n>";
     if (argc != 2){

@@ -5,12 +5,14 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(ANSV2 main.cpp
         Glue/_aux.cpp
+        Glue/data.cpp
         Testing/TestANSV.cpp
         ANSV/naive_n2_work.cpp
         ANSV/seq_array_n_work.cpp
         ANSV/seq_stack_n_work.cpp
         ANSV/nlogn_work_shun_and_zhao.cpp
-#        ANSV/nlogn_work_mine.cpp
+        ANSV/nlogn_work_mine.cpp
+        ParallelMinBinaryTrees/parallelMinBinaryTreeArray.cpp
 )
 target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)

@@ -2,14 +2,18 @@
 #include "Testing/TestANSV.h"
 #include "iostream"
 #include "limits"
+#include "Glue/data.h"
 
 int main() {
-    int imax = std::numeric_limits<int>::max();
-
-    std::array<long, n> A = returnRandomArray();
-//    std::array<int, n> A = {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}; //set constants to 16
+    for (int i = 0; i < 0; ++i) {
+      std::array<long, n> A = returnRandomArray();
+      //    std::array<int, n> A = {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}; //set constants to 16
+      compareOutputOfNaiveSeqArraySeqStack(A, false);
+      //
+      //    testShunZhao(A);
+    }
+    std::array<long, n> A = returnMergeArray();
+    //    std::array<int, n> A = {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}; //set constants to 16
     compareOutputOfNaiveSeqArraySeqStack(A, false);
-//
-//    testShunZhao(A);
-    return 7;
+    return 1;
 }

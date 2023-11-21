@@ -24,6 +24,6 @@ long child(long i, long c);
  */
 void convertToMinBinary(long i, parlay::sequence<long>&T, long n);
 
-int main2(int argc, char* argv[]);
+int main3(int argc, char* argv[]);
 
 #endif //ANSV2_PARALLELMINBINARYTREE_H
