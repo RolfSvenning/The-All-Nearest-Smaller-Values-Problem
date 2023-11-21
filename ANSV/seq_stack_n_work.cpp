@@ -3,7 +3,7 @@
 #include "../Glue/_aux.h"
 #include "stack"
 
-std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_stack(std::array<int, n> A) {
+std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_stack(std::array<long, n> A) {
     std::array<VI, n> L = {};
     std::array<VI, n> R = {};
 

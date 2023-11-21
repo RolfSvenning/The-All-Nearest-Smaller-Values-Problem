@@ -4,7 +4,7 @@
 #include "array"
 
 
-std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_array(std::array<int, n> A) {
+std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_array(std::array<long, n> A) {
     std::array<VI, n> L = {};
     std::array<VI, n> R = {};
 

@@ -6,7 +6,7 @@
 int main() {
     int imax = std::numeric_limits<int>::max();
 
-    std::array<int, n> A = returnRandomArray();
+    std::array<long, n> A = returnRandomArray();
 //    std::array<int, n> A = {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}; //set constants to 16
     compareOutputOfNaiveSeqArraySeqStack(A, false);
 //

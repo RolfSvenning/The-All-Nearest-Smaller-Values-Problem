@@ -30,19 +30,16 @@ long treeIndexToArrayIndex(long i, long d){
 }
 
 std::tuple<parlay::sequence<long>,long> createBinaryTreeForInput(parlay::sequence<long>& A) {
-    unsigned long n = A.size();
+    long n = A.size();
     //'d' is the number of input nodes on second to last layer
     long d = powl(2, ceil(log2(n))) - n;
-//    std::cout << powl(2, ceil(log2(n))) - n << std::endl;
-//    std::cout << "d ceillogn n lowceillogn" << std::endl;
-//    std::cout << powl(2, ceill(log2(n))) -n << std::endl;
-//    std::cout << d << " " << ceil(log2(n)) << " " << n << " " << powl(2, ceil(log2(n)) - n) + 0.5 << std::endl;
     parlay::sequence<long> T =  parlay::tabulate(2 * n - 1, [&] (long i) {
     if (i <= n - 2)
       return -1L;
     // take from the end when filling out second to last layer
     return A[treeIndexToArrayIndex(i, d)];
     });
+    convertToMinBinary(0, T, n);
     return {T,d};
 }
 
@@ -55,20 +52,21 @@ long child(long i, long c){
     return 2 * i + c;
 }
 
-void fixNode(int i, parlay::sequence<long>& A, long n){
+void convertToMinBinary(long i, parlay::sequence<long>&T, long n){
     if (i > n - 2) return;
     // PARALLEL
     if (parallel){
-        parlay::par_do_if(i < n / 1024, // i < 512
-                          [&]() {fixNode(child(i, 1), A, n);},
-                          [&]() {fixNode(child(i, 2), A, n);}
+        parlay::par_do_if(
+          i < n / 1024, // i < 512
+                  [&]() { convertToMinBinary(child(i, 1), T, n);},
+                 [&]() { convertToMinBinary(child(i, 2), T, n);}
         );
     } else {
         //  SEQUENTIAL
-        fixNode(child(i, 1), A, n);
-        fixNode(child(i, 2), A, n);
+        convertToMinBinary(child(i, 1), T, n);
+        convertToMinBinary(child(i, 2), T, n);
     }
-    A[i] = std::min(A[child(i, 1)], A[child(i, 2)]);
+    T[i] = std::min(T[child(i, 1)], T[child(i, 2)]);
 }
 
 
@@ -91,7 +89,7 @@ int main2(int argc, char* argv[]){
 
     parlay::sequence<long> values = generateValues(n);
     t.start();
-    fixNode(0, values, n);
+    convertToMinBinary(0, values, n);
     t.next("min binary tree");
 
 //    std::cout << "2)" << std::endl;

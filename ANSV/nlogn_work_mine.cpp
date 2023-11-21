@@ -1,13 +1,11 @@
 #include "../ParallelMinBinaryTrees/parallelMinBinaryTreeArray.h"
-#include "parlay/io.h"
 #include "parlay/primitives.h"
-#include "parlay/sequence.h"
 #include "seq_array_n_work.h"
 #include "../Glue/_aux.h"
 #include <iostream>
 
-void findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<long> &L, int i) {
-    int c = 5;
+void findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &L, int i) {
+    int c = -1;
     if (i == c) std::cout << "----- i: " << i << std::endl;
     long iLast = i;
     long iCurr = parent(i);
@@ -24,9 +22,9 @@ void findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequ
         assert (iCurr == 0);
         if (i == c) std::cout << "no left match" << std::endl;
         if (i==c) std::cout << "treeIndexToArrayIndex: " << treeIndexToArrayIndex(i, d) << std::endl;
-        if (i==c) std::cout << "L before: " << parlay::to_chars(L) << std::endl;
+        if (i==c) printParlayArrayVI(L, "L before: ");
 //        std::cout << "no match for i: " << i << std::endl;
-        L[treeIndexToArrayIndex(i, d)] = -1;
+//        L[treeIndexToArrayIndex(i, d)] = -1;
     } else {
         // GOING DOWN THE TREE <------
         iCurr = child(iCurr, 1);
@@ -46,15 +44,32 @@ void findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequ
 //        assert(1 == 0); //TODO: fix here since last level not full
         if (i==c) std::cout << "i d: " << i << " " << d << std::endl;
         if (i==c) std::cout << "treeIndexToArrayIndex: " << treeIndexToArrayIndex(i, d) << std::endl;
-        if (i==c) std::cout << "L before: " << parlay::to_chars(L) << std::endl;
+        if (i==c) printParlayArrayVI(L, "L before: ");
 //        std::cout << "match for i: " << i << std::endl;
-        L[treeIndexToArrayIndex(i, d)] = T[iCurr];
+        L[treeIndexToArrayIndex(i, d)] = VI(T[iCurr], treeIndexToArrayIndex(iCurr, d));
     }
-    if (i==c) std::cout << "L after " << parlay::to_chars(L) << std::endl;
+    if (i==c) printParlayArrayVI(L, "L after: ");
 }
 
 void findRightMatch(long n, const parlay::sequence<long> &A, parlay::sequence<long> &L, int i) {
     // TODO: make this
+}
+
+std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_nlogn_mine(parlay::sequence<long> A){
+    auto [T,d] = createBinaryTreeForInput(A);
+    parlay::sequence<VI> L(n);
+    parlay::sequence<VI> R(n);
+    parlay::parallel_for (
+        n - 1, 2 * n - 1,
+        [&] (size_t i ){ findLeftMatch(n, T, d, L, i);}
+        );
+    std::array<VI, n> L_;
+    std::array<VI, n> R_;
+    for(int i=0; i < n; i++){
+        L_[i] = L[i];
+        R_[i] = R[i];
+    }
+    return {L_, R_};
 }
 
 int main(int argc, char* argv[]){
@@ -74,39 +89,27 @@ int main(int argc, char* argv[]){
     parlay::internal::timer t("Time ");
 
     // CREATING MIN BINARY TREE FOR RANDOM INPUT OF SIZE n
-//    parlay::sequence<long> A_ = {15, 0, 8, 3, 11, 12, 14, 13, 10, 9, 6, 8, 7, 2, 1, 4};
-    parlay::sequence<long> A_ = {9, 5, 2, 3, 6, 4};
-    assert(A_.size() == n);
-    std::array<int,6> Aseq{};
-    for (int i = 0; i < n; ++i) {
-        Aseq[i] = (int) A_[i];
-    }
+//    parlay::sequence<long> A = {15, 0, 8, 3, 11, 12, 14, 13, 10, 9, 6, 8, 7, 2, 1, 4};
+    parlay::sequence<long> A = {9, 5, 2, 4, 6, 5};
+    assert(A.size() == n);
 
 
-    auto [T,d] = createBinaryTreeForInput(A_);
     t.start();
-    std::cout << "T before fixing: " << parlay::to_chars(T) << std::endl;
-    fixNode(0, T, n);
-    std::cout << "T after fixing: " << parlay::to_chars(T) << std::endl;
+    auto [T,d] = createBinaryTreeForInput(A);
     t.next("min binary tree");;
 
     // --- SEQUENTIAL --- FINDING ALL LEFT MATCHES USING THE TREE
-    parlay::sequence<long> L(n);
+    parlay::sequence<VI> L(n);
 //    for (int i = n - 1; i < 2 * n - 1;){
 //        findLeftMatch(n, T, L, i);
 //        i = i + 1;
 //    }
-    t.next("sequential: ");
+//    t.next("sequential: ");
 //     --- PARALLEL --- FINDING ALL LEFT MATCHES USING THE TREE
     parlay::parallel_for (n - 1, 2 * n - 1, [&] (size_t i ){ findLeftMatch(n, T, d, L, i);
     });
     t.next("parallel: ");
-    std::cout << "T: " << parlay::to_chars(T) << std::endl;
-    std::cout << "L " << parlay::to_chars(L) << std::endl;
-
-//    t.next("sequential: ");
-//    auto [L2, R2] = ANSV_seq_array(Aseq);
-//    printArrayVI(L2);
-
-
+//    std::cout << "T: " << parlay::to_chars(T) << std::endl;
+    printParlayArrayVI(L, "L: ");
+    return 1;
 }

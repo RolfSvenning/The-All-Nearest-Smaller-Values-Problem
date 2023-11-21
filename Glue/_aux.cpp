@@ -1,12 +1,17 @@
 
-#include "iostream"
-#include <array>
-#include <list>
-#include "random"
-#include "algorithm"
-#include <cmath>
 #include "_aux.h"
 #include "_constants.h"
+#include "algorithm"
+#include "iostream"
+#include "parlay/io.h"
+#include "random"
+#include <array>
+#include <cmath>
+#include <list>
+
+void printParlayArrayVI(parlay::sequence<VI> A, std::string s){
+  std::cout << s << parlay::to_chars(parlay::map(A, [&] (VI vi) {return vi.ind;})) << std::endl;
+}
 
 bool isPowerOfTwo(long x){
   return (x>0 && ((x & (x-1)) == 0));
@@ -24,15 +29,15 @@ void printArraysVI(const std::list<std::array<VI,n>>& arrays) {
     }
 }
 
-void printArray(std::array<int, n> A) {
+void printArray(std::array<long, n> A) {
     for (int a : A)
         std::cout << a << " ";
     std::cout << std::endl;
 }
 
 // Returns an array containing a random permutation of [0...n-1]
-std::array<int, n> returnRandomArray() {
-    std::array<int, n> A = {};
+std::array<long, n> returnRandomArray() {
+    std::array<long, n> A = {};
     for (int i = 0; i < A.size(); ++i) {
         A[i] = i + 1;
     }

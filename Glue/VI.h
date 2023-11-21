@@ -8,10 +8,10 @@
 
 class VI { // NOTE_FOR_SELF: members inside class are inline by default so not an issue with multiple includes
 public:
-  int v;
-  int ind;
+  long v;
+  long ind;
 
-  VI(int value = -1, int index = -1){
+  VI(long value = -1, long index = -1){
     v = value;
     ind = index;
   }

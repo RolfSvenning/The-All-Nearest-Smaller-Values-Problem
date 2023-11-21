@@ -3,7 +3,7 @@
 
 // Function computing the smaller values of an array A.
 // Returns a tuple containing the left smaller values in L and right smaller values in R.
-std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_naive(std::array<int, n> A) {
+std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_naive(std::array<long, n> A) {
     std::array<VI, n> L;
     std::array<VI, n> R;
 

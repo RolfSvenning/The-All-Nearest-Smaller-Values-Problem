@@ -10,12 +10,13 @@ add_executable(ANSV2 main.cpp
         ANSV/seq_array_n_work.cpp
         ANSV/seq_stack_n_work.cpp
         ANSV/nlogn_work_shun_and_zhao.cpp
+#        ANSV/nlogn_work_mine.cpp
 )
 target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)
 
 
-add_executable(ANSV_nlogn_work ANSV/ANSV_nlogn_work.cpp ParallelMinBinaryTrees/parallelMinBinaryTreeArray.cpp Glue/_aux.cpp ANSV/seq_array_n_work.cpp)
+add_executable(ANSV_nlogn_work ANSV/nlogn_work_mine.cpp ParallelMinBinaryTrees/parallelMinBinaryTreeArray.cpp Glue/_aux.cpp ANSV/seq_array_n_work.cpp)
 target_include_directories(ANSV_nlogn_work PUBLIC parlaylib/include)
 
 function(add_myFile NAME PATH)

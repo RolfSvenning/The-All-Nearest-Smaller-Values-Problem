@@ -19,10 +19,10 @@ long parent(long i);
 long child(long i, long c);
 
 /**
- * Constructs a 'min binary tree' on the input sequence A assuming A is the output of
+ * Constructs a 'min binary tree' on the input sequence T assuming T is the output of
  * generateValues(...).
  */
-void fixNode(int i, parlay::sequence<long>& A, long n);
+void convertToMinBinary(long i, parlay::sequence<long>&T, long n);
 
 int main2(int argc, char* argv[]);
 
