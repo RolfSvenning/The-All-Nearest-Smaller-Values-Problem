@@ -41,7 +41,7 @@ const int BLOCK_SIZE = 4;
 
 inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
   int value = table[0][index];
-//  if (value == table[depth - 1][0]) return -1;
+  if (value == table[depth - 1][0]) return -1; //TODO: check if this is correct, maybe comment out
 
   int cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
@@ -69,7 +69,7 @@ inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
 // cur*dist: first index covered by current subtree (since 0-indexed)
 inline int getRight_opt(int **table, int depth, int n, int index, int start) {
   int value = table[0][index];
-//  if (value == table[depth - 1][0]) return -1;
+  if (value == table[depth - 1][0]) return -1; //TODO: check if this is correct, maybe comment out
 
   int cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
