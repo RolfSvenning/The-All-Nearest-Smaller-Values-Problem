@@ -11,7 +11,7 @@ class TestANSV {
 
 };
 
-void compareOutputOfNaiveSeqArraySeqStack(std::array<long, n> A, bool verbose=false);
+void testAll(std::array<long, n> A, bool verbose=false);
 
 std::tuple<std::array<VI, n>, std::array<VI, n>> testShunZhao(std::array<long, n> A);
 

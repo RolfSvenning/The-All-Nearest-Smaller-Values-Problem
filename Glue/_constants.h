@@ -8,7 +8,7 @@
 #ifndef IMPLEMENTATIONS__CONSTANTS_H
 #define IMPLEMENTATIONS__CONSTANTS_H
 
-const int n = 2; // last was n=16384; maybe slightly better to use inline const int n = 20...
+const int n = 5; // last was n=16384; maybe slightly better to use inline const int n = 20...
 //inline const std::array<int, n> A = {19,15,3,4,1,7,9,8,5,6,11,12,13,10,16,17,18,20,2};
 
 #endif //IMPLEMENTATIONS__CONSTANTS_H

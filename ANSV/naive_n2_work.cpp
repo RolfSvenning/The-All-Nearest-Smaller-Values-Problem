@@ -12,14 +12,14 @@ std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_naive(std::array<long, n> 
         R[i] = -1;
         // LEFT SMALLER VALUE
         for (int j = i - 1; 0 <= j; --j) {
-            if (A[j] < A[i]) {
+            if (A[j] <= A[i]) {
                 L[i] = VI(A[j], j);
                 break;
             }
         }
         // RIGHT SMALLER VALUE
         for (int j = i + 1; j < n; ++j) {
-            if (A[j] < A[i]) {
+            if (A[j] <= A[i]) {
                 R[i] = VI(A[j], j);
                 break;
             }

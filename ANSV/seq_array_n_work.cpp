@@ -13,7 +13,7 @@ std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_array(std::array<long,
 //        L[i] = -1;
         int j = i - 1;
         while (0 <= j) {
-            if (A[j] < A[i]) {
+            if (A[j] <= A[i]) {
                 L[i] = VI(A[j], j);
                 break;
             } else if (L[j].ind != -1) {
@@ -27,7 +27,7 @@ std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_array(std::array<long,
 //        R[i] = -1;
         int j = i + 1;
         while (j < A.size()) {
-            if (A[j] < A[i]) {
+            if (A[j] <= A[i]) {
                 R[i] = VI(A[j], j);
                 break;
             } else if (R[j].ind != -1) {

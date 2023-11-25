@@ -32,7 +32,7 @@ void findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequ
 //          if (i == c) std::cout << "iCurr: " << iCurr << std::endl;
             long iRC = child(iCurr, 2);
             // right child exists and is in direction of smaller value
-            if (iRC < 2 * n - 1 and T[iRC] < T[i]) {
+            if (iRC < 2 * n - 1 and T[iRC] <= T[i]) {
                 iCurr = iRC;
             } else {
                 // otherwise guaranteed to be in other direction

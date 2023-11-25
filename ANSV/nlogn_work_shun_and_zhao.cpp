@@ -24,6 +24,7 @@
 
 #include "nlogn_work_shun_and_zhao.h"
 #include "parlay/parallel.h"
+#include "../Glue/_aux.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -40,21 +41,21 @@ const int BLOCK_SIZE = 4;
 
 inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
   int value = table[0][index];
-  if (value == table[depth - 1][0]) return -1;
+//  if (value == table[depth - 1][0]) return -1;
 
   int cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
     if ((cur + 1) * dist > index + 1) cur --;
     if (cur < 0) return -1;
 
-    if (table[d][cur] >= value) cur = PARENT(cur);
+    if (table[d][cur] > value) cur = PARENT(cur);
     else break;
 
     dist <<= 1;
   }
 
   for ( ; d > 0; d--) {
-    if (table[d - 1][RIGHT(cur)] < value) cur = RIGHT(cur);
+    if (table[d - 1][RIGHT(cur)] <= value) cur = RIGHT(cur);
     else cur = LEFT(cur);
   }
   return cur;
@@ -68,14 +69,14 @@ inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
 // cur*dist: first index covered by current subtree (since 0-indexed)
 inline int getRight_opt(int **table, int depth, int n, int index, int start) {
   int value = table[0][index];
-  if (value == table[depth - 1][0]) return -1;
+//  if (value == table[depth - 1][0]) return -1;
 
   int cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
     if (cur * dist < index) cur ++; //checks if last parent was up to the left in which case move to the right in the tree
     if (cur * dist >= n) return -1; //current subtree past input
 
-    if (table[d][cur] >= value) cur = PARENT(cur); //check if subtree with match found
+    if (table[d][cur] > value) cur = PARENT(cur); //check if subtree with match found
     else break;
 
     dist <<= 1; //increase "width" of current subtree
@@ -83,29 +84,50 @@ inline int getRight_opt(int **table, int depth, int n, int index, int start) {
 
   //going down the tree
   for ( ; d > 0; d--) {
-    if (table[d - 1][LEFT(cur)] < value) cur = LEFT(cur);
+    if (table[d - 1][LEFT(cur)] <= value) cur = LEFT(cur);
     else cur = RIGHT(cur);
   }
   return cur;
 }
 
 
-void ComputeANSV_Linear(int a[], int n, int leftElements[], int rightElements[], int offset) {
+void ComputeANSV_Linear(int a[], int nInner, int leftElements[], int rightElements[], std::array<VI, n> &L, std::array<VI, n> &R, int offset) {
   int i, top;
-  int *stack = new int[n];
+  int *stack = new int[nInner];
 
-  for (i = 0, top = -1; i < n; i++) {
+  for (i = 0, top = -1; i < nInner; i++) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
-    if (top == -1) leftElements[i] = -1;
-    else leftElements[i] = stack[top] + offset;
+    if (top == -1) {
+        leftElements[i] = -1;
+        L[i].ind = -1;
+    }
+    else {
+        leftElements[i] = stack[top] + offset;
+        L[i].ind = stack[top] + offset;
+        L[i].v = a[stack[top] + offset];
+    }
     stack[++top] = i;
   }
 
-  for (i = n - 1, top = -1; i >= 0; i--) {
+  for (i = nInner - 1, top = -1; i >= 0; i--) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
-    if (top == -1) rightElements[i] = -1;
-    else rightElements[i] = stack[top] + offset;
+    if (top == -1) {
+        printArrayVI(R);
+        rightElements[i] = -1;
+        R[i].ind = -1;
+        std::cout << "1 right value and index: " << a[i] << " " << i << std::endl;
+        printArrayVI(R);
+    }
+    else {
+        printArrayVI(R);
+        rightElements[i] = stack[top] + offset;
+        R[i].ind = stack[top] + offset;
+        R[i].v = a[stack[top] + offset];
+        std::cout << "2 right value and index: " << a[stack[top] + offset] << " " << i << std::endl;
+        printArrayVI(R);
+    }
     stack[++top] = i;
+//    printArrayVI(L);
   }
   delete stack;
 }
@@ -123,7 +145,7 @@ inline int cflog2(int i) {
   return res;
 }
 
-void ComputeANSV(int *a, int n, int *left, int *right) {
+void ComputeANSV(int *a, int *leftI, int *rightI, std::array<VI, n> &L, std::array<VI, n> &R) {
   std::cout << "BLOCK_SIZE: " << BLOCK_SIZE << std::endl;
   int l2 = cflog2(n);
   int depth = l2 + 1;
@@ -152,16 +174,20 @@ void ComputeANSV(int *a, int n, int *left, int *right) {
   }
 
   parlay::blocked_for(0, n, BLOCK_SIZE, [&] (size_t blockNumber, size_t i, size_t j) {
-//    int i = BLOCK_SIZE * i_;
-//    int j = std::min<size_t>(i + BLOCK_SIZE, n);
-    ComputeANSV_Linear(a + i, j - i, left + i, right + i, i);
+    ComputeANSV_Linear(a + i, j - i, leftI + i, rightI + i, L, R, i);
     int tmp = i;
     for (int k = i; k < j; k++) {
-      if (left[k] == -1) {
+      if (leftI[k] == -1) {
         if (tmp != -1 && a[tmp] >= a[k]) {
           tmp = getLeft_opt(table, depth, n, k, tmp);
         }
-        left[k] = tmp;
+//          printArrayVI(L);
+          leftI[k] = tmp;
+          L[k].ind = tmp;
+          if (tmp != -1) L[k].v = a[tmp];
+
+//          std::cout << "k and tmp and a[tmp]: " << k << " " << tmp << " " << a[tmp] << std::endl;
+//          printArrayVI(L);
       }
     }
 
@@ -170,11 +196,13 @@ void ComputeANSV(int *a, int n, int *left, int *right) {
     //casting size_t to long to avoid default conversion of negative int to size_t which
     // will be large positive number since size_t is unsigned
     for (int k = j - 1; k >= (long)i; k--) {
-      if (right[k] == -1) {
+      if (rightI[k] == -1) {
         if (tmp != -1 && a[tmp] >= a[k]) {
           tmp = getRight_opt(table, depth, n, k, tmp);
         }
-        right[k] = tmp;
+          rightI[k] = tmp;
+          R[k].ind = tmp;
+          if (tmp != -1) R[k].v = a[tmp];
       }
     }
   });

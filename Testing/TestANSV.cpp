@@ -12,7 +12,7 @@
 #include "../ANSV/nlogn_work_mine.h"
 #include "parlay/primitives.h"
 
-void compareOutputOfNaiveSeqArraySeqStack(std::array<long, n> A, bool verbose) {
+void testAll(std::array<long, n> A, bool verbose) {
 //    A = {9, 5, 2, 4, 6, 5};
     parlay::sequence<long> A_ = parlay::tabulate(n, [&] (size_t i) {return A[i];});
 
@@ -50,17 +50,22 @@ void compareOutputOfNaiveSeqArraySeqStack(std::array<long, n> A, bool verbose) {
     t.next("");
     t.stop();
     if (verbose) printArraysVI(std::list<std::array<VI, n>>{L4, R4});
-    printArraysVI(std::list<std::array<VI, n>>{L3, L4});
+//    printArraysVI({L2, L3, L4});
+    printArraysVI({R2, R3, R4});
     for(int i=0; i < n; i++){
-      assert(L3[i].ind == L4[i].ind and R3[i].ind == R4[i].ind);
+      assert(L3[i].ind == L4[i].ind);
     }
+    for(int i=0; i < n; i++){
+        assert(R3[i].ind == R4[i].ind);
+    }
+    assert(L3 == L4); //TODO: check VIs (indices) also
 
     std::cout << " --- ANSV parallel nlogn work mine --- " << std::endl;
     t.start();
     auto [L5, R5] = ANSV_nlogn_mine(A_);
     t.next("");
     t.stop();
-//    printArraysVI({L3, L5});
+//    printArraysVI({L3, L4, L5});
     assert(L3 == L5); //TODO: check right VIs also
 //    assert(L4 == L5); //TODO: check right VIs also
 
@@ -71,7 +76,6 @@ void compareOutputOfNaiveSeqArraySeqStack(std::array<long, n> A, bool verbose) {
 
 
 std::tuple<std::array<VI, n>, std::array<VI, n>> testShunZhao(std::array<long, n> A_) {
-  bool verbose = false;
   int L[n];
   int R[n];
   int A[n];
@@ -79,13 +83,17 @@ std::tuple<std::array<VI, n>, std::array<VI, n>> testShunZhao(std::array<long, n
     A[i] = A_[i];
   }
 
-  ComputeANSV(A, n, L, R);
-
   std::array<VI, n> L_;
   std::array<VI, n> R_;
-  for(int i=0; i < n; i++){
-    L_[i].ind = L[i];
-    R_[i].ind = R[i];
-  }
+
+
+  ComputeANSV(A, L, R, L_, R_);
+//
+//  std::array<VI, n> X;
+//  std::array<VI, n> Y;
+//  for(int i=0; i < n; i++){
+//    X[i].ind = L[i];
+//    Y[i].ind = R[i];
+//  }
   return {L_, R_};
 }

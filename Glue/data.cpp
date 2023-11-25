@@ -21,10 +21,10 @@ std::array<long, n> returnMergeArray(){
   for (int i = nhalf; i < n; i++){
     A[i] = n - i - 1;
   }
-  for(int i = 0; i < n; i++){
-    std::cout << A[i] << " ";
-  }
-  std::cout << std::endl << A.size();
+//  for(int i = 0; i < n; i++){
+//    std::cout << A[i] << " ";
+//  }
+//  std::cout << std::endl << A.size();
 
   return A;
 }
