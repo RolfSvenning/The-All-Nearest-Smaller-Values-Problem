@@ -5,10 +5,9 @@
 #define IMPLEMENTATIONS_SEQ_ARRAY_H
 
 #include "../Glue/VI.h"
-#include "../Glue/_constants.h"
 #include "iostream"
-#include "list"
+#include "parlay/sequence.h"
 
-std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_array(std::array<long, n> A);
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_seq_array(parlay::sequence<long> A);
 
 #endif //IMPLEMENTATIONS_SEQ_ARRAY_H

@@ -26,9 +26,7 @@
 #include "parlay/parallel.h"
 #include "../Glue/_aux.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
+
 #include <iostream>
 
 using namespace std;
@@ -74,7 +72,6 @@ inline int getRight_opt(int **table, int depth, int n, int index, int start) {
 
   int cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
-//    if (index == 0) std::cout << cur << d << std::endl;
     if (cur * dist < start) cur ++; //checks if last parent was up to the left in which case move to the right in the tree
     if (cur * dist >= n) return -1; //current subtree past input //TODO: changed from  >= n - 1 to >= n
 
@@ -83,10 +80,8 @@ inline int getRight_opt(int **table, int depth, int n, int index, int start) {
 
     dist <<= 1; //increase "width" of current subtree
   }
-//  if (index == 0) std::cout << "going down from cur: " << cur << std::endl;
   //going down the tree
   for ( ; d > 0; d--) {
-//    if (index == 0) std::cout << d << " " << cur << std::endl;
     if (table[d - 1][LEFT(cur)] <= value) cur = LEFT(cur);
     else cur = RIGHT(cur);
   }
@@ -95,18 +90,17 @@ inline int getRight_opt(int **table, int depth, int n, int index, int start) {
 }
 
 
-void ComputeANSV_Linear(int a[], int nInner, std::array<VI, n> &L, std::array<VI, n> &R, int offset) {
+// TODO: check dealocation
+void ComputeANSV_Linear(int a[], int nInner, parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset) {
   int i, top;
   int *stack = new int[nInner];
 
   for (i = 0, top = -1; i < nInner; i++) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
     if (top == -1) {
-//        leftElements[i] = -1;
         L[i + offset].ind = -1;
     }
     else {
-//        leftElements[i] = stack[top] + offset;
         L[i + offset].ind = stack[top] + offset;
         L[i + offset].v = a[stack[top]];
     }
@@ -116,11 +110,9 @@ void ComputeANSV_Linear(int a[], int nInner, std::array<VI, n> &L, std::array<VI
   for (i = nInner - 1, top = -1; i >= 0; i--) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
     if (top == -1) {
-//        rightElements[i] = -1;
         R[i + offset].ind = -1;
     }
     else {
-//        rightElements[i] = stack[top] + offset;
         R[i + offset].ind = stack[top] + offset;
         R[i + offset].v = a[stack[top]];
     }
@@ -142,14 +134,15 @@ inline int cflog2(int i) {
   return res;
 }
 
-std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_ShunZhao(std::array<long, n> A_) {
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::sequence<long> A){
   std::cout << "BLOCK_SIZE: " << BLOCK_SIZE << std::endl;
+    long n = A.size();
+  parlay::sequence<VI> L(n);
+  parlay::sequence<VI> R(n);
 
-  std::array<VI, n> L;
-  std::array<VI, n> R;
   int a[n];
   for(int i=0; i < n; i++){
-    a[i] = A_[i];
+    a[i] = A[i];
   }
 
   int l2 = cflog2(n);
@@ -187,7 +180,6 @@ std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_ShunZhao(std::array<long, 
         if (tmp != -1 && a[tmp] >= a[k]) {
           tmp = getLeft_opt(table, depth, n, k, tmp);
         }
-//          leftI[k] = tmp;
           L[k].ind = tmp;
           if (tmp != -1) L[k].v = a[tmp];
       }
@@ -202,12 +194,10 @@ std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_ShunZhao(std::array<long, 
         if (tmp != -1 && a[tmp] >= a[k]) {
           tmp = getRight_opt(table, depth, n, k, tmp);
         }
-//          rightI[k] = tmp;
           R[k].ind = tmp;
           if (tmp != -1) R[k].v = a[tmp];
       }
     }
-//    std::cout << R[0].ind << "," << R[0].v << "<- (3)" << std::endl;
   });
   for (int i = 1; i < depth; i++) delete table[i];
   delete table;

@@ -1,10 +1,11 @@
-#include "../Glue/VI.h"
-#include "../Glue/_constants.h"
-#include <iostream>
 
 #ifndef IMPLEMENTATIONS_NAIVE_N_SQUARED_H
 #define IMPLEMENTATIONS_NAIVE_N_SQUARED_H
 
-std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_naive(std::array<long, n> A);
+#include "../Glue/VI.h"
+#include <iostream>
+#include "parlay/sequence.h"
+
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_naive(parlay::sequence<long> A);
 
 #endif //IMPLEMENTATIONS_NAIVE_N_SQUARED_H

@@ -6,12 +6,17 @@
 #include "limits"
 #include "parlay/internal/get_time.h"
 #include "parlay/primitives.h"
+#include "ANSV/nlogn_work_mine.h"
 
 int main() {
-    for (int i = 0; i < 3; ++i) { //TODO: revert
-      std::array<long, n> A = returnMergeArray();
-        testAll(A, false);
+    long n = 91234;
+    for (int i = 0; i < 1; ++i) { //TODO: revert
+      parlay::sequence<long> A = returnMergeArray(n);
+        auto [L,R] = ANSV_ShunZhao(A);
+        std::cout << L[32].v << std::endl;
+
     }
+
 //    std::array<long, n> A = returnMergeArray();
 //    printArray(A);
 //    std::array<long, n> A = {5, 9, 12, 15, 13, 6, 10, 11, 2, 8, 1, 3, 7, 14, 4};

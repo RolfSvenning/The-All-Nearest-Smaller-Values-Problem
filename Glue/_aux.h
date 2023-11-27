@@ -1,7 +1,6 @@
 //
 // Created by Rolf Svenning on 12/04/2023.
 //
-#include "_constants.h"
 #include "list"
 #include "VI.h"
 #include "parlay/sequence.h"
@@ -13,13 +12,15 @@ void printParlayArrayVI(parlay::sequence<VI> A, std::string s);
 
 bool isPowerOfTwo(long x);
 
-void printArraysVI(const std::list<std::array<VI, n>>& arrays);
+void printArraysVI(const std::list<parlay::sequence<VI>>& AS);
 
-void printArrayVI(std::array<VI, n> A);
+void printArrayVI(parlay::sequence<VI> A);
 
-void printArray(std::array<long, n> A);
+void printArray(parlay::sequence<long> A);
 
-std::array<long, n> returnRandomArray();
+parlay::sequence<long> returnRandomArray(long n);
+
+//std::tuple<std::array<VI, n>, std::array<VI, n>> seqToArray(std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> LR);
 
 
 #endif //IMPLEMENTATIONS_AUX_H

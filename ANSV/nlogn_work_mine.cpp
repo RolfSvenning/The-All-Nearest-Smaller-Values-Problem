@@ -28,7 +28,7 @@ void findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequ
                 iCurr = child(iCurr, 1);
             }
         }
-        L[treeIndexToArrayIndex(i, d)] = VI(T[iCurr], treeIndexToArrayIndex(iCurr, d));
+        L[treeIndexToArrayIndex(i, d, n)] = VI(T[iCurr], treeIndexToArrayIndex(iCurr, d, n));
     }
 }
 
@@ -36,21 +36,16 @@ void findRightMatch(long n, const parlay::sequence<long> &A, parlay::sequence<lo
     // TODO: make this
 }
 
-std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_nlogn_mine(parlay::sequence<long> A){
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_nlogn_mine(parlay::sequence<long> A){
     auto [T,d] = createBinaryTreeForInput(A);
+    long n = A.size();
     parlay::sequence<VI> L(n);
     parlay::sequence<VI> R(n);
     parlay::parallel_for (
         n - 1, 2 * n - 1,
         [&] (size_t i ){ findLeftMatch(n, T, d, L, i);}
         );
-    std::array<VI, n> L_;
-    std::array<VI, n> R_;
-    for(int i=0; i < n; i++){
-        L_[i] = L[i];
-        R_[i] = R[i];
-    }
-    return {L_, R_};
+    return {L, R};
 }
 
 int main2(int argc, char* argv[]){

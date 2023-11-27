@@ -3,9 +3,10 @@
 #include "../Glue/_aux.h"
 #include "stack"
 
-std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_stack(std::array<long, n> A) {
-    std::array<VI, n> L = {};
-    std::array<VI, n> R = {};
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_seq_stack(parlay::sequence<long> A){
+    long n = A.size();
+    parlay::sequence<VI> L(n);
+    parlay::sequence<VI> R(n);
 
     // LEFT SMALLER VALUES
     std::stack<VI> S1;

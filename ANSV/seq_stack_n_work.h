@@ -1,12 +1,11 @@
-
-#include "../Glue/VI.h"
-#include "../Glue/_constants.h"
-#include "iostream"
-#include <tuple>
-
 #ifndef IMPLEMENTATIONS_SEQ_STACK_H
 #define IMPLEMENTATIONS_SEQ_STACK_H
 
-std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_stack(std::array<long, n> A);
+#include "../Glue/VI.h"
+#include "iostream"
+#include <tuple>
+#include "parlay/sequence.h"
+
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_seq_stack(parlay::sequence<long> A);
 
 #endif //IMPLEMENTATIONS_SEQ_STACK_H

@@ -4,13 +4,13 @@
 #include "array"
 
 
-std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_array(std::array<long, n> A) {
-    std::array<VI, n> L = {};
-    std::array<VI, n> R = {};
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_seq_array(parlay::sequence<long> A) {
+    long n = A.size();
+    parlay::sequence<VI> L(n);
+    parlay::sequence<VI> R(n);
 
     // LEFT SMALLER VALUES
     for (int i = 0; i < A.size(); ++i) {
-//        L[i] = -1;
         int j = i - 1;
         while (0 <= j) {
             if (A[j] <= A[i]) {
@@ -24,7 +24,6 @@ std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_seq_array(std::array<long,
 
     // RIGHT SMALLER VALUES
     for (int i = A.size() - 1; 0 <= i; --i) {
-//        R[i] = -1;
         int j = i + 1;
         while (j < A.size()) {
             if (A[j] <= A[i]) {
