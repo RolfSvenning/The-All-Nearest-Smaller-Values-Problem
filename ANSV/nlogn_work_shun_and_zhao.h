@@ -29,7 +29,7 @@
 #include "../Glue/VI.h"
 #include "../Glue/_constants.h"
 
-void ComputeANSV(int *a, int *leftI, int *rightI, std::array<VI, n> &L, std::array<VI, n> &R);
+std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_ShunZhao(std::array<long, n> A_);
 void ComputeANSV_Linear(int a[], int nInner, int leftElements[], int rightElements[],  std::array<VI, n> &L, std::array<VI, n> &R, int offset = 0);
 
 #endif

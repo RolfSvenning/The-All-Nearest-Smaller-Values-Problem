@@ -13,7 +13,7 @@
 #include "parlay/primitives.h"
 
 void testAll(std::array<long, n> A, bool verbose) {
-    bool innerVerbose = false;
+    bool innerVerbose = true;
     parlay::sequence<long> A_ = parlay::tabulate(n, [&] (size_t i) {return A[i];});
 
     parlay::internal::timer t("Time ");
@@ -46,7 +46,7 @@ void testAll(std::array<long, n> A, bool verbose) {
 
     if (innerVerbose) std::cout << " --- ANSV parallel nlogn work Shun & Zhao --- " << std::endl;
     t.start();
-    auto [L4, R4] = testShunZhao(A);
+    auto [L4, R4] = ANSV_ShunZhao(A);
     t.next("");
     t.stop();
     if (verbose) printArraysVI(std::list<std::array<VI, n>>{L4, R4});
@@ -61,23 +61,7 @@ void testAll(std::array<long, n> A, bool verbose) {
 
     assert(L4 == L5); //TODO: right VIs
 
-    if (innerVerbose) std::cout << " --- All tests passed 5/5 --- " << std::endl;
+    if (innerVerbose) std::cout << " --- All tests passed 5/5 --- " << std::endl << std::endl;
 }
 
 
-std::tuple<std::array<VI, n>, std::array<VI, n>> testShunZhao(std::array<long, n> A_) {
-  int L[n];
-  int R[n];
-  int A[n];
-  for(int i=0; i < n; i++){
-    A[i] = A_[i];
-  }
-
-  std::array<VI, n> L_;
-  std::array<VI, n> R_;
-
-
-  ComputeANSV(A, L, R, L_, R_);
-
-  return {L_, R_};
-}

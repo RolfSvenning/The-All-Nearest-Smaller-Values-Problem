@@ -37,7 +37,7 @@ using namespace std;
 #define RIGHT(i) (((i) << 1) | 1)
 #define PARENT(i) ((i) >> 1)
 
-const int BLOCK_SIZE = 4;
+const int BLOCK_SIZE = 4; //TODO: only works for even block_size
 
 inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
   int value = table[0][index];
@@ -95,18 +95,18 @@ inline int getRight_opt(int **table, int depth, int n, int index, int start) {
 }
 
 
-void ComputeANSV_Linear(int a[], int nInner, int leftElements[], int rightElements[], std::array<VI, n> &L, std::array<VI, n> &R, int offset) {
+void ComputeANSV_Linear(int a[], int nInner, std::array<VI, n> &L, std::array<VI, n> &R, int offset) {
   int i, top;
   int *stack = new int[nInner];
 
   for (i = 0, top = -1; i < nInner; i++) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
     if (top == -1) {
-        leftElements[i] = -1;
+//        leftElements[i] = -1;
         L[i + offset].ind = -1;
     }
     else {
-        leftElements[i] = stack[top] + offset;
+//        leftElements[i] = stack[top] + offset;
         L[i + offset].ind = stack[top] + offset;
         L[i + offset].v = a[stack[top]];
     }
@@ -116,11 +116,11 @@ void ComputeANSV_Linear(int a[], int nInner, int leftElements[], int rightElemen
   for (i = nInner - 1, top = -1; i >= 0; i--) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
     if (top == -1) {
-        rightElements[i] = -1;
+//        rightElements[i] = -1;
         R[i + offset].ind = -1;
     }
     else {
-        rightElements[i] = stack[top] + offset;
+//        rightElements[i] = stack[top] + offset;
         R[i + offset].ind = stack[top] + offset;
         R[i + offset].v = a[stack[top]];
     }
@@ -142,8 +142,16 @@ inline int cflog2(int i) {
   return res;
 }
 
-void ComputeANSV(int *a, int *leftI, int *rightI, std::array<VI, n> &L, std::array<VI, n> &R) {
+std::tuple<std::array<VI, n>, std::array<VI, n>> ANSV_ShunZhao(std::array<long, n> A_) {
   std::cout << "BLOCK_SIZE: " << BLOCK_SIZE << std::endl;
+
+  std::array<VI, n> L;
+  std::array<VI, n> R;
+  int a[n];
+  for(int i=0; i < n; i++){
+    a[i] = A_[i];
+  }
+
   int l2 = cflog2(n);
   int depth = l2 + 1;
   int **table = new int*[depth];
@@ -171,17 +179,15 @@ void ComputeANSV(int *a, int *leftI, int *rightI, std::array<VI, n> &L, std::arr
   }
 
   parlay::blocked_for(0, n, BLOCK_SIZE, [&] (size_t blockNumber, size_t i, size_t j) {
-//    std::cout << R[0].ind << "," << R[0].v << "<- (1)" << std::endl;
-    ComputeANSV_Linear(a + i, j - i, leftI + i, rightI + i, L, R, i);
-//    std::cout << R[0].ind << "," << R[0].v << "<- (2)" << std::endl;
+    ComputeANSV_Linear(a + i, j - i, L, R, i);
 
     int tmp = i;
     for (int k = i; k < j; k++) {
-      if (leftI[k] == -1) {
+      if (L[k].ind == -1) {
         if (tmp != -1 && a[tmp] >= a[k]) {
           tmp = getLeft_opt(table, depth, n, k, tmp);
         }
-          leftI[k] = tmp;
+//          leftI[k] = tmp;
           L[k].ind = tmp;
           if (tmp != -1) L[k].v = a[tmp];
       }
@@ -192,13 +198,11 @@ void ComputeANSV(int *a, int *leftI, int *rightI, std::array<VI, n> &L, std::arr
     //casting size_t to long to avoid default conversion of negative int to size_t which
     // will be large positive number since size_t is unsigned
     for (int k = j - 1; k >= (long)i; k--) {
-      if (rightI[k] == -1) {
+      if (R[k].ind == -1) {
         if (tmp != -1 && a[tmp] >= a[k]) {
-          if (k==0) std::cout << tmp << std::endl;
           tmp = getRight_opt(table, depth, n, k, tmp);
-          if (k==0) std::cout << tmp << std::endl;
         }
-          rightI[k] = tmp;
+//          rightI[k] = tmp;
           R[k].ind = tmp;
           if (tmp != -1) R[k].v = a[tmp];
       }
@@ -207,4 +211,6 @@ void ComputeANSV(int *a, int *leftI, int *rightI, std::array<VI, n> &L, std::arr
   });
   for (int i = 1; i < depth; i++) delete table[i];
   delete table;
+
+  return {L,R};
 }

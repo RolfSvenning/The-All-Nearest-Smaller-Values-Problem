@@ -5,31 +5,20 @@
 #include <iostream>
 
 void findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &L, int i) {
-//    int c = -1;
-//    if (i == c) std::cout << "----- i: " << i << std::endl;
     long iLast = i;
     long iCurr = parent(i);
     // GOING UP THE TREE <------
     while (iCurr != 0 and (iLast == child(iCurr, 1) or T[child(iCurr, 1)] > T[i])) {
-//      if (i == c) std::cout << "iCurr: " << iCurr << std::endl;
         iLast = iCurr;
         iCurr = parent(iCurr);
     }
-//    if (i == c) std::cout << "iCurr: " << iCurr << std::endl;
-//    if (i == c) std::cout << "finished up" << std::endl;
     // NO LEFT MATCH <------
     if (iLast == child(iCurr, 1) or T[child(iCurr, 1)] > T[i]) {
         assert (iCurr == 0);
-//        if (i == c) std::cout << "no left match" << std::endl;
-//        if (i==c) std::cout << "treeIndexToArrayIndex: " << treeIndexToArrayIndex(i, d) << std::endl;
-//        if (i==c) printParlayArrayVI(L, "L before: ");
-//        std::cout << "no match for i: " << i << std::endl;
-//        L[treeIndexToArrayIndex(i, d)] = -1;
     } else {
         // GOING DOWN THE TREE <------
         iCurr = child(iCurr, 1);
         while (iCurr < n - 1) { //still among nodes with children
-//          if (i == c) std::cout << "iCurr: " << iCurr << std::endl;
             long iRC = child(iCurr, 2);
             // right child exists and is in direction of smaller value
             if (iRC < 2 * n - 1 and T[iRC] <= T[i]) {
@@ -39,16 +28,8 @@ void findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequ
                 iCurr = child(iCurr, 1);
             }
         }
-//        if (i == c) std::cout << "iCurr: " << iCurr << std::endl;
-//        if (i == c) std :: cout << "match is: " << T[iCurr] << std::endl;
-//        assert(1 == 0); //TODO: fix here since last level not full
-//        if (i==c) std::cout << "i d: " << i << " " << d << std::endl;
-//        if (i==c) std::cout << "treeIndexToArrayIndex: " << treeIndexToArrayIndex(i, d) << std::endl;
-//        if (i==c) printParlayArrayVI(L, "L before: ");
-//        std::cout << "match for i: " << i << std::endl;
         L[treeIndexToArrayIndex(i, d)] = VI(T[iCurr], treeIndexToArrayIndex(iCurr, d));
     }
-//    if (i==c) printParlayArrayVI(L, "L after: ");
 }
 
 void findRightMatch(long n, const parlay::sequence<long> &A, parlay::sequence<long> &L, int i) {
