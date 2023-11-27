@@ -7,31 +7,14 @@
 #include "parlay/internal/get_time.h"
 
 int main() {
-    for (int i = 0; i < 0; ++i) { //TODO: revert
+    for (int i = 0; i < 100000; ++i) { //TODO: revert
       std::array<long, n> A = returnRandomArray();
-      //    std::array<int, n> A = {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}; //set constants to 16
         testAll(A, false);
-      //
-      //    testShunZhao(A);
     }
-    //    std::array<int, n> A = {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}; //set constants to 16
-    std::array<long, n> A = returnMergeArray();
-    printArray(A);
-    testAll(A, false);
-//    int n = 80000;
-//    int L[n];
-//    int R[n];
-//    int A[n];
-//    for(int i=0; i < n; i++){
-//        A[i] = i;
-//    }
-
-
-//    parlay::internal::timer t("Time ");
-//    t.start();
-//    testShunZhao(A);
-//    t.next("");
-//    t.stop();
+//    std::array<long, n> A = returnMergeArray();
+//    printArray(A);
+//    std::array<long, n> A = {5, 9, 12, 15, 13, 6, 10, 11, 2, 8, 1, 3, 7, 14, 4};
+//    testAll(A, false);
 
     return 1;
 }

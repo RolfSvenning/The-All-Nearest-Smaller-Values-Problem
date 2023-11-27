@@ -41,11 +41,11 @@ const int BLOCK_SIZE = 4;
 
 inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
   int value = table[0][index];
-  if (value == table[depth - 1][0]) return -1; //TODO: check if this is correct, maybe comment out
+//  if (value == table[depth - 1][0]) return -1; ////TODO: commented out, assumes all values unique
 
   int cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
-    if ((cur + 1) * dist > index + 1) cur --;
+    if ((cur + 1) * dist > start + 1) cur --; //TODO: check this, should be start
     if (cur < 0) return -1;
 
     if (table[d][cur] > value) cur = PARENT(cur);
@@ -58,6 +58,7 @@ inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
     if (table[d - 1][RIGHT(cur)] <= value) cur = RIGHT(cur);
     else cur = LEFT(cur);
   }
+  if (cur == index) return -1;
   return cur;
 }
 
@@ -69,24 +70,27 @@ inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
 // cur*dist: first index covered by current subtree (since 0-indexed)
 inline int getRight_opt(int **table, int depth, int n, int index, int start) {
   int value = table[0][index];
-  if (value == table[depth - 1][0]) return -1; //TODO: check if this is correct, maybe comment out
+//  if (value == table[depth - 1][0]) return -1; //TODO: commented out, assumes all values unique
 
   int cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
-    if (cur * dist < index) cur ++; //checks if last parent was up to the left in which case move to the right in the tree
-    if (cur * dist >= n) return -1; //current subtree past input
+//    if (index == 0) std::cout << cur << d << std::endl;
+    if (cur * dist < start) cur ++; //checks if last parent was up to the left in which case move to the right in the tree
+    if (cur * dist >= n) return -1; //current subtree past input //TODO: changed from  >= n - 1 to >= n
 
     if (table[d][cur] > value) cur = PARENT(cur); //check if subtree with match found
     else break;
 
     dist <<= 1; //increase "width" of current subtree
   }
-
+//  if (index == 0) std::cout << "going down from cur: " << cur << std::endl;
   //going down the tree
   for ( ; d > 0; d--) {
+//    if (index == 0) std::cout << d << " " << cur << std::endl;
     if (table[d - 1][LEFT(cur)] <= value) cur = LEFT(cur);
     else cur = RIGHT(cur);
   }
+  if (cur == index) return -1;
   return cur;
 }
 
@@ -99,12 +103,12 @@ void ComputeANSV_Linear(int a[], int nInner, int leftElements[], int rightElemen
     while (top > -1 && a[stack[top]] > a[i]) top--;
     if (top == -1) {
         leftElements[i] = -1;
-        L[i].ind = -1;
+        L[i + offset].ind = -1;
     }
     else {
         leftElements[i] = stack[top] + offset;
-        L[i].ind = stack[top] + offset;
-        L[i].v = a[stack[top] + offset];
+        L[i + offset].ind = stack[top] + offset;
+        L[i + offset].v = a[stack[top]];
     }
     stack[++top] = i;
   }
@@ -112,22 +116,15 @@ void ComputeANSV_Linear(int a[], int nInner, int leftElements[], int rightElemen
   for (i = nInner - 1, top = -1; i >= 0; i--) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
     if (top == -1) {
-        printArrayVI(R);
         rightElements[i] = -1;
-        R[i].ind = -1;
-        std::cout << "1 right value and index: " << a[i] << " " << i << std::endl;
-        printArrayVI(R);
+        R[i + offset].ind = -1;
     }
     else {
-        printArrayVI(R);
         rightElements[i] = stack[top] + offset;
-        R[i].ind = stack[top] + offset;
-        R[i].v = a[stack[top] + offset];
-        std::cout << "2 right value and index: " << a[stack[top] + offset] << " " << i << std::endl;
-        printArrayVI(R);
+        R[i + offset].ind = stack[top] + offset;
+        R[i + offset].v = a[stack[top]];
     }
     stack[++top] = i;
-//    printArrayVI(L);
   }
   delete stack;
 }
@@ -174,20 +171,19 @@ void ComputeANSV(int *a, int *leftI, int *rightI, std::array<VI, n> &L, std::arr
   }
 
   parlay::blocked_for(0, n, BLOCK_SIZE, [&] (size_t blockNumber, size_t i, size_t j) {
+//    std::cout << R[0].ind << "," << R[0].v << "<- (1)" << std::endl;
     ComputeANSV_Linear(a + i, j - i, leftI + i, rightI + i, L, R, i);
+//    std::cout << R[0].ind << "," << R[0].v << "<- (2)" << std::endl;
+
     int tmp = i;
     for (int k = i; k < j; k++) {
       if (leftI[k] == -1) {
         if (tmp != -1 && a[tmp] >= a[k]) {
           tmp = getLeft_opt(table, depth, n, k, tmp);
         }
-//          printArrayVI(L);
           leftI[k] = tmp;
           L[k].ind = tmp;
           if (tmp != -1) L[k].v = a[tmp];
-
-//          std::cout << "k and tmp and a[tmp]: " << k << " " << tmp << " " << a[tmp] << std::endl;
-//          printArrayVI(L);
       }
     }
 
@@ -198,15 +194,17 @@ void ComputeANSV(int *a, int *leftI, int *rightI, std::array<VI, n> &L, std::arr
     for (int k = j - 1; k >= (long)i; k--) {
       if (rightI[k] == -1) {
         if (tmp != -1 && a[tmp] >= a[k]) {
+          if (k==0) std::cout << tmp << std::endl;
           tmp = getRight_opt(table, depth, n, k, tmp);
+          if (k==0) std::cout << tmp << std::endl;
         }
           rightI[k] = tmp;
           R[k].ind = tmp;
           if (tmp != -1) R[k].v = a[tmp];
       }
     }
+//    std::cout << R[0].ind << "," << R[0].v << "<- (3)" << std::endl;
   });
   for (int i = 1; i < depth; i++) delete table[i];
   delete table;
-
 }
