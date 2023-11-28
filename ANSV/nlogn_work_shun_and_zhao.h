@@ -30,6 +30,6 @@
 #include "../Glue/_constants.h"
 
 std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::sequence<long> A);
-void ComputeANSV_Linear(int a[], int nInner, int leftElements[], int rightElements[],  parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset = 0);
+void ComputeANSV_Linear(parlay::sequence<long> a, int nInner, int leftElements[], int rightElements[],  parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset = 0);
 
 #endif

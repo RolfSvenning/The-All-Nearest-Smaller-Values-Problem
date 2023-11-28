@@ -52,9 +52,9 @@ long child(long i, long c){
     return 2 * i + c;
 }
 
-void convertToMinBinary(long i, parlay::sequence<long>&T, long n){
+void convertToMinBinary(long i, parlay::sequence<long>&T, long n){ //TODO: convert to parallel forloop instead of recursion, should be faster?
     if (i > n - 2) return;
-    // PARALLEL
+    // PARALLEL/
     if (parallel){
         parlay::par_do_if(
           i < n / 1024, // i < 512

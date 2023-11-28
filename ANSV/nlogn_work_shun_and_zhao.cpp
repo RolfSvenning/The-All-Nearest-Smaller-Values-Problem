@@ -35,9 +35,9 @@ using namespace std;
 #define RIGHT(i) (((i) << 1) | 1)
 #define PARENT(i) ((i) >> 1)
 
-const int BLOCK_SIZE = 4; //TODO: only works for even block_size
+const int BLOCK_SIZE = 400; //TODO: only works for even block_size
 
-inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
+inline int getLeft_opt(parlay::sequence<long>* table, int depth, int n, int index, int start) {
   int value = table[0][index];
 //  if (value == table[depth - 1][0]) return -1; ////TODO: commented out, assumes all values unique
 
@@ -66,7 +66,7 @@ inline int getLeft_opt(int **table, int depth, int n, int index, int start) {
 // depth: current level in tree (with bottom level being 1).
 // dist: width of current subtree.
 // cur*dist: first index covered by current subtree (since 0-indexed)
-inline int getRight_opt(int **table, int depth, int n, int index, int start) {
+inline int getRight_opt(parlay::sequence<long>* table, int depth, int n, int index, int start) {
   int value = table[0][index];
 //  if (value == table[depth - 1][0]) return -1; //TODO: commented out, assumes all values unique
 
@@ -90,35 +90,34 @@ inline int getRight_opt(int **table, int depth, int n, int index, int start) {
 }
 
 
-// TODO: check dealocation
-void ComputeANSV_Linear(int a[], int nInner, parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset) {
+void ComputeANSV_Linear(parlay::sequence<long> &a, int nInner, parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset) {
   int i, top;
   int *stack = new int[nInner];
 
-  for (i = 0, top = -1; i < nInner; i++) {
+  for (i = offset, top = -1; i < nInner + offset; i++) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
     if (top == -1) {
-        L[i + offset].ind = -1;
+        L[i].ind = -1;
     }
     else {
-        L[i + offset].ind = stack[top] + offset;
-        L[i + offset].v = a[stack[top]];
+        L[i].ind = stack[top];
+        L[i].v = a[stack[top]];
     }
     stack[++top] = i;
   }
 
-  for (i = nInner - 1, top = -1; i >= 0; i--) {
+  for (i = nInner - 1 + offset, top = -1; i >= offset; i--) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
     if (top == -1) {
-        R[i + offset].ind = -1;
+        R[i].ind = -1;
     }
     else {
-        R[i + offset].ind = stack[top] + offset;
-        R[i + offset].v = a[stack[top]];
+        R[i].ind = stack[top];
+        R[i].v = a[stack[top]];
     }
     stack[++top] = i;
   }
-  delete stack;
+  delete[] stack;
 }
 
 inline int cflog2(int i) {
@@ -134,26 +133,21 @@ inline int cflog2(int i) {
   return res;
 }
 
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::sequence<long> A){
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::sequence<long> a){
   std::cout << "BLOCK_SIZE: " << BLOCK_SIZE << std::endl;
-    long n = A.size();
+  long n = a.size();
   parlay::sequence<VI> L(n);
   parlay::sequence<VI> R(n);
 
-  int a[n];
-  for(int i=0; i < n; i++){
-    a[i] = A[i];
-  }
 
   int l2 = cflog2(n);
   int depth = l2 + 1;
-  int **table = new int*[depth];
-
+  parlay::sequence<long>* table = new parlay::sequence<long>[depth];
   table[0] = a;
   int m = n;
   for (int i = 1; i < depth; i++) {
     m = (m + 1) / 2;
-    table[i] = new int[m];
+    table[i] = parlay::sequence<long>(m);
   }
 
   m = n;
@@ -171,9 +165,9 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::seq
     m = (m + 1) / 2;
   }
 
-  parlay::blocked_for(0, n, BLOCK_SIZE, [&] (size_t blockNumber, size_t i, size_t j) {
-    ComputeANSV_Linear(a + i, j - i, L, R, i);
 
+  parlay::blocked_for(0, n, BLOCK_SIZE, [&] (size_t blockNumber, size_t i, size_t j) {
+    ComputeANSV_Linear(a, j - i, L, R, i);
     int tmp = i;
     for (int k = i; k < j; k++) {
       if (L[k].ind == -1) {
@@ -199,8 +193,9 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::seq
       }
     }
   });
-  for (int i = 1; i < depth; i++) delete table[i];
-  delete table;
+//  for (int i = 1; i < depth; i++) delete table[i];
+  delete[] table;
+//  delete[] a;
 
   return {L,R};
 }

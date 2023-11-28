@@ -63,4 +63,50 @@ void testAll(parlay::sequence<long> A, bool verbose) {
     if (innerVerbose) std::cout << " --- All tests passed 5/5 --- " << std::endl << std::endl;
 }
 
+void testArrayShunZhaoAndMine(parlay::sequence<long> A){
+    parlay::internal::timer t("Time");
+
+    std::cout << " --- ANSV sequential array based --- " << std::endl;
+    t.start();
+    auto [L1, R1] = ANSV_seq_array(A);
+    t.next("");
+    t.stop();
+
+    std::cout << " --- ANSV parallel nlogn work Shun & Zhao --- " << std::endl;
+    t.start();
+    auto [L2, R2] = ANSV_ShunZhao(A);
+    t.next("");
+    t.stop();
+
+    assert(L1 == L2 and R1 == R2);
+
+    std::cout << " --- ANSV parallel nlogn work mine --- " << std::endl;
+    t.start();
+    auto [L3, R3] = ANSV_nlogn_mine(A);
+    t.next("");
+    t.stop();
+
+    assert(L2 == L3);
+//    assert(R1 == R2);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

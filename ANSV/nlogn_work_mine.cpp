@@ -12,10 +12,8 @@ void findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequ
         iLast = iCurr;
         iCurr = parent(iCurr);
     }
-    // NO LEFT MATCH <------
-    if (iLast == child(iCurr, 1) or T[child(iCurr, 1)] > T[i]) {
-        assert (iCurr == 0);
-    } else {
+    // LEFT MATCH EXISTS <------
+    if (iLast == child(iCurr, 2) and T[child(iCurr, 1)] <= T[i]) {
         // GOING DOWN THE TREE <------
         iCurr = child(iCurr, 1);
         while (iCurr < n - 1) { //still among nodes with children
@@ -37,6 +35,7 @@ void findRightMatch(long n, const parlay::sequence<long> &A, parlay::sequence<lo
 }
 
 std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_nlogn_mine(parlay::sequence<long> A){
+
     auto [T,d] = createBinaryTreeForInput(A);
     long n = A.size();
     parlay::sequence<VI> L(n);
@@ -48,34 +47,34 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_nlogn_mine(parlay::s
     return {L, R};
 }
 
-int main2(int argc, char* argv[]){
-    // SETUP
-    auto usage = "Usage: missing 'n' argument. "
-                 "Creating parallel min binary tree of n elements <n>";
-    if (argc != 2){
-        std::cout << usage << std::endl;
-        return 0;
-    }
-
-    long n;
-    try { n = std::stol(argv[1]); }
-    catch (...) { std::cout << usage << std::endl; return 1; }
-    parlay::internal::timer t("Time ");
-
-    // CREATING MIN BINARY TREE FOR RANDOM INPUT OF SIZE n
-    parlay::sequence<long> A = {9, 5, 2, 4, 6, 5};
-    assert(A.size() == n);
-
-
-    t.start();
-    auto [T,d] = createBinaryTreeForInput(A);
-    t.next("min binary tree");;
-
-    parlay::sequence<VI> L(n);
-//     --- PARALLEL --- FINDING ALL LEFT MATCHES USING THE TREE
-    parlay::parallel_for (n - 1, 2 * n - 1, [&] (size_t i ){ findLeftMatch(n, T, d, L, i);
-    });
-    t.next("parallel: ");
-    printParlayArrayVI(L, "L: ");
-    return 1;
-}
+//int main2(int argc, char* argv[]){
+//    // SETUP
+//    auto usage = "Usage: missing 'n' argument. "
+//                 "Creating parallel min binary tree of n elements <n>";
+//    if (argc != 2){
+//        std::cout << usage << std::endl;
+//        return 0;
+//    }
+//
+//    long n;
+//    try { n = std::stol(argv[1]); }
+//    catch (...) { std::cout << usage << std::endl; return 1; }
+//    parlay::internal::timer t("Time ");
+//
+//    // CREATING MIN BINARY TREE FOR RANDOM INPUT OF SIZE n
+//    parlay::sequence<long> A = {9, 5, 2, 4, 6, 5};
+//    assert(A.size() == n);
+//
+//
+//    t.start();
+//    auto [T,d] = createBinaryTreeForInput(A);
+//    t.next("min binary tree");;
+//
+//    parlay::sequence<VI> L(n);
+////     --- PARALLEL --- FINDING ALL LEFT MATCHES USING THE TREE
+//    parlay::parallel_for (n - 1, 2 * n - 1, [&] (size_t i ){ findLeftMatch(n, T, d, L, i);
+//    });
+//    t.next("parallel: ");
+//    printParlayArrayVI(L, "L: ");
+//    return 1;
+//}

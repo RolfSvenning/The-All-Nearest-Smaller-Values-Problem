@@ -9,11 +9,13 @@
 #include "ANSV/nlogn_work_mine.h"
 
 int main() {
-    long n = 91234;
+    long n = 9123456;
     for (int i = 0; i < 1; ++i) { //TODO: revert
-      parlay::sequence<long> A = returnMergeArray(n);
-        auto [L,R] = ANSV_ShunZhao(A);
-        std::cout << L[32].v << std::endl;
+        parlay::sequence<long> A = returnMergeArray(n);
+//      auto [L,R] = ANSV_ShunZhao(A);
+//      std::cout << L[32].v << std::endl;
+        testArrayShunZhaoAndMine(A);
+//        testAll(A);
 
     }
 
