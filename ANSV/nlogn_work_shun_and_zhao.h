@@ -29,7 +29,8 @@
 #include "../Glue/VI.h"
 #include "../Glue/_constants.h"
 
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::sequence<long> A);
-void ComputeANSV_Linear(parlay::sequence<long> a, int nInner, int leftElements[], int rightElements[],  parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset = 0);
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::sequence<long> A, const long blockSize);
+void ComputeANSV_Linear(parlay::sequence<long> &a, int n, parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset);
+std::tuple<parlay::sequence<long>*, int> createBinaryTree(parlay::sequence<long> a, int n);
 
 #endif

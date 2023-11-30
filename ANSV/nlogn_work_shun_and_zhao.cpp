@@ -25,7 +25,7 @@
 #include "nlogn_work_shun_and_zhao.h"
 #include "parlay/parallel.h"
 #include "../Glue/_aux.h"
-
+#include "parlay/primitives.h"
 
 #include <iostream>
 
@@ -35,7 +35,7 @@ using namespace std;
 #define RIGHT(i) (((i) << 1) | 1)
 #define PARENT(i) ((i) >> 1)
 
-const int BLOCK_SIZE = 400; //TODO: only works for even block_size
+
 
 inline int getLeft_opt(parlay::sequence<long>* table, int depth, int n, int index, int start) {
   int value = table[0][index];
@@ -74,7 +74,6 @@ inline int getRight_opt(parlay::sequence<long>* table, int depth, int n, int ind
   for (d = 1; d < depth; d++) {
     if (cur * dist < start) cur ++; //checks if last parent was up to the left in which case move to the right in the tree
     if (cur * dist >= n) return -1; //current subtree past input //TODO: changed from  >= n - 1 to >= n
-
     if (table[d][cur] > value) cur = PARENT(cur); //check if subtree with match found
     else break;
 
@@ -86,15 +85,17 @@ inline int getRight_opt(parlay::sequence<long>* table, int depth, int n, int ind
     else cur = RIGHT(cur);
   }
   if (cur == index) return -1;
+
+
   return cur;
 }
 
 
-void ComputeANSV_Linear(parlay::sequence<long> &a, int nInner, parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset) {
-  int i, top;
-  int *stack = new int[nInner];
+void ComputeANSV_Linear(parlay::sequence<long> &a, int n, parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset) {
+    int i, top;
+    int *stack = new int[n];
 
-  for (i = offset, top = -1; i < nInner + offset; i++) {
+    for (i = offset, top = -1; i < n + offset; i++) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
     if (top == -1) {
         L[i].ind = -1;
@@ -104,9 +105,9 @@ void ComputeANSV_Linear(parlay::sequence<long> &a, int nInner, parlay::sequence<
         L[i].v = a[stack[top]];
     }
     stack[++top] = i;
-  }
+    }
 
-  for (i = nInner - 1 + offset, top = -1; i >= offset; i--) {
+    for (i = n - 1 + offset, top = -1; i >= offset; i--) {
     while (top > -1 && a[stack[top]] > a[i]) top--;
     if (top == -1) {
         R[i].ind = -1;
@@ -116,8 +117,8 @@ void ComputeANSV_Linear(parlay::sequence<long> &a, int nInner, parlay::sequence<
         R[i].v = a[stack[top]];
     }
     stack[++top] = i;
-  }
-  delete[] stack;
+    }
+    delete[] stack;
 }
 
 inline int cflog2(int i) {
@@ -133,49 +134,55 @@ inline int cflog2(int i) {
   return res;
 }
 
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::sequence<long> a){
-  std::cout << "BLOCK_SIZE: " << BLOCK_SIZE << std::endl;
-  long n = a.size();
-  parlay::sequence<VI> L(n);
-  parlay::sequence<VI> R(n);
-
-
-  int l2 = cflog2(n);
-  int depth = l2 + 1;
-  parlay::sequence<long>* table = new parlay::sequence<long>[depth];
-  table[0] = a;
-  int m = n;
-  for (int i = 1; i < depth; i++) {
-    m = (m + 1) / 2;
-    table[i] = parlay::sequence<long>(m);
-  }
-
-  m = n;
-  for (int d = 1; d < depth; d++) {
-    int m2 = m / 2;
-
-    parlay::parallel_for (0, m2, [&] (size_t i) {
-      table[d][i] = min(table[d - 1][LEFT(i)], table[d - 1][RIGHT(i)]);
-    });
-
-    if (m % 2) {
-      table[d][m2] = table[d - 1][LEFT(m2)];
+std::tuple<parlay::sequence<long>*, int> createBinaryTree(parlay::sequence<long> a, int n) {
+    int l2 = cflog2(n);
+    int depth = l2 + 1;
+    auto* table = new parlay::sequence<long>[depth];
+    table[0] = a;
+    int m = n;
+    for (int i = 1; i < depth; i++) {
+        m = (m + 1) / 2;
+        table[i] = parlay::sequence<long>(m);
     }
 
-    m = (m + 1) / 2;
-  }
+    m = n;
+    for (int d = 1; d < depth; d++) {
+        int m2 = m / 2;
 
+        parlay::parallel_for (0, m2, [&] (size_t i) {
+            table[d][i] = min(table[d - 1][LEFT(i)], table[d - 1][RIGHT(i)]);
+        });
 
-  parlay::blocked_for(0, n, BLOCK_SIZE, [&] (size_t blockNumber, size_t i, size_t j) {
-    ComputeANSV_Linear(a, j - i, L, R, i);
+        if (m % 2) {
+            table[d][m2] = table[d - 1][LEFT(m2)];
+        }
+
+        m = (m + 1) / 2;
+    }
+
+  return {table, depth};
+}
+
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::sequence<long> A, const long blockSize){
+    long n = A.size();
+    parlay::sequence<VI> L(n);
+    parlay::sequence<VI> R(n);
+
+    parlay::internal::timer t("   Tree construction");
+    auto [table, depth] = createBinaryTree(A, n);
+    t.next(" ");
+    t.stop();
+
+    parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
+    ComputeANSV_Linear(A, j - i, L, R, i);
     int tmp = i;
     for (int k = i; k < j; k++) {
       if (L[k].ind == -1) {
-        if (tmp != -1 && a[tmp] >= a[k]) {
+        if (tmp != -1 && A[tmp] >= A[k]) {
           tmp = getLeft_opt(table, depth, n, k, tmp);
         }
           L[k].ind = tmp;
-          if (tmp != -1) L[k].v = a[tmp];
+          if (tmp != -1) L[k].v = A[tmp];
       }
     }
 
@@ -184,18 +191,16 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::seq
     //casting size_t to long to avoid default conversion of negative int to size_t which
     // will be large positive number since size_t is unsigned
     for (int k = j - 1; k >= (long)i; k--) {
-      if (R[k].ind == -1) {
-        if (tmp != -1 && a[tmp] >= a[k]) {
-          tmp = getRight_opt(table, depth, n, k, tmp);
-        }
-          R[k].ind = tmp;
-          if (tmp != -1) R[k].v = a[tmp];
-      }
+        if (R[k].ind == -1) {
+            if (tmp != -1 && A[tmp] >= A[k]) { //TODO: maybe remove >=, should be >
+                tmp = getRight_opt(table, depth, n, k, tmp);
+            }
+              R[k].ind = tmp;
+              if (tmp != -1) R[k].v = A[tmp];
+            }
     }
-  });
-//  for (int i = 1; i < depth; i++) delete table[i];
-  delete[] table;
-//  delete[] a;
+    });
+    delete[] table;
 
-  return {L,R};
+    return {L,R};
 }
