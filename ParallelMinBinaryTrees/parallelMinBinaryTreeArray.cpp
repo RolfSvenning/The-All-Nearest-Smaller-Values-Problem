@@ -24,7 +24,7 @@ parlay::sequence<long> generateValues(long n) {
     });
 }
 
-long treeIndexToArrayIndex(long i, long d, long n){
+long TtoA(long i, long d, long n){
     if (i <= n - 2 + d) return i - d + 1; //2 * n - 2 - i;
     else return i - d - n + 1;
 }
@@ -37,7 +37,7 @@ std::tuple<parlay::sequence<long>,long> createBinaryTreeForInput(parlay::sequenc
     if (i <= n - 2)
       return -1L;
     // take from the end when filling out second to last layer
-    return A[treeIndexToArrayIndex(i, d, n)];
+    return A[TtoA(i, d, n)];
     });
     convertToMinBinary(0, T, n);
     return {T,d};

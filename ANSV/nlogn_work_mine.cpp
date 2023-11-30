@@ -29,7 +29,7 @@ long findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequ
                 iCurr = child(iCurr, 1);
             }
         }
-        L[treeIndexToArrayIndex(i, d, n)] = VI(T[iCurr], treeIndexToArrayIndex(iCurr, d, n));
+        L[TtoA(i, d, n)] = VI(T[iCurr], TtoA(iCurr, d, n));
         return iCurr;
     }
     else return -1;
@@ -57,7 +57,7 @@ long findRightMatch(long n, const parlay::sequence<long> &T, long d, parlay::seq
                 iCurr = child(iCurr, 2);
             }
         }
-        R[treeIndexToArrayIndex(i, d, n)] = VI(T[iCurr], treeIndexToArrayIndex(iCurr, d, n));
+        R[TtoA(i, d, n)] = VI(T[iCurr], TtoA(iCurr, d, n));
         return iCurr;
     }
     else return -1;
@@ -65,24 +65,31 @@ long findRightMatch(long n, const parlay::sequence<long> &T, long d, parlay::seq
 
 void findMatchesInBlock(long i, long Ai, long nInner, long n, long d, parlay::sequence<long> &A, parlay::sequence<VI> &L, parlay::sequence<VI> &R,
                         parlay::sequence<long> &T) {
+    // LOCAL MATCHES
     ComputeANSV_Linear(A, nInner, L, R, Ai);
+
+    // LEFT MATCHES
     long TLi = i;
     long ALi = Ai;
-    for (long k = 0; k < nInner; k++) {
+    for (int k = 0; k < nInner; k++) {
         if (L[Ai + k].ind == -1) {
+            // find new match using tree or same match as previous
             if ((TLi != -1 and A[ALi] > A[Ai + k]) or k == 0){
                 TLi = findLeftMatch(n, T, d, L, i + k, TLi);
-                ALi = treeIndexToArrayIndex(TLi, d, n);
+                ALi = TtoA(TLi, d, n);
             } else if (TLi != -1 ) L[Ai + k] = VI(A[ALi], ALi);
         }
     }
+
+    // RIGHT MATCHES
     long TRi = i + nInner - 1;
     long ARi = Ai + nInner - 1;
-    for (long k = nInner - 1; k >= 0; k--) {
+    for (int k = nInner - 1; k >= 0; k--) {
         if (R[Ai + k].ind == -1) {
+            // find new match using tree or same match as previous
             if ((TRi != -1 and A[ARi] > A[Ai + k]) or k == nInner - 1){
                 TRi = findRightMatch(n, T, d, R, i + k, TRi);
-                ARi = treeIndexToArrayIndex(TRi, d, n);
+                ARi = TtoA(TRi, d, n);
             } else if (TRi != -1) R[Ai + k] = VI(A[ARi], ARi);
         }
     }
@@ -99,8 +106,8 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_nlogn_mine(parlay::s
     parlay::sequence<VI> R(n);
 
     parlay::blocked_for(n - 1, 2 * n - 1, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
-        long Ai = treeIndexToArrayIndex(i, d, n);
-        long Aj = treeIndexToArrayIndex(j, d, n);
+        long Ai = TtoA(i, d, n);
+        long Aj = TtoA(j, d, n);
         if (Ai < Aj) findMatchesInBlock(i, Ai, j - i, n, d, A, L, R, T);
         else { //last block in the second to last layer which is split
             findMatchesInBlock(i, Ai, n - Ai, n, d, A, L, R, T);
@@ -111,34 +118,3 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_nlogn_mine(parlay::s
     return {L, R};
 }
 
-//int main2(int argc, char* argv[]){
-//    // SETUP
-//    auto usage = "Usage: missing 'n' argument. "
-//                 "Creating parallel min binary tree of n elements <n>";
-//    if (argc != 2){
-//        std::cout << usage << std::endl;
-//        return 0;
-//    }
-//
-//    long n;
-//    try { n = std::stol(argv[1]); }
-//    catch (...) { std::cout << usage << std::endl; return 1; }
-//    parlay::internal::timer t("Time ");
-//
-//    // CREATING MIN BINARY TREE FOR RANDOM INPUT OF SIZE n
-//    parlay::sequence<long> A = {9, 5, 2, 4, 6, 5};
-//    assert(A.size() == n);
-//
-//
-//    t.start();
-//    auto [T,d] = createBinaryTreeForInput(A);
-//    t.next("min binary tree");;
-//
-//    parlay::sequence<VI> L(n);
-////     --- PARALLEL --- FINDING ALL LEFT MATCHES USING THE TREE
-//    parlay::parallel_for (n - 1, 2 * n - 1, [&] (size_t i ){ findLeftMatch(n, T, d, L, i);
-//    });
-//    t.next("parallel: ");
-//    printParlayArrayVI(L, "L: ");
-//    return 1;
-//}

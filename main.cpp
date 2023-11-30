@@ -9,10 +9,11 @@
 #include "ANSV/nlogn_work_mine.h"
 
 int main() {
-    long n = 12345678; // 1234567
-    const long blockSize = 200; //TODO: only works for even block_size
-    for (int i = 0; i < 10; ++i) { //TODO: revert
-        parlay::sequence<long> A = returnMergeArray(n);
+    long n = 4129; // 1234567
+    const long blockSize = 120; //TODO: only works for even block_size
+
+    for (int i = 0; i < 100000; ++i) { //TODO: revert
+        parlay::sequence<long> A = returnRandomArray(n);
 //      auto [L,R] = ANSV_ShunZhao(A);
 //      std::cout << L[32].v << std::endl;
         testArrayShunZhaoAndMine(A, blockSize);

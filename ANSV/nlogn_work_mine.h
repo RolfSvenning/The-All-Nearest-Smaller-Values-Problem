@@ -14,5 +14,4 @@ void findRightMatch(long n, const parlay::sequence<long> &T, long d, parlay::seq
 
 std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_nlogn_mine(parlay::sequence<long> &A, const long blockSize);
 
-int main2(int argc, char* argv[]);
 #endif // ANSV2_ANSV_NLOGN_WORK_CPP_H
