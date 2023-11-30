@@ -48,11 +48,10 @@ long parent(long i){
 }
 
 long child(long i, long c){
-    assert (1 <= c and c <=2);
     return 2 * i + c;
 }
 
-void convertToMinBinary(long i, parlay::sequence<long>&T, long n){ //TODO: convert to parallel forloop instead of recursion, should be faster?
+void convertToMinBinary(long i, parlay::sequence<long>&T, long n){
     if (i > n - 2) return;
     // PARALLEL/
     if (parallel){
@@ -68,33 +67,3 @@ void convertToMinBinary(long i, parlay::sequence<long>&T, long n){ //TODO: conve
     }
     T[i] = std::min(T[child(i, 1)], T[child(i, 2)]);
 }
-
-
-int main3(int argc, char* argv[]){
-    auto usage = "Usage: missing 'n' argument. "
-                 "Creating parallel min binary tree of n elements <n>";
-    if (argc != 2){
-        std::cout << usage << std::endl;
-        return 0;
-    }
-
-    long n;
-    try { n = std::stol(argv[1]); }
-    catch (...) { std::cout << usage << std::endl; return 1; }
-    parlay::internal::timer t("Time");
-
-
-//  std::cout << "1)" << std::endl;
-//  std::cout << parlay::to_chars(values) << std::endl;
-
-    parlay::sequence<long> values = generateValues(n);
-    t.start();
-    convertToMinBinary(0, values, n);
-    t.next("min binary tree");
-
-//    std::cout << "2)" << std::endl;
-//    std::cout << parlay::to_chars(values) << std::endl;
-//    std::cout << "parallel: " << parallel << std::endl;
-    return 0;
-}
-

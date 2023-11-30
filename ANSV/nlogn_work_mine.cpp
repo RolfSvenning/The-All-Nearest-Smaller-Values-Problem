@@ -5,7 +5,6 @@
 #include "nlogn_work_shun_and_zhao.h"
 #include <iostream>
 
-//const int BLOCK_SIZE = 2;
 
 long findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &L, int i, long start) {
     long iLast = start;
@@ -105,6 +104,7 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_nlogn_mine(parlay::s
     parlay::sequence<VI> L(n);
     parlay::sequence<VI> R(n);
 
+    // TODO: change to blocks from array A instead of blocks from tree T
     parlay::blocked_for(n - 1, 2 * n - 1, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
         long Ai = TtoA(i, d, n);
         long Aj = TtoA(j, d, n);
