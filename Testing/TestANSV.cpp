@@ -64,10 +64,10 @@ void testAll(parlay::sequence<long> A, const long blockSize, bool verbose) {
 }
 
 void testArrayShunZhaoAndMine(parlay::sequence<long> A, const long blockSize) {
-    std::cout << "n = " << A.size() << std::endl;
+    std::cout << std::endl << "n and blockSize = " << A.size() << ", " << blockSize << std::endl;
     parlay::internal::timer t("Time");
 
-    std::cout << std::endl << " --- ANSV sequential array based --- " << std::endl;
+    std::cout  << " --- ANSV sequential array based --- " << std::endl;
     t.start();
     auto [L1, R1] = ANSV_seq_array(A);
     t.next("");
