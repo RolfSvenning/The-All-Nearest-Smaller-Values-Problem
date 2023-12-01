@@ -96,27 +96,15 @@ void ComputeANSV_Linear(parlay::sequence<long> &a, int n, parlay::sequence<VI> &
     int *stack = new int[n];
 
     for (i = offset, top = -1; i < n + offset; i++) {
-    while (top > -1 && a[stack[top]] > a[i]) top--;
-    if (top == -1) {
-        L[i].ind = -1;
-    }
-    else {
-        L[i].ind = stack[top];
-        L[i].v = a[stack[top]];
-    }
-    stack[++top] = i;
+        while (top > -1 && a[stack[top]] > a[i]) top--;
+            if (top != -1) L[i] = VI(a[stack[top]], stack[top]);
+            stack[++top] = i;
     }
 
     for (i = n - 1 + offset, top = -1; i >= offset; i--) {
-    while (top > -1 && a[stack[top]] > a[i]) top--;
-    if (top == -1) {
-        R[i].ind = -1;
-    }
-    else {
-        R[i].ind = stack[top];
-        R[i].v = a[stack[top]];
-    }
-    stack[++top] = i;
+        while (top > -1 && a[stack[top]] > a[i]) top--;
+            if (top != -1) R[i] = VI(a[stack[top]], stack[top]);
+            stack[++top] = i;
     }
     delete[] stack;
 }
@@ -153,10 +141,7 @@ std::tuple<parlay::sequence<long>*, int> createBinaryTree(parlay::sequence<long>
             table[d][i] = min(table[d - 1][LEFT(i)], table[d - 1][RIGHT(i)]);
         });
 
-        if (m % 2) {
-            table[d][m2] = table[d - 1][LEFT(m2)];
-        }
-
+        if (m % 2) table[d][m2] = table[d - 1][LEFT(m2)];
         m = (m + 1) / 2;
     }
 
@@ -168,10 +153,7 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::seq
     parlay::sequence<VI> L(n);
     parlay::sequence<VI> R(n);
 
-    parlay::internal::timer t("   Tree construction");
     auto [table, depth] = createBinaryTree(A, n);
-    t.next(" ");
-    t.stop();
 
     parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
     ComputeANSV_Linear(A, j - i, L, R, i);
@@ -185,7 +167,6 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::seq
           if (tmp != -1) L[k].v = A[tmp];
       }
     }
-
 
     tmp = j - 1;
     //casting size_t to long to avoid default conversion of negative int to size_t which
