@@ -29,6 +29,11 @@ long TtoA(long i, long d, long n){
     else return i - d - n + 1;
 }
 
+long AtoT(long i, long d, long n){
+    if (i < n - d) return i + n - 1 + d;
+    else return i + d - 1; //i - (n - d) + n - 1;
+}
+
 std::tuple<parlay::sequence<long>,long> createBinaryTreeForInput(parlay::sequence<long>& A) {
     long n = A.size();
     //'d' is the number of input nodes on second to last layer

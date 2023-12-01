@@ -94,6 +94,21 @@ void findMatchesInBlock(long i, long Ai, long nInner, long n, long d, parlay::se
     }
 }
 
+void newMatchesInBlock(long i, long j, long n, long d, parlay::sequence<long> &A, parlay::sequence<VI> &L, parlay::sequence<VI> &R,
+                        parlay::sequence<long> &T) {
+    // FIND LEFT MATCHES
+    long TLi = AtoT(i, d, n);
+    long ALi = i;
+    for (int k = i; k<j; k++){
+        if (L[i].ind == -1) {
+            // find new match using tree or same match as previous
+            if ((TLi != -1 and A[ALi] > A[i]) or k == 0){
+                TLi = findLeftMatch(n, T, d, L, i + k, TLi);
+                ALi = TtoA(TLi, d, n);
+            } else if (TLi != -1 ) L[i] = VI(A[ALi], ALi);
+        }
+    } // TODO: finish this
+}
 
 std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_nlogn_mine(parlay::sequence<long> &A, const long blockSize){
     parlay::internal::timer t("   Tree construction");
@@ -104,17 +119,26 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_nlogn_mine(parlay::s
     parlay::sequence<VI> L(n);
     parlay::sequence<VI> R(n);
 
+    // TODP: replace all size_t by long?
     // TODO: change to blocks from array A instead of blocks from tree T
-    parlay::blocked_for(n - 1, 2 * n - 1, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
-        long Ai = TtoA(i, d, n);
-        long Aj = TtoA(j, d, n);
-        if (Ai < Aj) findMatchesInBlock(i, Ai, j - i, n, d, A, L, R, T);
-        else { //last block in the second to last layer which is split
-            findMatchesInBlock(i, Ai, n - Ai, n, d, A, L, R, T);
-            findMatchesInBlock(n - 1 + d, 0, Aj, n, d, A, L, R, T);
-        }
+    parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
+        // LOCAL MATCHES
+        ComputeANSV_Linear(A, j - i, L, R, i);
 
+        // NON-LOCAL MATCHES
+        newMatchesInBlock(i, j, n, d, A, L, R, T);
     });
+
+//    parlay::blocked_for(n - 1, 2 * n - 1, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
+//        long Ai = TtoA(i, d, n);
+//        long Aj = TtoA(j, d, n);
+//        if (Ai < Aj) findMatchesInBlock(i, Ai, j - i, n, d, A, L, R, T);
+//        else { //last block in the second to last layer which is split
+//            findMatchesInBlock(i, Ai, n - Ai, n, d, A, L, R, T);
+//            findMatchesInBlock(n - 1 + d, 0, Aj, n, d, A, L, R, T);
+//        }
+//
+//    });
     return {L, R};
 }
 
