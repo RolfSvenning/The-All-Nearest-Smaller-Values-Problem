@@ -9,8 +9,10 @@
 #include "ANSV/nlogn_work_mine.h"
 
 int main() {
-//    long n = 1239; // 1234567
-//    const long blockSize = 10; //TODO: only works for even block_size
+    long n = 1234567; // 1234567
+    const long blockSize = 40; //TODO: only works for even block_size
+//    parlay::sequence<long> A = returnMergeArray(n);
+//    testArrayShunZhaoAndMine(A, blockSize);
 
     for (int i = 0; i < 100; ++i) {
         auto [n, blockSize] = returnRandomNandBlocksize();
