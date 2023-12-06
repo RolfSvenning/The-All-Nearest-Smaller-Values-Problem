@@ -5,9 +5,10 @@
 #include <iostream>
 
 
-long findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &L, int i, long start) {
+long findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &L, int i, long start=-1) {
+    if (start == -1) start = i;
     long iLast = start;
-    long iCurr = parent(start);
+    long iCurr = parent(iLast);
     // GOING UP THE TREE <------
     while (iCurr != 0 and (iLast == child(iCurr, 1) or T[child(iCurr, 1)] > T[i])) {
         iLast = iCurr;
@@ -33,7 +34,8 @@ long findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequ
     return -1;
 }
 
-long findRightMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &R, int i, long start) {
+long findRightMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &R, int i, long start=-1) {
+    if (start == -1) start = i;
     long iLast = start;
     long iCurr = parent(start);
 

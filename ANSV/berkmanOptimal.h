@@ -6,6 +6,7 @@
 #define ANSV2_BERKMANOPTIMAL_H
 
 #include "parlay/sequence.h"
+#include "../Glue/VI.h"
 
 // INPUT FUNCTIONS
 parlay::sequence<long> hardcodedInputOfLength16();

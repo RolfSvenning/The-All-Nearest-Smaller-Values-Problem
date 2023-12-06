@@ -91,20 +91,20 @@ inline int getRight_opt(parlay::sequence<long>* table, int depth, int n, int ind
 }
 
 
-void ComputeANSV_Linear(parlay::sequence<long> &a, int n, parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset) {
+void ComputeANSV_Linear(parlay::sequence<long> &A, int n, parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset) {
     int i, top;
     int *stack = new int[n];
 
     for (i = offset, top = -1; i < n + offset; i++) {
-        while (top > -1 && a[stack[top]] > a[i]) top--;
-            if (top != -1) L[i] = VI(a[stack[top]], stack[top]);
-            stack[++top] = i;
+        while (top > -1 && A[stack[top]] > A[i]) top--;
+        if (top != -1) L[i] = VI(A[stack[top]], stack[top]);
+        stack[++top] = i;
     }
 
     for (i = n - 1 + offset, top = -1; i >= offset; i--) {
-        while (top > -1 && a[stack[top]] > a[i]) top--;
-            if (top != -1) R[i] = VI(a[stack[top]], stack[top]);
-            stack[++top] = i;
+        while (top > -1 && A[stack[top]] > A[i]) top--;
+        if (top != -1) R[i] = VI(A[stack[top]], stack[top]);
+        stack[++top] = i;
     }
     delete[] stack;
 }

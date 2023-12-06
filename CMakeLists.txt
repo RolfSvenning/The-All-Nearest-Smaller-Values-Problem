@@ -12,7 +12,8 @@ add_executable(ANSV2 main.cpp
         ANSV/seq_stack_n_work.cpp
         ANSV/nlogn_work_shun_and_zhao.cpp
         ANSV/nlogn_work_mine.cpp
-        ParallelMinBinaryTrees/parallelMinBinaryTreeArray.cpp)
+        ParallelMinBinaryTrees/parallelMinBinaryTreeArray.cpp
+        ANSV/berkmanOptimal.cpp)
 target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)
 
