@@ -32,6 +32,61 @@ std::tuple<long, long> findRepresentatives(parlay::sequence<long> &A, long i, lo
     return {i1, i2};
 }
 
+void farAwayBlocks_ANSV_linear(parlay::sequence<long> &A, long a, long b, long c, long d, parlay::sequence<VI> &L, parlay::sequence<VI> &R) {
+    if (a == -1 or d == -1) return;
+//    long a = std::max(static_cast<long>(0), static_cast<long>(a_));
+//    long d = std::min(static_cast<long>(A.size()), static_cast<long>(d_));
+//    printArray(A);
+    std::cout << "a, b, c, d: " << a << " " << b << " " << c << " " << d << std::endl;
+//
+//    std::cout << parlay::to_chars(A.subseq(a, b)) << std::endl;
+//    printArrayVI(R.subseq(a, b));
+
+//    auto Asub = A.subseq(a, b);
+//    for(long i = 0; i < (long)Asub.size(); ++i) {
+//        std::cout << "Ai: " << Asub[i] << " " << (R[a + i].ind == -1) << std::endl;
+//    }
+
+    // ASSERTIONS: both sequences are sorted
+//    auto Aab = parlay::filter(Asub, [&] (long i) { return R[a + i].ind == -1; });
+//    if (Aab.size() > 1) std::cout << "Aab: " << parlay::to_chars(Aab) << std::endl;
+//    std::cout << "Aab: " << parlay::to_chars(Aab) << std::endl;
+
+//    for(long i = 0; i < (long)Aab.size() - 1; ++i) {
+//        std::cout << "i: " << i << Aab.size() - 1 << std::endl;
+//        assert(Aab[i] <= Aab[i + 1]);
+//    }
+//    auto Acd = parlay::filter(A.subseq(c, d), [&] (long i) { return L[c + i].ind == -1; });
+//    if (Acd.size() > 1) std::cout << "Acd: " << parlay::to_chars(Acd) << std::endl;
+//    std::cout << "Acd: " << parlay::to_chars(Acd) << std::endl;
+//    printArrayVI(L);
+//    for(long i = 0; i < (long)Acd.size() - 1; ++i) {
+//        assert(Acd[i] >= Acd[i + 1]);
+//    }
+
+    // FIND MATCHES BY MERGING
+//    std::cout << "merging" << std::endl;
+    long i = b - 1;
+    long j = c;
+    while(i > a or j < d - 1) { // actually i != a, no?
+        std::cout << "i, j: " << i << " " << j << std::endl;
+        if (A[i] == A[j]) {
+            if (L[j].ind == -1) L[j] = VI(A[i], i);
+            if (R[i].ind == -1) R[i] = VI(A[j], j);
+            i--;
+            j++;
+        }
+        else if (A[i] < A[j]) {
+            if (L[j].ind == -1) L[j] = VI(A[i], i);
+            j++;
+        }
+        else {
+            if (R[i].ind == -1) R[i] = VI(A[j], j);
+            i--;
+        }
+    }
+
+}
 
 std::tuple<long, long> findLeftAndRightMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &L, parlay::sequence<VI> &R, int i){
     long iL = findLeftMatch(n, T, d, L, i);
@@ -69,6 +124,7 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequ
         REPs[2 * blockNumber + 1] = r2;
 
         // MARK BORDERS
+        // /TODO: Refactor to just finding the relevant one?
         auto  [b1, unused1] = findLeftAndRightMatch(n, T, d, L, R, AtoT(r1, d, n));
         auto  [unused2, b2] = findLeftAndRightMatch(n, T, d, L, R, AtoT(r2, d, n));
 //        std::cout << "blockNumber: " << blockNumber << " r1: " << r1 << " r2: " << r2 << std::endl;
@@ -76,25 +132,25 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequ
         B[2 * blockNumber + 1] = b2;
 
     });
-    printArray(B);
 
     // ------------ STEP 2: NONLOCAL MATCHES OF BORDERS ------------
     // Note: Multiple representatives may match the same border, so we remove duplicates
     auto Bdistincts = parlay::remove_duplicates_ordered(B);
     // TODO: return sorted sequence or not?
     // TODO: %https://cmuparlay.github.io/parlaylib/algorithms/primitives.html#remove-duplicates
-    printArray(Bdistincts);
-    printArray(B);
+//    std::cout << "B, Bdistincts: " << std::endl;
+//    printArray(B);
+//    printArray(Bdistincts);
 
-    // TODO: start at 1 if ordered
-    parlay::parallel_for(0, Bdistincts.size(), [&] (long i) {
+    // TODO: start at 1 only if ordered
+    parlay::parallel_for(1, Bdistincts.size(), [&] (long i) {
         findLeftAndRightMatch(n, T, d, L, R, AtoT(Bdistincts[i], d, n));
     });
 
     // ------------ STEP 3: NONLOCAL MATCHES BY MERGING ------------
-    // 1) For each group BG:
+    // 1) For each group BC:
     //    a) Find the blocks (BL, BR) matched by the representatives
-    //    b) If BL is adjacent to BG, then find local matches by merging A[iL:r1] (or using a stack)
+    //    b) If BL is adjacent to BC, then find local matches by merging A[b1:r1] (or using a stack)
     //    c) Repeat b) for BR symmetrically
     //
     //    d) Lookup in REPs the index iRL of the left match of the left representative in BR
@@ -105,11 +161,36 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequ
     //    g) Assert BL and BR both "match each other" iff their representatives match have same value
     //
     // Notes:
-    // iL:  left match of r1 of BG
+    // b1:  left match of r1 of BC
     // iLR: right match of r2 of BL
-    // iR:  right match of r2 of BG
+    // b2:  right match of r2 of BG
     // iRL: left match of r1 of BR
     // BL[.r1...r2.iRL.iL...] BG[...r1....r2..] BR[...iR.iLR.r1...r2.]
+
+    parlay::blocked_for(0, n, blockSize, [&] (size_t BCi, long i, long j) {
+        // SETUP
+        auto [r1, r2] = std::tuple{REPs[2 * BCi], REPs[2 * BCi + 1]};
+        auto [b1, b2] = std::tuple{B[2 * BCi], B[2 * BCi + 1]};
+//        std::cout << "BCi: " << BCi << " r1: " << r1 << " r2: " << r2 << " b1: " << b1 <<" b2: " << b2 << std::endl;
+        auto [BLi, BRi] = std::tuple{b1 / blockSize, b2 / blockSize};
+//        std::cout << "BCi: " << BCi << " BLi: " << BLi << " BRi: " << BRi << std::endl;
+        auto [rBL, rBR] = std::tuple{REPs[2 * BLi + 1], REPs[2 * BRi]};
+
+        // ADJACENT MERGING
+        if (BLi + 1 == BCi and b1 != -1) ComputeANSV_Linear(A, r1 - b1 + 1, L, R, b1);
+        if (BRi - 1 == BCi and b2 != -1) ComputeANSV_Linear(A, b2 - r1 + 1, L, R, r1);
+
+        // FAR-AWAY MERGING
+        if (b1 == -1 or b2 == -1) return; // no far-away merging
+
+        auto [bBL, bBR] = std::tuple{B[2 * BLi + 1], B[2 * BRi]};
+
+        // block BL matched by both BC and BR
+        if (BLi == bBR / blockSize) farAwayBlocks_ANSV_linear(A, bBR, b1 + 1, b2, rBR + 1, L, R);
+        // block BR matched by both BC and BL
+        if (BRi == bBL / blockSize) farAwayBlocks_ANSV_linear(A, rBL, b1 + 1, b2, bBL + 1, L, R);
+
+    });
 
     return {L, R};
 }

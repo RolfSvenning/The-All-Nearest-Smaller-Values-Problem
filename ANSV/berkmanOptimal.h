@@ -13,7 +13,9 @@ parlay::sequence<long> hardcodedInputOfLength16();
 
 parlay::sequence<long> getInput(int dataType);
 
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequence<long> &A, const long blockSize);
+void farAwayBlocks_ANSV_linear(parlay::sequence<long> &A, long a, long b, long c, long d, parlay::sequence<VI> &L, parlay::sequence<VI> &R);
+
+std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequence<long> &BCi, const long blockSize);
 
 // ALGORITHM FUNCTIONS
 
