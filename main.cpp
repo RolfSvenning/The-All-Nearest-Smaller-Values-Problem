@@ -17,17 +17,17 @@ int main() {
     printArray(A);
     printArraysVI(std::list<parlay::sequence<VI>>{L, R});
 
-//    for (int i = 0; i < 100; ++i) {
-//        auto [n, blockSize] = returnRandomNandBlocksize();
-////        parlay::sequence<long> A = returnRandomArray(n, 100); // TODO RUN WITH DUPLICATES
-//        parlay::sequence<long> A = returnMergeArray(n);
+//    for (int i = 0; i < 150; ++i) {
+//        auto [n, blockSize] = returnRandomNandBlocksize(40000, 2000);
+//        parlay::sequence<long> A = returnRandomArray(n, 10);
+////        parlay::sequence<long> A = returnMergeArray(n);
 //        testArrayShunZhaoAndMine(A, blockSize);
 //    }
 //    for (int i = 0; i < 2000; ++i) {
 //        long n = 6;
 //        long blockSize = 4;
-////        parlay::sequence<long> A = returnRandomArray(n, 100); // TODO RUN WITH DUPLICATES
-//        parlay::sequence<long> A = returnMergeArray(n);
+//        parlay::sequence<long> A = returnRandomArray(n, 10);
+////        parlay::sequence<long> A = returnMergeArray(n);
 //        testArrayShunZhaoAndMine(A, blockSize);
 //    }
 

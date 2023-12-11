@@ -79,6 +79,10 @@ void testArrayShunZhaoAndMine(parlay::sequence<long> A, const long blockSize) {
     t.next("");
     t.stop();
 
+//    printArraysVI({L1, L2});
+//    printArraysVI({R1, R2});
+//    printArray(A);
+    //    printArraysVI({R2, R3});
     assert(L1 == L2 and R1 == R2);
 
     std::cout << std::endl << " --- ANSV parallel nlogn work mine --- " << std::endl;
@@ -87,9 +91,6 @@ void testArrayShunZhaoAndMine(parlay::sequence<long> A, const long blockSize) {
     t.next("");
     t.stop();
 
-//    printArraysVI({L2, L3});
-//    printArray(A);
-//    printArraysVI({R2, R3});
     assert(L2 == L3 and R2 == R3);
 
 }

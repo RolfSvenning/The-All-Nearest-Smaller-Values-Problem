@@ -160,7 +160,7 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::seq
     int tmp = i;
     for (int k = i; k < j; k++) {
       if (L[k].ind == -1) {
-        if (tmp != -1 && A[tmp] >= A[k]) {
+        if ((tmp != -1 && A[tmp] > A[k]) or k == i) {
           tmp = getLeft_opt(table, depth, n, k, tmp);
         }
           L[k].ind = tmp;
@@ -173,7 +173,7 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::seq
     // will be large positive number since size_t is unsigned
     for (int k = j - 1; k >= (long)i; k--) {
         if (R[k].ind == -1) {
-            if (tmp != -1 && A[tmp] >= A[k]) { //TODO: maybe remove >=, should be >
+            if ((tmp != -1 && A[tmp] > A[k]) or k == j - 1) {
                 tmp = getRight_opt(table, depth, n, k, tmp);
             }
               R[k].ind = tmp;

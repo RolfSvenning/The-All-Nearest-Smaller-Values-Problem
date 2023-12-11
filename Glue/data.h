@@ -11,7 +11,7 @@ parlay::sequence<long> returnDistinctRandomArray(long n);
 
 parlay::sequence<long> returnRandomArray(long n, long maxInt);
 
-std::tuple<long, long> returnRandomNandBlocksize();
+std::tuple<long, long> returnRandomNandBlocksize(long nMax=12345, long blockSizeMax=40000);
 
 #endif // ANSV2_DATA_H
 
