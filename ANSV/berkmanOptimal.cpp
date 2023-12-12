@@ -25,7 +25,8 @@ std::tuple<long, long> findRepresentatives(parlay::sequence<long> &A, long i, lo
     }
 //    std::cout << "i1: " << i1 << " i2: " << i2 << std::endl;
 //    std::cout << "A[i1]: " << A[i1] << " A[i2]: " << A[i2] << std::endl;
-//    std::cout << to_chars(A.subseq(i, j)) << std::endl;
+//    std::cout << to_chars(A.subseq(i, j)) << std::endl
+//    TODO: remove later
     assert(i1 <= i2);
     assert(A[i1] == A[i2]);
     assert(A[i1] == parlay::min_element(A.subseq(i, j))[0]);
@@ -37,7 +38,7 @@ void farAwayBlocks_ANSV_linear(parlay::sequence<long> &A, long a, long b, long c
 //    long a = std::max(static_cast<long>(0), static_cast<long>(a_));
 //    long d = std::min(static_cast<long>(A.size()), static_cast<long>(d_));
 //    printArray(A);
-    std::cout << "a, b, c, d: " << a << " " << b << " " << c << " " << d << std::endl;
+//    std::cout << "a, b, c, d: " << a << " " << b << " " << c << " " << d << std::endl;
 //
 //    std::cout << parlay::to_chars(A.subseq(a, b)) << std::endl;
 //    printArrayVI(R.subseq(a, b));
@@ -69,7 +70,7 @@ void farAwayBlocks_ANSV_linear(parlay::sequence<long> &A, long a, long b, long c
     long i = b - 1;
     long j = c;
     while(i > a or j < d - 1) { // actually i != a, no?
-        std::cout << "i, j: " << i << " " << j << std::endl;
+//        std::cout << "i, j: " << i << " " << j << std::endl;
         if (A[i] == A[j]) {
             if (L[j].ind == -1) L[j] = VI(A[i], i);
             if (R[i].ind == -1) R[i] = VI(A[j], j);

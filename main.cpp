@@ -17,18 +17,18 @@ int main() {
 //    printArray(A);
 //    printArraysVI(std::list<parlay::sequence<VI>>{L, R});
 
-//    for (int i = 0; i < 150; ++i) {
-//        auto [n, blockSize] = returnRandomNandBlocksize(40000, 2000);
-//        parlay::sequence<long> A = returnRandomArray(n, 10);
-////        parlay::sequence<long> A = returnMergeArray(n);
-//        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-//    }
-    for (int i = 0; i < 20000; ++i) {
-//        auto [n, blockSize] = returnRandomNandBlocksize(24, 8);
-        long n = 16;
-        long blockSize = 4;
+    for (int i = 0; i < 1000; ++i) {
+        auto [n, blockSize] = returnRandomNandBlocksize(80000, 100);
+        parlay::sequence<long> A = returnDistinctRandomArray(n);
+//        parlay::sequence<long> A = returnMergeArray(n);
+        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+    }
+    for (int i = 0; i < 100000; ++i) {
+        auto [n, blockSize] = returnRandomNandBlocksize(100, 100);
+//        long n = 39;
+//        long blockSize = 400;
         // TODO: duplicate values actually hard to fix
-        parlay::sequence<long> A = returnMergeArray(n);
+        parlay::sequence<long> A = returnDistinctRandomArray(n);
         // TRY BELOW INPUT
 //        parlay::sequence<long> A = {1, 7, 8, 7, 1, 6, 6, 3, 10, 3, 8, 5, 6, 3, 6, 3, 6, 8, 3, 2, 4, 5, 3, 0};
         testArrayShunZhaoAndMineAndBerkman(A, blockSize);

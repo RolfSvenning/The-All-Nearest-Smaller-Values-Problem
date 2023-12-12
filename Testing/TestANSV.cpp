@@ -97,7 +97,7 @@ void testArrayShunZhaoAndMine(parlay::sequence<long> A, const long blockSize) {
 }
 
 void testArrayShunZhaoAndMineAndBerkman(parlay::sequence<long> A, const long blockSize) {
-    std::cout << std::endl << "n and blockSize = " << A.size() << ", " << blockSize << std::endl;
+    std::cout << std::endl << "NEW EXPERIMENT with n, blockSize: " << A.size() << ", " << blockSize << std::endl;
     parlay::internal::timer t("Time");
 
     std::cout  << " --- sequential array based: ANSV --- " << std::endl;
@@ -129,10 +129,10 @@ void testArrayShunZhaoAndMineAndBerkman(parlay::sequence<long> A, const long blo
     t.next("");
     t.stop();
 
-    printArray(A);
-    printArraysVI({L3, L4});
+//    printArray(A);
+//    printArraysVI({L3, L4});
     assert(L3 == L4);
-    printArraysVI({R3, R4});
+//    printArraysVI({R3, R4});
     assert(R3 == R4);
 }
 
