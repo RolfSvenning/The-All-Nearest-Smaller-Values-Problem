@@ -10,12 +10,13 @@ class TestANSV {
 
 };
 
-void testAll(parlay::sequence<long> A, const long blockSize, bool verbose=false);
+void testSequential(parlay::sequence<long> A, const long blockSize, bool verbose=false);
 
 void testArrayShunZhaoAndMine(parlay::sequence<long> A, const long blockSize);
 
 void testArrayShunZhaoAndMineAndBerkman(parlay::sequence<long> A, const long blockSize);
 
-//std::tuple<std::array<VI, n>, std::array<VI, n>> testShunZhao(std::array<long, n> A);
+int testAllCorrectness();
+
 
 #endif //IMPLEMENTATIONS_TESTANSV_H

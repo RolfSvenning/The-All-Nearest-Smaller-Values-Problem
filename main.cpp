@@ -8,6 +8,7 @@
 #include "parlay/primitives.h"
 #include "ANSV/nlogn_work_mine.h"
 #include "ANSV/berkmanOptimal.h"
+#include "Experiments/experiments.h"
 
 int main() {
 //      long n = 4; // 1234567
@@ -19,30 +20,8 @@ int main() {
 //    printArray(A);
 //    printArraysVI(std::list<parlay::sequence<VI>>{L, R});
 
-    for (int i = 0; i < 10; ++i) {
-        auto [n, blockSize] = returnRandomNandBlocksize(80000, 800);
-        parlay::sequence<long> A = returnDistinctRandomArray(n);
-//        parlay::sequence<long> A = returnMergeArray(n);
-        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-    }
-    for (int i = 0; i < 1000; ++i) {
-        auto [n, blockSize] = returnRandomNandBlocksize(100, 100);
-//        long n = 39;
-//        long blockSize = 400;
-        // TODO: duplicate values actually hard to fix
-        parlay::sequence<long> A = returnDistinctRandomArray(n);
-        // TRY BELOW INPUT
-//        parlay::sequence<long> A = {1, 7, 8, 7, 1, 6, 6, 3, 10, 3, 8, 5, 6, 3, 6, 3, 6, 8, 3, 2, 4, 5, 3, 0};
-        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-    }
-
-    for (int i = 0; i < 3; ++i) {
-        long n = 22345678; // 1234567
-        const long blockSize = 23 * 32; //TODO: only works for even block_size
-        parlay::sequence<long> A = returnSortedArray(n);
-        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-    }
-
+  speedup(1, 1);
+//  return testAllCorrectness();
     return 1;
 }
 
