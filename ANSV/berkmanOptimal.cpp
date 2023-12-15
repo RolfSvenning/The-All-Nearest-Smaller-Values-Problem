@@ -45,7 +45,7 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequ
     //    a) Find local matches in each group of size 'blockSize'
     //    b) Find representative ri, that is, the (index of) smallest value in each group
     //    c) Find VIs for ri. That is, left VI(ri) = (_,b1) and right VI(ri) = (_,b2).
-    //    d) Mark b1 and b2 in array Borders to be matched later.
+    //    d) Mark borders b1 and b2 in B to be matched later.
     //
     // Notes: representatives are stored in an array REPs of size ceil(n / blockSize) [r1, r2, ...]
     // Notes: borders are stored in an array B of size 2 * ceil(n / blockSize) [(i11, i12), (i21, i22), ...]
@@ -68,10 +68,8 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequ
 
         // MARK BORDERS
         auto  [b1, b2] = findLeftAndRightMatch(n, T, d, L, R, AtoT(ri, d, n));
-
         B[2 * blockNumber] =  b1;
         B[2 * blockNumber + 1] = b2;
-
     });
 
     // ------------ STEP 2: NONLOCAL MATCHES OF BORDERS ------------
@@ -84,7 +82,6 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequ
     //    a) Find the blocks (BL, BR) matched by the representatives
     //    b) If BL is adjacent to BC, then find local matches by merging A[b1:r1] (or using a stack)
     //    c) Repeat b) for BR symmetrically
-    //
     //    d) Lookup in REPs the index bBR of the left match of rBR
     //       two cases:
     //         i  ) bBR is not in BL. Then do nothing
@@ -93,9 +90,9 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequ
     //
     // Notes:
     // b1:  left match of ri of BC
-    // bBL: right match of r2 of BL
+    // bBL: right match of rBL
     // b2:  right match of ri of BG
-    // bBR: left match of r1 of BR
+    // bBR: left match of rBR
     // BL[.rBL....bBR.b1...] BC[...ri..] BR[...bBR.b2.rBR.]
 
     parlay::blocked_for(0, n, blockSize, [&] (size_t BCi, long i, long j) {
