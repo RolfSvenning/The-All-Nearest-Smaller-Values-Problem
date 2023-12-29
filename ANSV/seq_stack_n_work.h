@@ -1,8 +1,8 @@
 #ifndef IMPLEMENTATIONS_SEQ_STACK_H
 #define IMPLEMENTATIONS_SEQ_STACK_H
 
-#include "../Glue/VI.h"
 #include "iostream"
+#include "../Glue/VI.h"
 #include <tuple>
 #include "parlay/sequence.h"
 

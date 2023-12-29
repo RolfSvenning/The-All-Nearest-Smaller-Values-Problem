@@ -20,9 +20,9 @@ int main() {
 //    printArray(A);
 //    printArraysVI(std::list<parlay::sequence<VI>>{L, R});
 
-  speedup(1, 1);
-//  return testAllCorrectness();
-    return 1;
+//  speedup(1, 1);
+  return testAllCorrectness();
+//    return 1;
 }
 
 // [5, 2, 0, 4, 3, 9]

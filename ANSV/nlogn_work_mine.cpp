@@ -1,8 +1,9 @@
+
+#include <iostream>
 #include "../ParallelMinBinaryTrees/parallelMinBinaryTreeArray.h"
 #include "seq_array_n_work.h"
 #include "../Glue/_aux.h"
 #include "nlogn_work_shun_and_zhao.h"
-#include <iostream>
 
 
 long findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &L, int i, long start=-1) {

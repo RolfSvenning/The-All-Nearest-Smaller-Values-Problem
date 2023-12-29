@@ -6,7 +6,7 @@
 #include "../Glue/_aux.h"
 
 
-long findRepresentatives(parlay::sequence<long> &A, long i, long j) {
+long findRepresentative(parlay::sequence<long> &A, long i, long j) {
     long i1 = i;
     for (long k = i + 1; k < j; ++k) {
         if (A[k] < A[i1]) i1 = k;
@@ -63,7 +63,7 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequ
         ComputeANSV_Linear(A, j - i, L, R, i);
 
         // REPRESENTATIVES
-        auto ri = findRepresentatives(A, i, j);
+        auto ri = findRepresentative(A, i, j);
         REPs[blockNumber] = ri;
 
         // MARK BORDERS

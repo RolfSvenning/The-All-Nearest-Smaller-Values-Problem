@@ -22,12 +22,12 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#include <iostream>
 #include "nlogn_work_shun_and_zhao.h"
 #include "parlay/parallel.h"
 #include "../Glue/_aux.h"
 #include "parlay/primitives.h"
 
-#include <iostream>
 
 using namespace std;
 
@@ -39,7 +39,7 @@ using namespace std;
 
 inline int getLeft_opt(parlay::sequence<long>* table, int depth, int n, int index, int start) {
   int value = table[0][index];
-//  if (value == table[depth - 1][0]) return -1; ////TODO: commented out, assumes all values unique
+  if (value == table[depth - 1][0]) return -1; ////TODO: assumes all values unique
 
   int cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
@@ -169,7 +169,7 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::seq
     }
 
     tmp = j - 1;
-    //casting size_t to long to avoid default conversion of negative int to size_t which
+    // casting size_t to long to avoid default conversion of negative int to size_t which
     // will be large positive number since size_t is unsigned
     for (int k = j - 1; k >= (long)i; k--) {
         if (R[k].ind == -1) {
