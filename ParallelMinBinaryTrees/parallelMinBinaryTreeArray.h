@@ -14,7 +14,7 @@ long TtoA(long i, long d, long n);
 
 long AtoT(long i, long d, long n);
 
-std::tuple<parlay::sequence<long>,long> createBinaryTreeForInput(parlay::sequence<long>& A);
+std::tuple<parlay::sequence<long>,long> createBinaryTreeForInput(parlay::sequence<long> &A);
 
 long parent(long i);
 

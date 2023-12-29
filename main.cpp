@@ -26,3 +26,5 @@ int main() {
 }
 
 // [5, 2, 0, 4, 3, 9]
+
+// PARLAY_NUM_THREADS=1

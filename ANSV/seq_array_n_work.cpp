@@ -2,22 +2,28 @@
 #include "seq_array_n_work.h"
 #include "../Glue/_aux.h"
 #include "array"
+#include "parlay/primitives.h"
+
+using namespace std;
+using namespace parlay;
 
 
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_seq_array(parlay::sequence<long> A) {
+tuple<sequence<long>, sequence<long>, float> ANSV_seq_array(sequence<long> A) {
     long n = A.size();
-    parlay::sequence<VI> L(n);
-    parlay::sequence<VI> R(n);
+    sequence<long> L(n, -1);
+    sequence<long> R(n, -1);
+    internal::timer t("Time");
+    t.start();
 
     // LEFT SMALLER VALUES
     for (int i = 0; i < A.size(); ++i) {
         int j = i - 1;
         while (0 <= j) {
             if (A[j] <= A[i]) {
-                L[i] = VI(A[j], j);
+                L[i] = j;
                 break;
-            } else if (L[j].ind != -1) {
-                j = L[j].ind;
+            } else if (L[j] != -1) {
+                j = L[j];
             } else break;
         }
     }
@@ -27,15 +33,15 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_seq_array(parlay::se
         int j = i + 1;
         while (j < A.size()) {
             if (A[j] <= A[i]) {
-                R[i] = VI(A[j], j);
+                R[i] = j;
                 break;
-            } else if (R[j].ind != -1) {
-                j = R[j].ind;
+            } else if (R[j] != -1) {
+                j = R[j];
             } else {
                 break;
             }
         }
     }
 
-    return {L, R};
+    return {L, R, t.total_time()};
 }

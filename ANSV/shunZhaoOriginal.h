@@ -10,6 +10,6 @@
 #include "../Glue/VI.h"
 
 
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>, float> ANSV_shunZhao_orginal(parlay::sequence<long> &A_, long blockSize);
+std::tuple<parlay::sequence<long>, parlay::sequence<long>, float> ANSV_shunZhao_original(parlay::sequence<long> &A_, long blockSize);
 
 #endif //ANSV2_SHUNZHAOORIGINAL_H

@@ -8,15 +8,8 @@
 #include "parlay/sequence.h"
 #include "../Glue/VI.h"
 
-// INPUT FUNCTIONS
-parlay::sequence<long> hardcodedInputOfLength16();
 
-parlay::sequence<long> getInput(int dataType);
+std::tuple<parlay::sequence<long>, parlay::sequence<long>, float> ANSV_Berkman(parlay::sequence<long> &A, long blockSize);
 
-void farAwayBlocks_ANSV_linear(parlay::sequence<long> &A, long a, long b, long c, long d, parlay::sequence<VI> &L, parlay::sequence<VI> &R);
-
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_Berkman(parlay::sequence<long> &BCi, const long blockSize);
-
-// ALGORITHM FUNCTIONS
 
 #endif // ANSV2_BERKMANOPTIMAL_H

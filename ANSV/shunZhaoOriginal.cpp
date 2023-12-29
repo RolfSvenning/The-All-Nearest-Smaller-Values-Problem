@@ -93,12 +93,14 @@ inline long cflog2(long i) {
     return res;
 }
 
-void ComputeANSV(long *a, long n, long *left, long *right, long blockSize) {
+float ComputeANSV(long *A, long n, long *left, long *right, long blockSize) {
+    internal::timer t("Time");
+    t.start();
     long l2 = cflog2(n);
     long depth = l2 + 1;
     long **table = new long*[depth];
 
-    table[0] = a;
+    table[0] = A;
     long m = n;
     for (long i = 1; i < depth; i++) {
         m = (m + 1) / 2;
@@ -119,14 +121,15 @@ void ComputeANSV(long *a, long n, long *left, long *right, long blockSize) {
 
         m = (m + 1) / 2;
     }
+    t.next("binary tree");
 
     parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
-        ComputeANSV_Linear(a + i, j - i, left + i, right + i, i);
+        ComputeANSV_Linear(A + i, j - i, left + i, right + i, i);
 
         long tmp = i;
         for (long k = i; k < j; k++) {
             if (left[k] == -1) {
-                if (tmp != -1 && a[tmp] >= a[k]) {
+                if (tmp != -1 && A[tmp] >= A[k]) {
                     tmp = getLeft_opt(table, depth, n, k, tmp);
                 }
                 left[k] = tmp;
@@ -136,7 +139,7 @@ void ComputeANSV(long *a, long n, long *left, long *right, long blockSize) {
         tmp = j - 1;
         for (long k = j - 1; k >= (long)i; k--) {
             if (right[k] == -1) {
-                if (tmp != -1 && a[tmp] >= a[k]) {
+                if (tmp != -1 && A[tmp] >= A[k]) {
                     tmp = getRight_opt(table, depth, n, k, tmp);
                 }
                 right[k] = tmp;
@@ -146,36 +149,32 @@ void ComputeANSV(long *a, long n, long *left, long *right, long blockSize) {
 
     for (long i = 1; i < depth; i++) delete table[i];
     delete[] table;
+
+    return t.total_time();
 }
 
 
 // Added by Rolf Svenning. Simply converts input format and calls the original function.
-tuple<sequence<VI>, sequence<VI>, float> ANSV_shunZhao_orginal(sequence<long> &A_, long blockSize){
-    internal::timer tVIs("TIME VIs:");
-    tVIs.start();
+tuple<sequence<long>, sequence<long>, float> ANSV_shunZhao_original(sequence<long> &A_, long blockSize){
     const long n = A_.size();
     long *L = new long[n];
     long *R = new long[n];
     long *A = new long[n];
-    for(int i=0; i < n; i++){
+    parallel_for(0, n, [&] (size_t i){
         A[i] = A_[i];
-    }
-    tVIs.stop();
-    internal::timer t("Time");
-    t.start();
-    ComputeANSV(A, n, L, R, blockSize);
-    float time = t.total_time();
-    tVIs.start();
-    parlay::sequence<VI> L_(n);
-    parlay::sequence<VI> R_(n);
-    for(long i=0; i < n; i++){
-        L_[i] = VI((L[i] != -1) ? A[L[i]] : -1, L[i]);
-        R_[i] = VI((R[i] != -1) ? A[R[i]] : -1, R[i]);
-    }
+    });
+
+    float time = ComputeANSV(A, n, L, R, blockSize);
+
+    parlay::sequence<long> L_(n);
+    parlay::sequence<long> R_(n);
+    parallel_for(0, n, [&] (size_t i){
+        L_[i] = L[i];
+        R_[i] = R[i];
+    });
     delete [] L;
     delete [] R;
     delete [] A;
-    cout << "Time VIs: " << tVIs.total_time() << endl;
     return {L_, R_, time};
 }
 

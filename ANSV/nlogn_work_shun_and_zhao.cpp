@@ -30,6 +30,7 @@
 
 
 using namespace std;
+using namespace parlay;
 
 #define LEFT(i) ((i) << 1)
 #define RIGHT(i) (((i) << 1) | 1)
@@ -37,7 +38,7 @@ using namespace std;
 
 
 
-inline int getLeft_opt(parlay::sequence<long>* table, int depth, int n, int index, int start) {
+inline int getLeft_opt(sequence<long>* table, int depth, int n, int index, int start) {
   long value = table[0][index];
   if (value == table[depth - 1][0]) return -1;
 
@@ -66,7 +67,7 @@ inline int getLeft_opt(parlay::sequence<long>* table, int depth, int n, int inde
 // depth: current level in tree (with bottom level being 1).
 // dist: width of current subtree.
 // cur*dist: first index covered by current subtree (since 0-indexed)
-inline int getRight_opt(parlay::sequence<long>* table, int depth, int n, int index, int start) {
+inline int getRight_opt(sequence<long>* table, int depth, int n, int index, int start) {
   long value = table[0][index];
   if (value == table[depth - 1][0]) return -1;
 
@@ -92,19 +93,19 @@ inline int getRight_opt(parlay::sequence<long>* table, int depth, int n, int ind
 }
 
 
-void ComputeANSV_Linear(parlay::sequence<long> &A, long n, parlay::sequence<VI> &L, parlay::sequence<VI> &R, long offset) {
+void ComputeANSV_Linear(sequence<long> &A, long n, sequence<long> &L, sequence<long> &R, long offset) {
     long i, top;
     long *stack = new long[n];
 
     for (i = offset, top = -1; i < n + offset; i++) {
         while (top > -1 && A[stack[top]] > A[i]) top--;
-        if (top != -1) L[i] = VI(A[stack[top]], stack[top]);
+        if (top != -1) L[i] = stack[top];
         stack[++top] = i;
     }
 
     for (i = n - 1 + offset, top = -1; i >= offset; i--) {
         while (top > -1 && A[stack[top]] > A[i]) top--;
-        if (top != -1) R[i] = VI(A[stack[top]], stack[top]);
+        if (top != -1) R[i] = stack[top];
         stack[++top] = i;
     }
     delete[] stack;
@@ -123,22 +124,22 @@ inline long cflog2(int i) {
   return res;
 }
 
-std::tuple<parlay::sequence<long>*, long> createBinaryTree(parlay::sequence<long> a, long n) {
+tuple<sequence<long>*, long> createBinaryTree(sequence<long> &A, long n) {
     long l2 = cflog2(n);
     long depth = l2 + 1;
-    auto* table = new parlay::sequence<long>[depth];
-    table[0] = a;
+    sequence<long>* table = new sequence<long>[depth];
+    table[0] = A;
     long m = n;
     for (long i = 1; i < depth; i++) {
         m = (m + 1) / 2;
-        table[i] = parlay::sequence<long>(m);
+        table[i] = sequence<long>(m);
     }
 
     m = n;
     for (long d = 1; d < depth; d++) {
         long m2 = m / 2;
 
-        parlay::parallel_for (0, m2, [&] (size_t i) {
+        parallel_for (0, m2, [&] (size_t i) {
             table[d][i] = min(table[d - 1][LEFT(i)], table[d - 1][RIGHT(i)]);
         });
 
@@ -149,40 +150,43 @@ std::tuple<parlay::sequence<long>*, long> createBinaryTree(parlay::sequence<long
   return {table, depth};
 }
 
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::sequence<long> A, const long blockSize){
+tuple<sequence<long>, sequence<long>, float> ANSV_ShunZhao(sequence<long> &A, long blockSize){
     long n = A.size();
-    parlay::sequence<VI> L(n);
-    parlay::sequence<VI> R(n);
+    sequence<long> L(n, -1);
+    sequence<long> R(n, -1);
 
+    //timer parlay
+    internal::timer t("Time");
+    t.start();
     auto [table, depth] = createBinaryTree(A, n);
+    t.next("creating binary tree");
 
-    parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
-    ComputeANSV_Linear(A, j - i, L, R, i);
-    long tmp = i;
-    for (long k = i; k < j; k++) {
-      if (L[k].ind == -1) {
-        if ((tmp != -1 && A[tmp] > A[k]) or k == i) {
-          tmp = getLeft_opt(table, depth, n, k, tmp);
+    blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
+        ComputeANSV_Linear(A, j - i, L, R, i);
+        long tmp = i;
+        for (long k = i; k < j; k++) {
+          if (L[k] == -1) {
+            if ((tmp != -1 && A[tmp] > A[k]) or k == i) {
+              tmp = getLeft_opt(table, depth, n, k, tmp);
+            }
+              L[k] = tmp;
+          }
         }
-          L[k].ind = tmp;
-          if (tmp != -1) L[k].v = A[tmp];
-      }
-    }
 
-    tmp = j - 1;
-    // casting size_t to long to avoid default conversion of negative int to size_t which
-    // will be large positive number since size_t is unsigned
-    for (long k = j - 1; k >= (long)i; k--) {
-        if (R[k].ind == -1) {
-            if ((tmp != -1 && A[tmp] > A[k]) or k == j - 1) {
-                tmp = getRight_opt(table, depth, n, k, tmp);
-            }
-              R[k].ind = tmp;
-              if (tmp != -1) R[k].v = A[tmp];
-            }
-    }
+        tmp = j - 1;
+        // casting size_t to long to avoid default conversion of negative int to size_t which
+        // will be large positive number since size_t is unsigned
+        for (long k = j - 1; k >= (long)i; k--) {
+            if (R[k] == -1) {
+                if ((tmp != -1 && A[tmp] > A[k]) or k == j - 1) {
+                    tmp = getRight_opt(table, depth, n, k, tmp);
+                }
+                  R[k] = tmp;
+                }
+        }
     });
+
     delete[] table;
 
-    return {L,R};
+    return {L, R, t.total_time()};
 }

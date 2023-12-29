@@ -4,9 +4,12 @@
 #include "seq_array_n_work.h"
 #include "../Glue/_aux.h"
 #include "nlogn_work_shun_and_zhao.h"
+#include "parlay/primitives.h"
 
+using namespace std;
+using namespace parlay;
 
-long findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &L, int i, long start=-1) {
+long findLeftMatch(long n, const sequence<long> &T, long d, sequence<long> &L, int i, long start=-1) {
     if (start == -1) start = i;
     long iLast = start;
     long iCurr = parent(iLast);
@@ -22,20 +25,17 @@ long findLeftMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequ
         while (iCurr < n - 1) { //still among nodes with children
             long iRC = child(iCurr, 2);
             // right child exists and is in direction of smaller value
-            if (iRC < 2 * n - 1 and T[iRC] <= T[i]) {
-                iCurr = iRC;
-            } else {
-                // otherwise guaranteed to be in other direction
-                iCurr = child(iCurr, 1);
-            }
+            if (iRC < 2 * n - 1 and T[iRC] <= T[i]) iCurr = iRC;
+            // otherwise guaranteed to be in other direction
+            else iCurr = child(iCurr, 1);
         }
-        L[TtoA(i, d, n)] = VI(T[iCurr], TtoA(iCurr, d, n));
+        L[TtoA(i, d, n)] =  TtoA(iCurr, d, n);
         return iCurr;
     }
     return -1;
 }
 
-long findRightMatch(long n, const parlay::sequence<long> &T, long d, parlay::sequence<VI> &R, int i, long start=-1) {
+long findRightMatch(long n, const sequence<long> &T, long d, sequence<long> &R, int i, long start=-1) {
     if (start == -1) start = i;
     long iLast = start;
     long iCurr = parent(start);
@@ -52,7 +52,7 @@ long findRightMatch(long n, const parlay::sequence<long> &T, long d, parlay::seq
             if (iLC < 2 * n - 1 and T[iLC] <= T[i]) iCurr = iLC;
             else iCurr = child(iCurr, 2);
         }
-        R[TtoA(i, d, n)] = VI(T[iCurr], TtoA(iCurr, d, n));
+        R[TtoA(i, d, n)] = TtoA(iCurr, d, n);
         return iCurr;
     }
     return -1;
@@ -60,18 +60,18 @@ long findRightMatch(long n, const parlay::sequence<long> &T, long d, parlay::seq
 
 
 
-void matchNonlocal(long i, long j, long n, long d, parlay::sequence<long> &A, parlay::sequence<VI> &L, parlay::sequence<VI> &R,
-                        parlay::sequence<long> &T) {
+void matchNonlocal(long i, long j, long n, long d, sequence<long> &A, sequence<long> &L, sequence<long> &R,
+                        sequence<long> &T) {
     // FIND LEFT MATCHES
     long TLi = AtoT(i, d, n);
     long ALi = i;
     for (int k = i; k < j; k++){
-        if (L[k].ind == -1) {
+        if (L[k] == -1) {
             // find new match using tree or same match as previous
             if ((TLi != -1 and A[ALi] > A[k]) or k == i){
                 TLi = findLeftMatch(n, T, d, L, AtoT(k, d, n), TLi);
                 ALi = TtoA(TLi, d, n);
-            } else if (TLi != -1 ) L[k] = VI(A[ALi], ALi);
+            } else if (TLi != -1 ) L[k] = ALi;
         }
     }
 
@@ -79,26 +79,30 @@ void matchNonlocal(long i, long j, long n, long d, parlay::sequence<long> &A, pa
     long TRi = AtoT(j - 1, d, n);
     long ARi = j - 1;
     for (int k = j - 1; k >= i; k--) {
-        if (R[k].ind == -1) {
+        if (R[k] == -1) {
             // find new match using tree or same match as previous
             if ((TRi != -1 and A[ARi] > A[k]) or k == j - 1){
                 TRi = findRightMatch(n, T, d, R, AtoT(k, d, n), TRi);
                 ARi = TtoA(TRi, d, n);
-            } else if (TRi != -1) R[k] = VI(A[ARi], ARi);
+            } else if (TRi != -1) R[k] = ARi;
         }
     }
 }
 
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_nlogn_mine(parlay::sequence<long> &A, const long blockSize){
+std::tuple<sequence<long>, sequence<long>, float> ANSV_nlogn_mine(sequence<long> &A, const long blockSize){
+    internal::timer t("Binary tree");
+    t.start();
     auto [T,d] = createBinaryTreeForInput(A);
+    t.next("Binary tree");
     long n = A.size();
-    parlay::sequence<VI> L(n);
-    parlay::sequence<VI> R(n);
+    sequence<long> L(n, -1);
+    sequence<long> R(n, -1);
+    t.start();
 
-    parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, long i, long j) {
+    blocked_for(0, n, blockSize, [&] (size_t blockNumber, long i, long j) {
         ComputeANSV_Linear(A, j - i, L, R, i);
         matchNonlocal(i, j, n, d, A, L, R, T);
     });
 
-    return {L, R};
+    return {L, R, t.total_time()};
 }
