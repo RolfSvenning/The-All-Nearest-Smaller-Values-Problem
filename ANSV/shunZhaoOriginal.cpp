@@ -1,54 +1,19 @@
-// This code is part of the 15418 course project: Implementation and Comparison
-// of Parallel LZ77 and LZ78 Algorithms and DCC 2013 paper: Practical Parallel
-// Lempel-Ziv Factorization
-// Copyright (c) 2012 Fuyao Zhao, Julian Shun
 //
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights (to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
+// Created by Rolf on 12/29/2023.
 //
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// CHANGES BY ROLF SVENNING:
-// 1) Parallel loops using parlaylib.
-// 2) Types converted from intT to long
 
 #include <iostream>
 #include "shunZhaoOriginal.h"
+#include "parlay/primitives.h"
+
 
 using namespace std;
+using namespace parlay;
 
 #define LEFT(i) ((i) << 1)
 #define RIGHT(i) (((i) << 1) | 1)
 #define PARENT(i) ((i) >> 1)
 
-//const int BLOCK_SIZE = 8192;
-
-inline long cflog2(long i) {
-    long res = 0;
-
-    i--;
-    if (i >> 16) {
-        res += 16;
-        i >>= 16;
-    } else i &= 0xffff;
-
-    for (; i; i >>= 1) res++;
-    return res;
-}
 
 inline long getLeft_opt(long **table, long depth, long n, long index, long start) {
     long value = table[0][index];
@@ -56,7 +21,7 @@ inline long getLeft_opt(long **table, long depth, long n, long index, long start
 
     long cur = PARENT(start), d, dist = 2;
     for (d = 1; d < depth; d++) {
-        if ((cur + 1) * dist > index + 1) cur --;
+        if ((cur + 1) * dist > start + 1) cur --;  //TODO: changed from index to start
         if (cur < 0) return -1;
 
         if (table[d][cur] >= value) cur = PARENT(cur);
@@ -78,7 +43,7 @@ inline long getRight_opt(long **table, long depth, long n, long index, long star
 
     long cur = PARENT(start), d, dist = 2;
     for (d = 1; d < depth; d++) {
-        if (cur * dist < index) cur ++;
+        if (cur * dist < start) cur ++; //TODO: changed from index to start
         if (cur * dist >= n) return -1;
 
         if (table[d][cur] >= value) cur = PARENT(cur);
@@ -95,7 +60,7 @@ inline long getRight_opt(long **table, long depth, long n, long index, long star
 }
 
 
-void ComputeANSV_Linear_Original(long a[], long n, long leftElements[], long rightElements[], long offset) {
+void ComputeANSV_Linear(long a[], long n, long leftElements[], long rightElements[], long offset) {
     long i, top;
     long *stack = new long[n];
 
@@ -115,7 +80,20 @@ void ComputeANSV_Linear_Original(long a[], long n, long leftElements[], long rig
     delete[] stack;
 }
 
-void ComputeANSV_Original(long *a, long n, long *left, long *right, long blockSize) {
+inline long cflog2(long i) {
+    long res = 0;
+
+    i--;
+    if (i >> 16) {
+        res += 16;
+        i >>= 16;
+    } else i &= 0xffff;
+
+    for (; i; i >>= 1) res++;
+    return res;
+}
+
+void ComputeANSV(long *a, long n, long *left, long *right, long blockSize) {
     long l2 = cflog2(n);
     long depth = l2 + 1;
     long **table = new long*[depth];
@@ -143,10 +121,10 @@ void ComputeANSV_Original(long *a, long n, long *left, long *right, long blockSi
     }
 
     parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
-        ComputeANSV_Linear_Original(a + i, j - i, left + i, right + i, i);
+        ComputeANSV_Linear(a + i, j - i, left + i, right + i, i);
 
-        int tmp = i;
-        for (int k = i; k < j; k++) {
+        long tmp = i;
+        for (long k = i; k < j; k++) {
             if (left[k] == -1) {
                 if (tmp != -1 && a[tmp] >= a[k]) {
                     tmp = getLeft_opt(table, depth, n, k, tmp);
@@ -156,7 +134,7 @@ void ComputeANSV_Original(long *a, long n, long *left, long *right, long blockSi
         }
 
         tmp = j - 1;
-        for (int k = j - 1; k >= (long)i; k--) {
+        for (long k = j - 1; k >= (long)i; k--) {
             if (right[k] == -1) {
                 if (tmp != -1 && a[tmp] >= a[k]) {
                     tmp = getRight_opt(table, depth, n, k, tmp);
@@ -166,30 +144,39 @@ void ComputeANSV_Original(long *a, long n, long *left, long *right, long blockSi
         }
     });
 
-    for (int i = 1; i < depth; i++) delete table[i];
+    for (long i = 1; i < depth; i++) delete table[i];
     delete[] table;
 }
 
 
 // Added by Rolf Svenning. Simply converts input format and calls the original function.
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> testShunZhao(parlay::sequence<long> &A_, long blockSize){
+tuple<sequence<VI>, sequence<VI>, float> ANSV_shunZhao_orginal(sequence<long> &A_, long blockSize){
+    internal::timer tVIs("TIME VIs:");
+    tVIs.start();
     const long n = A_.size();
-    long L[n];
-    long R[n];
-    long A[n];
+    long *L = new long[n];
+    long *R = new long[n];
+    long *A = new long[n];
     for(int i=0; i < n; i++){
         A[i] = A_[i];
     }
-
+    tVIs.stop();
+    internal::timer t("Time");
+    t.start();
     ComputeANSV(A, n, L, R, blockSize);
-
+    float time = t.total_time();
+    tVIs.start();
     parlay::sequence<VI> L_(n);
     parlay::sequence<VI> R_(n);
-    for(int i=0; i < n; i++){
-        L_[i] = VI(L[i], A[L[i]]);
-        R_[i] = VI(R[i], A[R[i]]);
+    for(long i=0; i < n; i++){
+        L_[i] = VI((L[i] != -1) ? A[L[i]] : -1, L[i]);
+        R_[i] = VI((R[i] != -1) ? A[R[i]] : -1, R[i]);
     }
-    return {L_, R_};
+    delete [] L;
+    delete [] R;
+    delete [] A;
+    cout << "Time VIs: " << tVIs.total_time() << endl;
+    return {L_, R_, time};
 }
 
 

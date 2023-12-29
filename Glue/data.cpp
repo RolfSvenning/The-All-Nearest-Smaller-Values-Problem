@@ -64,7 +64,7 @@ parlay::sequence<long> returnRandomArray(long n, long maxInt=100) {
     });
 }
 
-std::tuple<long, long> returnRandomNandBlocksize(long nMax, long blockSizeMax){
+std::tuple<long, long> returnRandomAndBlocksize(long nMax, long blockSizeMax){
     // RANDOM N AND BLOCK SIZE
     std::random_device rd; // obtain a random number from hardware
     std::mt19937 gen(rd()); // seed the generator

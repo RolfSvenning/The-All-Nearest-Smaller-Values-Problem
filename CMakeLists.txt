@@ -15,7 +15,7 @@ add_executable(ANSV2 main.cpp
         ParallelMinBinaryTrees/parallelMinBinaryTreeArray.cpp
         ANSV/berkmanOptimal.cpp
         Experiments/Experiments.cpp
-        ANSV/testt.cpp
+        ANSV/shunZhaoOriginal.cpp
 )
 target_include_directories (ANSV2 PUBLIC parlaylib/include)
 target_include_directories (ANSV2 PUBLIC parlaylib/examples)

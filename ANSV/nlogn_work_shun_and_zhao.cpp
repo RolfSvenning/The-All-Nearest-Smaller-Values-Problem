@@ -38,10 +38,10 @@ using namespace std;
 
 
 inline int getLeft_opt(parlay::sequence<long>* table, int depth, int n, int index, int start) {
-  int value = table[0][index];
-  if (value == table[depth - 1][0]) return -1; ////TODO: assumes all values unique
+  long value = table[0][index];
+  if (value == table[depth - 1][0]) return -1;
 
-  int cur = PARENT(start), d, dist = 2;
+  long cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
     if ((cur + 1) * dist > start + 1) cur --; //TODO: check this, should be start
     if (cur < 0) return -1;
@@ -67,13 +67,14 @@ inline int getLeft_opt(parlay::sequence<long>* table, int depth, int n, int inde
 // dist: width of current subtree.
 // cur*dist: first index covered by current subtree (since 0-indexed)
 inline int getRight_opt(parlay::sequence<long>* table, int depth, int n, int index, int start) {
-  int value = table[0][index];
-//  if (value == table[depth - 1][0]) return -1; //TODO: commented out, assumes all values unique
+  long value = table[0][index];
+  if (value == table[depth - 1][0]) return -1;
 
-  int cur = PARENT(start), d, dist = 2;
+  long cur = PARENT(start), d, dist = 2;
   for (d = 1; d < depth; d++) {
     if (cur * dist < start) cur ++; //checks if last parent was up to the left in which case move to the right in the tree
-    if (cur * dist >= n) return -1; //current subtree past input //TODO: changed from  >= n - 1 to >= n
+    if (cur * dist >= n) return -1; //current subtree past input
+
     if (table[d][cur] > value) cur = PARENT(cur); //check if subtree with match found
     else break;
 
@@ -91,9 +92,9 @@ inline int getRight_opt(parlay::sequence<long>* table, int depth, int n, int ind
 }
 
 
-void ComputeANSV_Linear(parlay::sequence<long> &A, int n, parlay::sequence<VI> &L, parlay::sequence<VI> &R, int offset) {
-    int i, top;
-    int *stack = new int[n];
+void ComputeANSV_Linear(parlay::sequence<long> &A, long n, parlay::sequence<VI> &L, parlay::sequence<VI> &R, long offset) {
+    long i, top;
+    long *stack = new long[n];
 
     for (i = offset, top = -1; i < n + offset; i++) {
         while (top > -1 && A[stack[top]] > A[i]) top--;
@@ -109,8 +110,8 @@ void ComputeANSV_Linear(parlay::sequence<long> &A, int n, parlay::sequence<VI> &
     delete[] stack;
 }
 
-inline int cflog2(int i) {
-  int res = 0;
+inline long cflog2(int i) {
+  long res = 0;
 
   i--;
   if (i >> 16) {
@@ -122,20 +123,20 @@ inline int cflog2(int i) {
   return res;
 }
 
-std::tuple<parlay::sequence<long>*, int> createBinaryTree(parlay::sequence<long> a, int n) {
-    int l2 = cflog2(n);
-    int depth = l2 + 1;
+std::tuple<parlay::sequence<long>*, long> createBinaryTree(parlay::sequence<long> a, long n) {
+    long l2 = cflog2(n);
+    long depth = l2 + 1;
     auto* table = new parlay::sequence<long>[depth];
     table[0] = a;
-    int m = n;
-    for (int i = 1; i < depth; i++) {
+    long m = n;
+    for (long i = 1; i < depth; i++) {
         m = (m + 1) / 2;
         table[i] = parlay::sequence<long>(m);
     }
 
     m = n;
-    for (int d = 1; d < depth; d++) {
-        int m2 = m / 2;
+    for (long d = 1; d < depth; d++) {
+        long m2 = m / 2;
 
         parlay::parallel_for (0, m2, [&] (size_t i) {
             table[d][i] = min(table[d - 1][LEFT(i)], table[d - 1][RIGHT(i)]);
@@ -157,8 +158,8 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::seq
 
     parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
     ComputeANSV_Linear(A, j - i, L, R, i);
-    int tmp = i;
-    for (int k = i; k < j; k++) {
+    long tmp = i;
+    for (long k = i; k < j; k++) {
       if (L[k].ind == -1) {
         if ((tmp != -1 && A[tmp] > A[k]) or k == i) {
           tmp = getLeft_opt(table, depth, n, k, tmp);
@@ -171,7 +172,7 @@ std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_ShunZhao(parlay::seq
     tmp = j - 1;
     // casting size_t to long to avoid default conversion of negative int to size_t which
     // will be large positive number since size_t is unsigned
-    for (int k = j - 1; k >= (long)i; k--) {
+    for (long k = j - 1; k >= (long)i; k--) {
         if (R[k].ind == -1) {
             if ((tmp != -1 && A[tmp] > A[k]) or k == j - 1) {
                 tmp = getRight_opt(table, depth, n, k, tmp);
