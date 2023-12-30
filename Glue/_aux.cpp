@@ -32,6 +32,12 @@ void printArray(parlay::sequence<long> A) {
         std::cout << to_chars(A)  << std::endl;
 }
 
+void printArrayNormal(long *A_, long n) {
+    parlay::sequence<long> A = parlay::tabulate(n, [&] (long i) {
+        return A_[i];
+    });
+    printArray(A);
+}
 
 //std::tuple<std::array<VI, n>, std::array<VI, n>> seqToArray(std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> LR){
 //    auto [L, R] = std::move(LR);

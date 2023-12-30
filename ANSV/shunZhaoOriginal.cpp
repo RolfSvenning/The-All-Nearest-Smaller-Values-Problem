@@ -5,6 +5,7 @@
 #include <iostream>
 #include "shunZhaoOriginal.h"
 #include "parlay/primitives.h"
+#include "../Glue/_aux.h"
 
 
 using namespace std;
@@ -60,21 +61,21 @@ inline long getRight_opt(long **table, long depth, long n, long index, long star
 }
 
 
-void ComputeANSV_Linear(long a[], long n, long leftElements[], long rightElements[], long offset) {
+void ComputeANSV_Linear(long A[], long n, long L[], long R[], long offset, bool adjacentMerging) {
     long i, top;
     long *stack = new long[n];
 
     for (i = 0, top = -1; i < n; i++) {
-        while (top > -1 && a[stack[top]] > a[i]) top--;
-        if (top == -1) leftElements[i] = -1;
-        else leftElements[i] = stack[top] + offset;
+        while (top > -1 && A[stack[top]] > A[i]) top--;
+        if (top == -1) L[i] = -1;
+        else L[i] = stack[top] + offset;
         stack[++top] = i;
     }
 
     for (i = n - 1, top = -1; i >= 0; i--) {
-        while (top > -1 && a[stack[top]] > a[i]) top--;
-        if (top == -1) rightElements[i] = -1;
-        else rightElements[i] = stack[top] + offset;
+        while (top > -1 && A[stack[top]] > A[i]) top--;
+        if (top == -1) R[i] = -1;
+        else R[i] = stack[top] + offset;
         stack[++top] = i;
     }
     delete[] stack;
@@ -93,7 +94,7 @@ inline long cflog2(long i) {
     return res;
 }
 
-float ComputeANSV(long *A, long n, long *left, long *right, long blockSize) {
+double shunZhaoOriginal(long *A, long n, long *left, long *right, long blockSize) {
     internal::timer t("Time");
     t.start();
     long l2 = cflog2(n);
@@ -154,29 +155,29 @@ float ComputeANSV(long *A, long n, long *left, long *right, long blockSize) {
 }
 
 
-// Added by Rolf Svenning. Simply converts input format and calls the original function.
-tuple<sequence<long>, sequence<long>, float> ANSV_shunZhao_original(sequence<long> &A_, long blockSize){
-    const long n = A_.size();
-    long *L = new long[n];
-    long *R = new long[n];
-    long *A = new long[n];
-    parallel_for(0, n, [&] (size_t i){
-        A[i] = A_[i];
-    });
-
-    float time = ComputeANSV(A, n, L, R, blockSize);
-
-    parlay::sequence<long> L_(n);
-    parlay::sequence<long> R_(n);
-    parallel_for(0, n, [&] (size_t i){
-        L_[i] = L[i];
-        R_[i] = R[i];
-    });
-    delete [] L;
-    delete [] R;
-    delete [] A;
-    return {L_, R_, time};
-}
+//// Added by Rolf Svenning. Simply converts input format and calls the original function.
+//tuple<sequence<long>, sequence<long>, float> ANSV_shunZhao_original(sequence<long> &A_, long blockSize){
+//    long n = A_.size();
+//    long *L = new long[n];
+//    long *R = new long[n];
+//    long *A = new long[n];
+//    parallel_for(0, n, [&] (size_t i){
+//        A[i] = A_[i];
+//    });
+//
+//    float time = ComputeANSV(A, n, L, R, blockSize);
+//
+//    parlay::sequence<long> L_(n);
+//    parlay::sequence<long> R_(n);
+//    parallel_for(0, n, [&] (size_t i){
+//        L_[i] = L[i];
+//        R_[i] = R[i];
+//    });
+//    delete [] L;
+//    delete [] R;
+//    delete [] A;
+//    return {L_, R_, time};
+//}
 
 
 

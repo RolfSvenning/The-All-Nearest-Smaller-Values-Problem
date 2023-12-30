@@ -9,7 +9,7 @@
 #include "../Glue/VI.h"
 
 
-std::tuple<parlay::sequence<long>, parlay::sequence<long>, float> ANSV_Berkman(parlay::sequence<long> &A, long blockSize);
+double ANSV_Berkman(long *A, long n, long *L, long *R, long blockSize);
 
 
 #endif // ANSV2_BERKMANOPTIMAL_H

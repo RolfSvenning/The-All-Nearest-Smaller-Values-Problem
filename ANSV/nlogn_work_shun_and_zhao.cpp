@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include "nlogn_work_shun_and_zhao.h"
+#include "shunZhaoOriginal.h"
 #include "parlay/parallel.h"
 #include "../Glue/_aux.h"
 #include "parlay/primitives.h"
@@ -38,28 +39,28 @@ using namespace parlay;
 
 
 
-inline int getLeft_opt(sequence<long>* table, int depth, int n, int index, int start) {
-  long value = table[0][index];
-  if (value == table[depth - 1][0]) return -1;
-
-  long cur = PARENT(start), d, dist = 2;
-  for (d = 1; d < depth; d++) {
-    if ((cur + 1) * dist > start + 1) cur --; //TODO: check this, should be start
-    if (cur < 0) return -1;
-
-    if (table[d][cur] > value) cur = PARENT(cur);
-    else break;
-
-    dist <<= 1;
-  }
-
-  for ( ; d > 0; d--) {
-    if (table[d - 1][RIGHT(cur)] <= value) cur = RIGHT(cur);
-    else cur = LEFT(cur);
-  }
-  if (cur == index) return -1;
-  return cur;
-}
+//int getLeft_opt(long **table, long depth, long n, long index, long start) {
+//  long value = table[0][index];
+//  if (value == table[depth - 1][0]) return -1;
+//
+//  long cur = PARENT(start), d, dist = 2;
+//  for (d = 1; d < depth; d++) {
+//    if ((cur + 1) * dist > start + 1) cur --; //TODO: check this, should be start
+//    if (cur < 0) return -1;
+//
+//    if (table[d][cur] > value) cur = PARENT(cur);
+//    else break;
+//
+//    dist <<= 1;
+//  }
+//
+//  for ( ; d > 0; d--) {
+//    if (table[d - 1][RIGHT(cur)] <= value) cur = RIGHT(cur);
+//    else cur = LEFT(cur);
+//  }
+//  if (cur == index) return -1;
+//  return cur;
+//}
 
 // start: index from where to start the search (where last search found its match)
 // index: original index of element looking for its match
@@ -67,72 +68,74 @@ inline int getLeft_opt(sequence<long>* table, int depth, int n, int index, int s
 // depth: current level in tree (with bottom level being 1).
 // dist: width of current subtree.
 // cur*dist: first index covered by current subtree (since 0-indexed)
-inline int getRight_opt(sequence<long>* table, int depth, int n, int index, int start) {
-  long value = table[0][index];
-  if (value == table[depth - 1][0]) return -1;
+//long getRight_opt(long **table, long depth, long n, long index, long start) {
+//  long value = table[0][index];
+//  if (value == table[depth - 1][0]) return -1;
+//
+//  long cur = PARENT(start), d, dist = 2;
+//  for (d = 1; d < depth; d++) {
+//    if (cur * dist < start) cur ++; //checks if last parent was up to the left in which case move to the right in the tree
+//    if (cur * dist >= n) return -1; //current subtree past input
+//
+//    if (table[d][cur] > value) cur = PARENT(cur); //check if subtree with match found
+//    else break;
+//
+//    dist <<= 1; //increase "width" of current subtree
+//  }
+//  //going down the tree
+//  for ( ; d > 0; d--) {
+//    if (table[d - 1][LEFT(cur)] <= value) cur = LEFT(cur);
+//    else cur = RIGHT(cur);
+//  }
+//  if (cur == index) return -1;
+//
+//  return cur;
+//}
 
-  long cur = PARENT(start), d, dist = 2;
-  for (d = 1; d < depth; d++) {
-    if (cur * dist < start) cur ++; //checks if last parent was up to the left in which case move to the right in the tree
-    if (cur * dist >= n) return -1; //current subtree past input
 
-    if (table[d][cur] > value) cur = PARENT(cur); //check if subtree with match found
-    else break;
+//void ComputeANSV_Linear(long a[], long n, long leftElements[], long rightElements[], long offset) {
+//    long i, top;
+//    long *stack = new long[n];
+//
+//    for (i = 0, top = -1; i < n; i++) {
+//        while (top > -1 && a[stack[top]] > a[i]) top--;
+//        if (top == -1) leftElements[i] = -1;
+//        else leftElements[i] = stack[top] + offset;
+//        stack[++top] = i;
+//    }
+//
+//    for (i = n - 1, top = -1; i >= 0; i--) {
+//        while (top > -1 && a[stack[top]] > a[i]) top--;
+//        if (top == -1) rightElements[i] = -1;
+//        else rightElements[i] = stack[top] + offset;
+//        stack[++top] = i;
+//    }
+//    delete[] stack;
+//}
 
-    dist <<= 1; //increase "width" of current subtree
-  }
-  //going down the tree
-  for ( ; d > 0; d--) {
-    if (table[d - 1][LEFT(cur)] <= value) cur = LEFT(cur);
-    else cur = RIGHT(cur);
-  }
-  if (cur == index) return -1;
+//inline long cflog2(int i) {
+//  long res = 0;
+//
+//  i--;
+//  if (i >> 16) {
+//    res += 16;
+//    i >>= 16;
+//  } else i &= 0xffff;
+//
+//  for (; i; i >>= 1) res++;
+//  return res;
+//}
 
-
-  return cur;
-}
-
-
-void ComputeANSV_Linear(sequence<long> &A, long n, sequence<long> &L, sequence<long> &R, long offset) {
-    long i, top;
-    long *stack = new long[n];
-
-    for (i = offset, top = -1; i < n + offset; i++) {
-        while (top > -1 && A[stack[top]] > A[i]) top--;
-        if (top != -1) L[i] = stack[top];
-        stack[++top] = i;
-    }
-
-    for (i = n - 1 + offset, top = -1; i >= offset; i--) {
-        while (top > -1 && A[stack[top]] > A[i]) top--;
-        if (top != -1) R[i] = stack[top];
-        stack[++top] = i;
-    }
-    delete[] stack;
-}
-
-inline long cflog2(int i) {
-  long res = 0;
-
-  i--;
-  if (i >> 16) {
-    res += 16;
-    i >>= 16;
-  } else i &= 0xffff;
-
-  for (; i; i >>= 1) res++;
-  return res;
-}
-
-tuple<sequence<long>*, long> createBinaryTree(sequence<long> &A, long n) {
+// TODO: remember to delete in code when using!
+tuple<long **, long> createBinaryTree(long *A, long n) {
     long l2 = cflog2(n);
     long depth = l2 + 1;
-    sequence<long>* table = new sequence<long>[depth];
+    long **table = new long*[depth];
     table[0] = A;
     long m = n;
     for (long i = 1; i < depth; i++) {
         m = (m + 1) / 2;
-        table[i] = sequence<long>(m);
+        table[i] = new long[m];
     }
 
     m = n;
@@ -150,27 +153,23 @@ tuple<sequence<long>*, long> createBinaryTree(sequence<long> &A, long n) {
   return {table, depth};
 }
 
-tuple<sequence<long>, sequence<long>, float> ANSV_ShunZhao(sequence<long> &A, long blockSize){
-    long n = A.size();
-    sequence<long> L(n, -1);
-    sequence<long> R(n, -1);
-
-    //timer parlay
+//tuple<sequence<long>, sequence<long>, float> ANSV_ShunZhao(sequence<long> &A, long blockSize){
+double ANSV_ShunZhao(long *A, long n, long *L, long *R, long blockSize) {
     internal::timer t("Time");
     t.start();
     auto [table, depth] = createBinaryTree(A, n);
     t.next("creating binary tree");
 
     blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
-        ComputeANSV_Linear(A, j - i, L, R, i);
+        ComputeANSV_Linear(A + i, j - i, L + i, R + i, i);
         long tmp = i;
         for (long k = i; k < j; k++) {
-          if (L[k] == -1) {
-            if ((tmp != -1 && A[tmp] > A[k]) or k == i) {
-              tmp = getLeft_opt(table, depth, n, k, tmp);
+            if (L[k] == -1) {
+                if ((tmp != -1 && A[tmp] > A[k]) or k == i) {
+                    tmp = getLeft_opt(table, depth, n, k, tmp);
+                }
+                L[k] = tmp;
             }
-              L[k] = tmp;
-          }
         }
 
         tmp = j - 1;
@@ -181,12 +180,13 @@ tuple<sequence<long>, sequence<long>, float> ANSV_ShunZhao(sequence<long> &A, lo
                 if ((tmp != -1 && A[tmp] > A[k]) or k == j - 1) {
                     tmp = getRight_opt(table, depth, n, k, tmp);
                 }
-                  R[k] = tmp;
-                }
+                R[k] = tmp;
+            }
         }
     });
 
     delete[] table;
 
-    return {L, R, t.total_time()};
+    return t.total_time();
 }
+

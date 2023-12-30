@@ -3,7 +3,6 @@
 #include "../ParallelMinBinaryTrees/parallelMinBinaryTreeArray.h"
 #include "seq_array_n_work.h"
 #include "../Glue/_aux.h"
-#include "nlogn_work_shun_and_zhao.h"
 #include "parlay/primitives.h"
 
 using namespace std;
@@ -89,6 +88,24 @@ void matchNonlocal(long i, long j, long n, long d, sequence<long> &A, sequence<l
     }
 }
 
+void ComputeANSV_Linear(sequence<long> &A, long n, sequence<long> &L, sequence<long> &R, long offset) {
+    long i, top;
+    long *stack = new long[n];
+
+    for (i = offset, top = -1; i < n + offset; i++) {
+        while (top > -1 && A[stack[top]] > A[i]) top--;
+        if (top != -1) L[i] = stack[top];
+        stack[++top] = i;
+    }
+
+    for (i = n - 1 + offset, top = -1; i >= offset; i--) {
+        while (top > -1 && A[stack[top]] > A[i]) top--;
+        if (top != -1) R[i] = stack[top];
+        stack[++top] = i;
+    }
+    delete[] stack;
+}
+
 std::tuple<sequence<long>, sequence<long>, float> ANSV_nlogn_mine(sequence<long> &A, const long blockSize){
     internal::timer t("Binary tree");
     t.start();
@@ -97,7 +114,6 @@ std::tuple<sequence<long>, sequence<long>, float> ANSV_nlogn_mine(sequence<long>
     long n = A.size();
     sequence<long> L(n, -1);
     sequence<long> R(n, -1);
-    t.start();
 
     blocked_for(0, n, blockSize, [&] (size_t blockNumber, long i, long j) {
         ComputeANSV_Linear(A, j - i, L, R, i);

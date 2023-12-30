@@ -18,6 +18,7 @@ void printArrayVI(parlay::sequence<VI> A);
 
 void printArray(parlay::sequence<long> A);
 
+void printArrayNormal(long *A_, long n);
 
 //std::tuple<std::array<VI, n>, std::array<VI, n>> seqToArray(std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> LR);
 

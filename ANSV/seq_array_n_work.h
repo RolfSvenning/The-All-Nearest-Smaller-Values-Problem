@@ -8,6 +8,6 @@
 #include "../Glue/VI.h"
 #include "parlay/sequence.h"
 
-std::tuple<parlay::sequence<long>, parlay::sequence<long>, float> ANSV_seq_array(parlay::sequence<long> A);
+double ANSV_seq_array(long *A, long n, long *L, long *R, long blockSize);
 
 #endif //IMPLEMENTATIONS_SEQ_ARRAY_H
