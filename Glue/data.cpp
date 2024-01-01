@@ -15,14 +15,10 @@ parlay::sequence<long> returnSortedArray(long n){
 }
 
 parlay::sequence<long> returnMergeArray(long n){
-    parlay::sequence<long> A(n);
-  int nhalf = floor(n/2);
-  for (int i = 0; i < nhalf; i++){
-    A[i] = i;
-  }
-  for (int i = nhalf; i < n; i++){
-    A[i] = n - i - 1;
-  }
+    parlay::sequence<long> A = parlay::tabulate(n, [&](size_t i) {
+        if (i < floor(n/2)) return (long)(2 * i);
+        else return (long)(2 * (n - i - 1) + 1);
+    });
   return A;
 }
 

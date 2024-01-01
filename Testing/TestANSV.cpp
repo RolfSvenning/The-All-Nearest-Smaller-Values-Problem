@@ -20,7 +20,7 @@ using namespace parlay;
 
 
 template<typename Function>
-std::tuple<parlay::sequence<long>, parlay::sequence<long>, float> ANSV_generic(Function ANSV, parlay::sequence<long> &A_, long blockSize) {
+std::tuple<parlay::sequence<long>, parlay::sequence<long>, double> ANSV_generic(Function ANSV, parlay::sequence<long> &A_, long blockSize, bool returnLR) {
     long n = A_.size();
     long *L = new long[n];
     long *R = new long[n];
@@ -29,7 +29,7 @@ std::tuple<parlay::sequence<long>, parlay::sequence<long>, float> ANSV_generic(F
         A[i] = A_[i];
     });
 
-    float time = ANSV(A, n, L, R, blockSize);
+    double time = ANSV(A, n, L, R, blockSize);
 
     parlay::sequence<long> L_(n);
     parlay::sequence<long> R_(n);
@@ -40,7 +40,8 @@ std::tuple<parlay::sequence<long>, parlay::sequence<long>, float> ANSV_generic(F
     delete [] L;
     delete [] R;
     delete [] A;
-    return {L_, R_, time};
+    if (returnLR) return {L_, R_, time};
+    else return {parlay::sequence<long>(), parlay::sequence<long>(), time};
 }
 
 void testArrayShunZhaoAndMineAndBerkman(sequence<long> A, const long blockSize) {
@@ -50,15 +51,15 @@ void testArrayShunZhaoAndMineAndBerkman(sequence<long> A, const long blockSize) 
     auto [L1, R1, t1] = ANSV_generic(ANSV_seq_array, A, blockSize);
     cout << "Time: " << to_string(t1) << endl;
 
-    cout << endl << " --- Shun & Zhao: ANSV parallel nlogn work --- " << endl;
-    auto [L2, R2, t2] = ANSV_generic(ANSV_ShunZhao, A, blockSize);
-    cout << "Time: " << to_string(t2) << endl;
-    assert(L1 == L2 and R1 == R2);
+//    cout << endl << " --- Shun & Zhao: ANSV parallel nlogn work --- " << endl;
+//    auto [L2, R2, t2] = ANSV_generic(ANSV_ShunZhao, A, blockSize);
+//    cout << "Time: " << to_string(t2) << endl;
+//    assert(L1 == L2 and R1 == R2);
 
     cout << endl << " --- Shun & Zhao: (almost) original --- " << endl;
-    auto [L3, R3, t3] = ANSV_generic(shunZhaoOriginal, A, blockSize);
-    cout << "Time: " << to_string(t3) << endl;
-    assert(L2 == L3 and R2 == R3);
+    auto [L2, R2, t2] = ANSV_generic(shunZhaoOriginal, A, blockSize);
+    cout << "Time: " << to_string(t2) << endl;
+    assert(L1 == L2 and R1 == R2);
 
 //    cout << endl << " --- Mine: ANSV parallel nlogn work --- " << endl;
 //    auto [L4, R4, t4] = ANSV_nlogn_mine(A, blockSize);
@@ -66,16 +67,16 @@ void testArrayShunZhaoAndMineAndBerkman(sequence<long> A, const long blockSize) 
 //    assert(L3 == L4 and R3 == R4);
 
     cout << endl << " --- Berkman: ANSV parallel n work --- " << endl;
-    auto [L5, R5, t5] = ANSV_generic(ANSV_Berkman, A, blockSize);
-    cout << "Time: " << to_string(t5) << endl;
+    auto [L3, R3, t3] = ANSV_generic(ANSV_Berkman, A, blockSize);
+    cout << "Time: " << to_string(t3) << endl;
 
-    assert(L3 == L5 and R3 == R5);
+    assert(L2 == L3 and R2 == R3);
 }
 
 
 int testAllCorrectness(){
-//        for (int i = 0; i < 10000; ++i) {
-//            auto [n, blockSize] = returnRandomAndBlocksize(61232, 1180);
+//        for (int i = 0; i < 300; ++i) {
+//            auto [n, blockSize] = returnRandomAndBlocksize(312, 110);
 ////            long n = 4;
 ////            long blockSize = 2;
 //            sequence<long> A = returnDistinctRandomArray(n);
@@ -93,10 +94,11 @@ int testAllCorrectness(){
 //            testArrayShunZhaoAndMineAndBerkman(A, blockSize);
 //        }
 
-        for (int i = 0; i < 3; ++i) {
-            long n = 12345678; // 1234567
+        for (int i = 0; i < 1; ++i) {
+            long n = 123456789; // 123456789
             const long blockSize = 23 * 32 * 10; //TODO: only works for even block_size
-            sequence<long> A = returnSortedArray(n);
+            sequence<long> A = returnMergeArray(n);
+//            printArray(A);
             testArrayShunZhaoAndMineAndBerkman(A, blockSize);
         }
 

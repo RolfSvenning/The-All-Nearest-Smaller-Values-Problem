@@ -12,8 +12,9 @@
 
 inline long getLeft_opt(long **table, long depth, long n, long index, long start);
 inline long getRight_opt(long **table, long depth, long n, long index, long start);
-void ComputeANSV_Linear(long a[], long n, long leftElements[], long rightElements[], long offset, bool adjacentMerging=false);
+void ComputeANSV_Linear(long a[], long n, long leftElements[], long rightElements[], long offset);
 long cflog2(long i);
+std::tuple<long **, long> createBinaryTree(long *A, long n);
 double shunZhaoOriginal(long *A, long n, long *left, long *right, long blockSize);
 
 #endif //ANSV2_SHUNZHAOORIGINAL_H

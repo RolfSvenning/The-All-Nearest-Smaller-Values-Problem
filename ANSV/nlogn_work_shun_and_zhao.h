@@ -30,7 +30,6 @@
 #include "../Glue/_constants.h"
 
 double ANSV_ShunZhao(long *A, long n, long *L, long *R, long blockSize);
-//void ComputeANSV_Linear(parlay::sequence<long> &A, long n, parlay::sequence<long> &L, parlay::sequence<long> &R, long offset);
-std::tuple<long **, long> createBinaryTree(long *A, long n);
+//std::tuple<long **, long> createBinaryTree(long *A, long n);
 
 #endif
