@@ -18,7 +18,7 @@ using namespace std;
 
 const int NUMBER_OF_CORES = thread::hardware_concurrency();
 const long BLOCK_SIZE = 10240; // 32 * 32 * 10
-double TIMEOUT = 1;
+double TIMEOUT = 15;
 
 template<typename Function>
 void totalTimeExperiment(Function Experiment, int rounds, int repetitions){

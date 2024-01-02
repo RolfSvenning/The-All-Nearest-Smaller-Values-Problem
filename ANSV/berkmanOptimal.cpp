@@ -34,6 +34,7 @@ void farAwayBlocks_ANSV_linear(long *A, long a, long b, long c, long d, long *L,
     }
 }
 
+
 tuple<long, long> findLeftAndRightMatch(long n, long **T, long d, long *L, long *R, int i){
     long iL = getLeft_opt( T, d, n, i, i);
     long iR = getRight_opt(T, d, n, i, i);
@@ -41,7 +42,6 @@ tuple<long, long> findLeftAndRightMatch(long n, long **T, long d, long *L, long 
     R[i] = iR;
     return {iL, iR};
 }
-
 
 
 void adjacentMergeBOTH(long *A, long n, long *L, long *R, long offset) {

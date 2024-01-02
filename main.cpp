@@ -21,10 +21,10 @@ int main() {
 //    printArray(A);
 //    printArraysVI(std::list<parlay::sequence<VI>>{L, R});
 
-  return speedup(shunZhaoOriginal, 1);
-//    int putEnvSuccess = _putenv("PARLAY_NUM_THREADS=1");
-//    assert(putEnvSuccess == 0);
-//    return testAllCorrectness();
+//  return speedup(shunZhaoOriginal, 1);
+    int putEnvSuccess = _putenv("PARLAY_NUM_THREADS=12");
+    assert(putEnvSuccess == 0);
+    return testAllCorrectness();
 //    return 1;
 }
 
