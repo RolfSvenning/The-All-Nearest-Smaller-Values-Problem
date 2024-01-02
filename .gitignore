@@ -1,6 +1,7 @@
 ### MY IGNORES ###
 .idea/
 parlaylib/
+.vscode/
 
 ### C++ ###
 # Prerequisites
