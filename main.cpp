@@ -1,16 +1,18 @@
-//  #include "ANSV/nlogn_work_shun_and_zhao.h"
-//  #include "ANSV/shunZhaoOriginal.h"
-//  #include "Glue/_aux.h"
-//  #include "Glue/data.h"
-//  #include "Testing/TestANSV.h"
-//  #include "iostream"
-//  #include "limits"
-//  #include "parlay/internal/get_time.h"
-//  #include "parlay/primitives.h"
-//  #include "ANSV/nlogn_work_mine.h"
-//  #include "ANSV/berkmanOptimal.h"
-//  #include "Experiments/experiments.h"
+  #include "ANSV/nlogn_work_shun_and_zhao.h"
+  #include "ANSV/shunZhaoOriginal.h"
+  #include "Glue/_aux.h"
+  #include "Glue/data.h"
+  #include "Testing/TestANSV.h"
+  #include "iostream"
+  #include "limits"
+  #include "parlay/internal/get_time.h"
+  #include "parlay/primitives.h"
+  #include "ANSV/nlogn_work_mine.h"
+  #include "ANSV/berkmanOptimal.h"
+  #include "Experiments/experiments.h"
  #include "parlay/sequence.h"
+
+using namespace std;
 
 int main() {
 //      long n = 4; // 1234567
@@ -22,13 +24,14 @@ int main() {
 //    printArray(A);
 //    printArraysVI(std::list<parlay::sequence<VI>>{L, R});
 
-//  return speedup(shunZhaoOriginal, 1);
+  cout << "running" << endl;
+  return (int)speedup(shunZhaoOriginal, 1);
 //      int putEnvSuccess = _putenv("PARLAY_NUM_THREADS=12");
 //      assert(putEnvSuccess == 0);
-//      return testAllCorrectness();
-  std::cout << "running" << std::endl;
-  parlay::sequence<long> A = {1,2,3};
-  std::cout << A[1] << std::endl;
+//  return testAllCorrectness();
+//  std::cout << "running" << std::endl;
+//  parlay::sequence<long> A = {1,2,3};
+//  std::cout << A[1] << std::endl;
   return 1;
 }
 

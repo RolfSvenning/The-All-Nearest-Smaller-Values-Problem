@@ -75,27 +75,27 @@ void testArrayShunZhaoAndMineAndBerkman(sequence<long> A, const long blockSize) 
 
 
 int testAllCorrectness(){
-//        for (int i = 0; i < 300; ++i) {
-//            auto [n, blockSize] = returnRandomAndBlocksize(312, 110);
-////            long n = 4;
-////            long blockSize = 2;
-//            sequence<long> A = returnDistinctRandomArray(n);
-//    //        sequence<long> A = returnMergeArray(n);
-//            testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-//        }
-//        for (int i = 0; i < 20; ++i) {
-//            auto [n, blockSize] = returnRandomAndBlocksize(12345, 1234);
-//    //        long n = 39;
-//    //        long blockSize = 400;
-//            // TODO: duplicate values actually hard to fix
-//            sequence<long> A = returnDistinctRandomArray(n);
-//            // TRY BELOW INPUT
-//    //        sequence<long> A = {1, 7, 8, 7, 1, 6, 6, 3, 10, 3, 8, 5, 6, 3, 6, 3, 6, 8, 3, 2, 4, 5, 3, 0};
-//            testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-//        }
+        for (int i = 0; i < 300; ++i) {
+            auto [n, blockSize] = returnRandomAndBlocksize(312, 110);
+//            long n = 4;
+//            long blockSize = 2;
+            sequence<long> A = returnDistinctRandomArray(n);
+    //        sequence<long> A = returnMergeArray(n);
+            testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+        }
+        for (int i = 0; i < 20; ++i) {
+            auto [n, blockSize] = returnRandomAndBlocksize(12345, 1234);
+    //        long n = 39;
+    //        long blockSize = 400;
+            // TODO: duplicate values actually hard to fix
+            sequence<long> A = returnDistinctRandomArray(n);
+            // TRY BELOW INPUT
+    //        sequence<long> A = {1, 7, 8, 7, 1, 6, 6, 3, 10, 3, 8, 5, 6, 3, 6, 3, 6, 8, 3, 2, 4, 5, 3, 0};
+            testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+        }
 
         for (int i = 0; i < 1; ++i) {
-            long n = 123456789; // 123456789
+            long n = 1234567; // 123456789
             const long blockSize = 23 * 32 * 10; //TODO: only works for even block_size
             sequence<long> A = returnMergeArray(n);
 //            printArray(A);

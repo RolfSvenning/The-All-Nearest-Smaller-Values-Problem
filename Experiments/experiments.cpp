@@ -16,9 +16,9 @@
 using namespace parlay;
 using namespace std;
 
-const int NUMBER_OF_CORES = thread::hardware_concurrency();
+const int NUMBER_OF_CORES = 12; //thread::hardware_concurrency();
 const long BLOCK_SIZE = 10240; // 32 * 32 * 10
-double TIMEOUT = 15;
+double TIMEOUT = 1;
 
 template<typename Function>
 void totalTimeExperiment(Function Experiment, int rounds, int repetitions){
@@ -76,8 +76,8 @@ long largestN(double (*ANSV)(long*, long, long*, long*, long)){ // _iobuf fp
 long speedup(double (*ANSV)(long*, long, long*, long*, long), int rounds){ // _iobuf fp
      cout << "PARLAY_NUM_THREADS: " << getenv("PARLAY_NUM_THREADS") << endl;
 
-    int putEnvSuccess = _putenv("PARLAY_NUM_THREADS=12");
-    assert(putEnvSuccess == 0);
+//    int putEnvSuccess = _putenv("PARLAY_NUM_THREADS=12");
+//    assert(putEnvSuccess == 0);
     long n = largestN(ANSV);
 //    cout << "n: " << n << endl;
     cout << "number of processors: " <<  NUMBER_OF_CORES << endl;
@@ -85,21 +85,21 @@ long speedup(double (*ANSV)(long*, long, long*, long*, long), int rounds){ // _i
     parlay::sequence<long> A = returnMergeArray(n);
 
 //    auto *res = new double[NUMBER_OF_CORES];
-    for (int i = 0; i < NUMBER_OF_CORES; ++i) {
+//    for (int i = 0; i < NUMBER_OF_CORES; ++i) {
 //        cout << "PARLAY_NUM_THREADS: " << getenv("PARLAY_NUM_THREADS") << endl;
-        cout << "i: " << i << endl;
-        const string senv = "PARLAY_NUM_THREADS=" + to_string(i + 1);
+//        cout << "i: " << i << endl;
+//        const string senv = "PARLAY_NUM_THREADS=" + to_string(i + 1);
 //        cout << "senv: " << senv << endl;
-        const char* env = senv.c_str();
+//        const char* env = senv.c_str();
 //        _putenv("PARLAY_NUM_THREADS=6");
-        _putenv(env);
-        A = returnMergeArray(n);
-        auto [L, R, time_] = ANSV_generic(ANSV, A, BLOCK_SIZE, false);
+//        _putenv(env);
+//        A = returnMergeArray(n);
+//        auto [L, R, time_] = ANSV_generic(ANSV, A, BLOCK_SIZE, false);
 //        cout << "time: " << time_ << endl;
 //        cout << "number of processors: " <<  thread::hardware_concurrency() << endl;
 //        res[i] = time_;
 
-    }
+//    }
 //    cout << "res: " << res << endl;
 //    delete [] res;
     return 1;
