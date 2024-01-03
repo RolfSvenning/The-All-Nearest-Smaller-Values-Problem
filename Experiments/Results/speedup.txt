@@ -1,0 +1,273 @@
+
+Wed Jan  3 23:34:24 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: SEQUENTIAL, MERGE, 3, -1
+
+ --- Sequential --- with n, blockSize, heuristic: 16777216, 8192, 1
+Total time: 0.204554
+
+
+ --- Sequential --- with n, blockSize, heuristic: 16777216, 8192, 1
+Total time: 0.206971
+
+
+ --- Sequential --- with n, blockSize, heuristic: 16777216, 8192, 1
+Total time: 0.204198
+
+
+
+Wed Jan  3 23:34:25 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: SEQUENTIAL, SORTED, 3, -1
+
+ --- Sequential --- with n, blockSize, heuristic: 16777216, 8192, 1
+Total time: 0.100953
+
+
+ --- Sequential --- with n, blockSize, heuristic: 16777216, 8192, 1
+Total time: 0.111200
+
+
+ --- Sequential --- with n, blockSize, heuristic: 16777216, 8192, 1
+Total time: 0.106437
+
+
+
+Wed Jan  3 23:34:27 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: SEQUENTIAL, RANDOM, 3, -1
+
+ --- Sequential --- with n, blockSize, heuristic: 16777216, 8192, 1
+Total time: 0.453997
+
+
+ --- Sequential --- with n, blockSize, heuristic: 16777216, 8192, 1
+Total time: 0.462729
+
+
+ --- Sequential --- with n, blockSize, heuristic: 16777216, 8192, 1
+Total time: 0.453304
+
+
+
+Wed Jan  3 23:34:32 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: SHUN_ZHAO, MERGE, 3, -1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.021808
+Local matches: 0.051136
+Tree traversal: 0.064563
+Total time: 0.137517
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.036308
+Local matches: 0.054444
+Tree traversal: 0.068254
+Total time: 0.159019
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.021583
+Local matches: 0.028183
+Tree traversal: 0.058031
+Total time: 0.107807
+
+
+
+Wed Jan  3 23:34:33 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: SHUN_ZHAO, SORTED, 3, -1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.021974
+Local matches: 0.033179
+Tree traversal: 0.013338
+Total time: 0.068501
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.025512
+Local matches: 0.057932
+Tree traversal: 0.013221
+Total time: 0.096676
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.056217
+Local matches: 0.139788
+Tree traversal: 0.012276
+Total time: 0.208294
+
+
+
+Wed Jan  3 23:34:35 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: SHUN_ZHAO, RANDOM, 3, -1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.046405
+Local matches: 0.338943
+Tree traversal: 0.026712
+Total time: 0.412069
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.026221
+Local matches: 0.082913
+Tree traversal: 0.011901
+Total time: 0.121044
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.064752
+Local matches: 0.094665
+Tree traversal: 0.011457
+Total time: 0.170882
+
+
+
+Wed Jan  3 23:34:37 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: SHUN_ZHAO_NO_HEURISTIC, MERGE, 3, -1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 0
+Binary tree: 0.036355
+Local matches: 0.050248
+Tree traversal: 0.375895
+Total time: 0.462508
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 0
+Binary tree: 0.032147
+Local matches: 0.035028
+Tree traversal: 1.860099
+Total time: 1.927289
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 0
+Binary tree: 0.021717
+Local matches: 0.026820
+Tree traversal: 0.357228
+Total time: 0.405775
+
+
+
+Wed Jan  3 23:34:41 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: SHUN_ZHAO_NO_HEURISTIC, SORTED, 3, -1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 0
+Binary tree: 0.029535
+Local matches: 0.126561
+Tree traversal: 0.013979
+Total time: 0.170085
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 0
+Binary tree: 0.031984
+Local matches: 0.030606
+Tree traversal: 0.029787
+Total time: 0.092396
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 0
+Binary tree: 0.028131
+Local matches: 0.097159
+Tree traversal: 0.013416
+Total time: 0.138715
+
+
+
+Wed Jan  3 23:34:43 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: SHUN_ZHAO_NO_HEURISTIC, RANDOM, 3, -1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 0
+Binary tree: 0.029345
+Local matches: 0.354324
+Tree traversal: 0.012233
+Total time: 0.395912
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 0
+Binary tree: 0.065619
+Local matches: 0.342827
+Tree traversal: 0.018095
+Total time: 0.426550
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 16777216, 8192, 0
+Binary tree: 0.040085
+Local matches: 0.086216
+Tree traversal: 0.018790
+Total time: 0.145101
+
+
+
+Wed Jan  3 23:34:46 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: BERKMAN_VISHKIN, MERGE, 3, -1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.021608
+Local matches: 0.036769
+Merging: 0.013907
+Total time: 0.072290
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.030476
+Local matches: 0.042947
+Merging: 0.018509
+Total time: 0.091945
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.038362
+Local matches: 0.034215
+Merging: 0.009289
+Total time: 0.081875
+
+
+
+Wed Jan  3 23:34:48 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: BERKMAN_VISHKIN, SORTED, 3, -1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.022418
+Local matches: 0.028305
+Merging: 0.000103
+Total time: 0.050828
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.024161
+Local matches: 0.062419
+Merging: 0.000128
+Total time: 0.086710
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.061503
+Local matches: 0.057422
+Merging: 0.000164
+Total time: 0.119091
+
+
+
+Wed Jan  3 23:34:49 2024
+Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: BERKMAN_VISHKIN, RANDOM, 3, -1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.026831
+Local matches: 0.087008
+Merging: 0.186929
+Total time: 0.300777
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.028553
+Local matches: 0.096966
+Merging: 0.076054
+Total time: 0.201705
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 16777216, 8192, 1
+Binary tree: 0.026286
+Local matches: 0.102816
+Merging: 0.078487
+Total time: 0.207602
+
+
