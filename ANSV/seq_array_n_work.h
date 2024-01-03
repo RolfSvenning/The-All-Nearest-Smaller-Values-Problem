@@ -8,6 +8,6 @@
 #include "../Glue/VI.h"
 #include "parlay/sequence.h"
 
-double ANSV_seq_array(long *A, long n, long *L, long *R, long blockSize);
+std::string ANSV_seq_array(long *A, long n, long *L, long *R, long blockSize, bool usingHeuristic);
 
 #endif //IMPLEMENTATIONS_SEQ_ARRAY_H

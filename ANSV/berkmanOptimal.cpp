@@ -63,13 +63,21 @@ void adjacentMergeBOTH(long *A, long n, long *L, long *R, long offset) {
 }
 
 
-double ANSV_Berkman(long *A, long n, long *L, long *R, long blockSize){
+string ANSV_Berkman(long *A, long n, long *L, long *R, long blockSize, bool usingHeuristic){
     internal::timer t("BERKMAN");
+    auto *times = new string[3];
     t.start();
 
-    // ------------ BINARY TREE & LOCAL MATCHES & REPRESENTATIVES ------------
-    // 1) Create a min-binary tree for the input.
-    // 2) For each group:
+    // ------------ CREATE BINARY TREE ------------
+    // 1) Create a min-binary tree for the input
+
+    auto [T,d] = createBinaryTree(A, n);
+
+    // TIMING 1
+    times[0] = "Binary tree: " + to_string(t.next_time()) + "\n";
+
+    // ------------ LOCAL MATCHES & REPRESENTATIVES ------------
+    //  For each group:
     //    a) Find local matches in each group of size 'blockSize'
     //    b) Find representative ri, that is, the (index of) smallest value in each group
     //    c) Find matches of ri. That is, left match b1 and right match b2.
@@ -81,10 +89,6 @@ double ANSV_Berkman(long *A, long n, long *L, long *R, long blockSize){
     long blockCount = (long)ceilf((float)n / (float)blockSize); // really?
     long *REPs = new long[blockCount];
     long *B = new long[2 * blockCount];
-
-    auto [T,d] = createBinaryTree(A, n);
-    t.next("BERKMAN: binary tree");
-
     blocked_for(0, n, blockSize, [&] (size_t blockNumber, long i, long j) {
         // LOCAL MATCHES
         ComputeANSV_Linear(A + i, j - i, L + i, R + i, i);
@@ -98,8 +102,9 @@ double ANSV_Berkman(long *A, long n, long *L, long *R, long blockSize){
         B[2 * blockNumber] =  b1;
         B[2 * blockNumber + 1] = b2;
     });
-    t.next("BERKMAN: blocks");
 
+    // TIMING 2
+    times[1] = "Local matches: " + to_string(t.next_time()) + "\n";
 
     // ------------ NONLOCAL MATCHES BY MERGING ------------
     // 1) For each group BC:
@@ -122,7 +127,7 @@ double ANSV_Berkman(long *A, long n, long *L, long *R, long blockSize){
     blocked_for(0, n, blockSize, [&] (size_t BCi, long i, long j) {
         // SETUP
         auto ri = REPs[BCi];
-        auto [b1, b2] = tuple{B[2 * BCi], B[2 * BCi + 1]};
+        auto [b1, b2]   = tuple{B[2 * BCi], B[2 * BCi + 1]};
         auto [BLi, BRi] = tuple{b1 / blockSize, b2 / blockSize};
         auto [rBL, rBR] = tuple{REPs[BLi], REPs[BRi]};
 
@@ -138,10 +143,18 @@ double ANSV_Berkman(long *A, long n, long *L, long *R, long blockSize){
         // block BR matched by both BC and BL
         if (BRi == bBL / blockSize) farAwayBlocks_ANSV_linear(A, rBL, b1 + 1, b2, bBL + 1, L, R);
     });
-    t.next("BERKMAN: merging");
-    cout << "total time: " << t.total_time() << endl;
+
     delete [] REPs;
     delete [] B;
     delete [] T;
-    return t.total_time();
+
+    // TIMING 3
+    times[2] = "Merging: " + to_string(t.next_time()) + "\n";
+
+    double totalTime = t.total_time();
+    string res = " --- Berkman & Vishkin --- with n, blockSize, heuristic: "
+                 + to_string(n) + ", " + to_string(blockSize) + ", " + to_string(usingHeuristic) + "\n"
+                 + times[0] + times[1] + times[2] + "Total time: " + to_string(totalTime) + "\n";
+//    cout << res << endl;
+    return res;
 }

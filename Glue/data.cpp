@@ -1,6 +1,3 @@
-//
-// Created by Rolf Svenning on 21/11/2023.
-//
 
 #include "data.h"
 #include <array>
@@ -8,65 +5,87 @@
 #include "random"
 #include "parlay/primitives.h"
 
-parlay::sequence<long> returnSortedArray(long n){
-  parlay::sequence<long> A(n);
-  std::iota(A.begin(), A.end(), 1);
+using namespace std;
+using namespace parlay;
+
+sequence<long> returnSortedArray(long n){
+  sequence<long> A(n);
+  iota(A.begin(), A.end(), 1);
   return A;
 }
 
-parlay::sequence<long> returnMergeArray(long n){
-    parlay::sequence<long> A = parlay::tabulate(n, [&](size_t i) {
+sequence<long> returnMergeArray(long n){
+    sequence<long> A = tabulate(n, [&](size_t i) {
         if (i < floor(n/2)) return (long)(2 * i);
         else return (long)(2 * (n - i - 1) + 1);
     });
   return A;
 }
 
-// Returns an array containing a random permutation of [0...n-1]
-parlay::sequence<long> returnDistinctRandomArray(long n) {
-    parlay::sequence<long> A = parlay::tabulate(n, [&](size_t i) { return (long)i; });
+sequence<long> returnRandomArray(long n) {
+    random_device rd1;
+    mt19937 gen1(rd1());
+    uniform_int_distribution<long> dis1(0, INT_MAX);
 
-    // Shuffle the array by swapping with previous element with probability 1/(n-1)
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    for (int i = 1; i < n; ++i) {
-        std::uniform_real_distribution<> dis(0.0, 1.0);
-        if (dis(gen) > 1.0 / (i - 1)) {
-            // Seed the random number generator
-            std::random_device rd2;
-            std::mt19937 gen2(rd2());
-            // Define the uniform distribution
-            std::uniform_int_distribution<int> dist2(0, i - 1);
-
-            // Generate a random integer from 0 to i - 1 (inclusive)
-            int randomNum = dist2(gen2);
-
-            std::swap(A[i], A[randomNum]);
-        }
-    }
-    return A;
-}
-
-parlay::sequence<long> returnRandomArray(long n, long maxInt=100) {
-    std::random_device rd1;
-    std::mt19937 gen1(rd1());
-    std::uniform_int_distribution<long> dis1(0, 10000);
-
-    parlay::random_generator gen(dis1(gen1));
-    std::uniform_int_distribution<long> dis(0, maxInt);
-    return parlay::tabulate(n, [&](size_t i) {
+    random_generator gen(dis1(gen1));
+    uniform_int_distribution<long> dis(0, INT_MAX);
+    sequence<long> A = tabulate(ceil(1.2 * n), [&](size_t i) {
         auto r = gen[i];
         return dis(r);
     });
+
+    A = remove_duplicates(A);
+    A = A.subseq(0, n);
+    assert(A.size() == n);
+    return A;
 }
 
-std::tuple<long, long> returnRandomAndBlocksize(long nMax, long blockSizeMax){
+sequence<long> returnInputOfType(string inputType, long n) {
+    if (inputType == "SORTED") return returnSortedArray(n);
+    else if (inputType == "MERGE") return returnMergeArray(n);
+    else if (inputType == "RANDOM") return returnRandomArray(n);
+    else {
+        cout << "Invalid input type: " << inputType << endl;
+        exit(1);
+    }
+}
+
+tuple<long, long> returnRandomAndBlocksize(long nMax, long blockSizeMax){
     // RANDOM N AND BLOCK SIZE
-    std::random_device rd; // obtain a random number from hardware
-    std::mt19937 gen(rd()); // seed the generator
-    std::uniform_int_distribution<> dn(2, nMax); // define the range
+    random_device rd; // obtain a random number from hardware
+    mt19937 gen(rd()); // seed the generator
+    uniform_int_distribution<> dn(2, nMax); // define the range
     long n = dn(gen);
-    std::uniform_int_distribution<> db(1, std::min((int)blockSizeMax/2, (int)n/2)); // define the range
-    long blockSize = 2 * db(gen); //TODO: only works for even block_size
+//    uniform_int_distribution<> db(1, min((int)blockSizeMax/2, (int)n/2)); // define the range
+    uniform_int_distribution<> db(1, blockSizeMax); // define the range
+    long blockSize = db(gen);
     return {n, blockSize};
 }
+
+
+
+
+//// Returns an array containing a random permutation of [0...n-1]
+//sequence<long> returnDistinctRandomArray(long n) {
+//    sequence<long> A = tabulate(n, [&](size_t i) { return (long)i; });
+//
+//    // Shuffle the array by swapping with previous element with probability 1/(n-1)
+//    random_device rd;
+//    mt19937 gen(rd());
+//    for (int i = 1; i < n; ++i) {
+//        uniform_real_distribution<> dis(0.0, 1.0);
+//        if (dis(gen) > 1.0 / (i - 1)) {
+//            // Seed the random number generator
+//            random_device rd2;
+//            mt19937 gen2(rd2());
+//            // Define the uniform distribution
+//            uniform_int_distribution<int> dist2(0, i - 1);
+//
+//            // Generate a random integer from 0 to i - 1 (inclusive)
+//            int randomNum = dist2(gen2);
+//
+//            swap(A[i], A[randomNum]);
+//        }
+//    }
+//    return A;
+//}

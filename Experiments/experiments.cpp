@@ -2,12 +2,18 @@
 #include <fstream>
 #include "experiments.h"
 #include "../Glue/data.h"
+#include "../Glue/_aux.h"
 #include "../Testing/TestANSV.h"
 #include <thread>
+#include "parlay/primitives.h"
+
+
+
 
 // Algorithms
 #include "../ANSV/shunZhaoOriginal.h"
 #include "../ANSV/berkmanOptimal.h"
+#include "../ANSV/seq_array_n_work.h"
 
 // DATE
 #include "ctime"
@@ -16,50 +22,40 @@
 using namespace parlay;
 using namespace std;
 
-const int NUMBER_OF_CORES = 12; //thread::hardware_concurrency();
-const long BLOCK_SIZE = 10240; // 32 * 32 * 10
+const int NUMBER_OF_CORES = 12;
+//const long BLOCK_SIZE = 10240; // 32 * 32 * 10
 double TIMEOUT = 1;
 
-template<typename Function>
-void totalTimeExperiment(Function Experiment, int rounds, int repetitions){
-    cout << "Speedup experiment with rounds, repetitions: " << rounds << ", " << repetitions << endl;
-    // CREATE FILE
-    auto fileName = "../Experiments/Results/test_rounds" + to_string(rounds) + "_reps" + to_string(repetitions) + ".txt";
-    auto fileName2 = fileName.c_str();
-    ofstream f (fileName2);
-    auto fp = fopen(fileName.c_str(), "w");
 
-    // DATE
+string getCurrentDate(){
     chrono::system_clock::time_point today = chrono::system_clock::now();
     time_t tt = chrono::system_clock::to_time_t ( today );
-    string date = ctime(&tt);
-    const char *dateFinal = date.c_str();
-    fputs(dateFinal, fp);
-
-    // RUN EXPERIMENT
-    Experiment(rounds, fp);
-
-    // WRITE DATE
-    f.close();
+    return ctime(&tt);
 }
 
+int writeToFile(const string& fileName, const string& text){
+    auto filePath = "../Experiments/Results/" + fileName + ".txt";
+    auto filePath2 = filePath.c_str();
+    ofstream f (filePath.c_str(), ios_base::app);
+    f << text << endl << endl;
+    f.close();
+    return 1;
+}
 
-// Try increasing input sizes of powers of two and fix n to be the second-largest input which terminates in 5 seconds.
-// For i = 1 to NUMBER_OF_CORES repeat REPETITIONS times. Store all results in array R.
-// Return
-//template<typename Function>
-long largestN(double (*ANSV)(long*, long, long*, long*, long)){ // _iobuf fp
+long largestN(const string& algorithmType, const string& inputType, string (*ANSV)(long*, long, long*, long*, long, bool), long BLOCK_SIZE){ // _iobuf fp
     // TODO: https://stackoverflow.com/questions/21557479/how-to-get-environment-variables-in-c-in-a-cross-platform-way/23073039#23073039
     cout << "largestN" << endl;
     // INPUT
     long n = 65536; // 268435456 = 2^28
-    double time = 0;
-    parlay::sequence<long> A;
-    while (time < TIMEOUT){
+    sequence<long> A;
+    while (true){
         try {
-            A = returnMergeArray(n);
-            auto [L, R, time_] = ANSV_generic(ANSV, A, BLOCK_SIZE, false);
-            time = time_;
+            internal::timer t("largestN");
+            t.start();
+            A = returnInputOfType(inputType, n);
+
+            auto [L, R, time_] = ANSV_generic(algorithmType, A, BLOCK_SIZE);
+            if (t.total_time() > TIMEOUT) break;
             n = 2 * n;
             cout << "n: " << n << endl;
         } catch (exception& e) {
@@ -70,39 +66,75 @@ long largestN(double (*ANSV)(long*, long, long*, long*, long)){ // _iobuf fp
     }
     long nRes = (long)(n / 2);
     cout << "Largest n is: " << nRes << endl;
-    return nRes; //TODO: divide by 2
+    return nRes; //TODO: divide by 4 instead?
 }
 
-long speedup(double (*ANSV)(long*, long, long*, long*, long), int rounds){ // _iobuf fp
-     cout << "PARLAY_NUM_THREADS: " << getenv("PARLAY_NUM_THREADS") << endl;
 
-//    int putEnvSuccess = _putenv("PARLAY_NUM_THREADS=12");
-//    assert(putEnvSuccess == 0);
-    long n = largestN(ANSV);
-//    cout << "n: " << n << endl;
-    cout << "number of processors: " <<  NUMBER_OF_CORES << endl;
-    assert(NUMBER_OF_CORES > 0);
-    parlay::sequence<long> A = returnMergeArray(n);
+void experiment(const string& filename, long n, const long BLOCK_SIZE, const string& algorithmType, const string& inputType, int repetitions){
+    // TODO: GET NUMBER OF CORES FROM SYSTEM!
 
-//    auto *res = new double[NUMBER_OF_CORES];
-//    for (int i = 0; i < NUMBER_OF_CORES; ++i) {
-//        cout << "PARLAY_NUM_THREADS: " << getenv("PARLAY_NUM_THREADS") << endl;
-//        cout << "i: " << i << endl;
-//        const string senv = "PARLAY_NUM_THREADS=" + to_string(i + 1);
-//        cout << "senv: " << senv << endl;
-//        const char* env = senv.c_str();
-//        _putenv("PARLAY_NUM_THREADS=6");
-//        _putenv(env);
-//        A = returnMergeArray(n);
-//        auto [L, R, time_] = ANSV_generic(ANSV, A, BLOCK_SIZE, false);
-//        cout << "time: " << time_ << endl;
-//        cout << "number of processors: " <<  thread::hardware_concurrency() << endl;
-//        res[i] = time_;
+    // INPUT
+    sequence<long> A = returnInputOfType(inputType, n);
+    writeToFile(filename, "\n" + getCurrentDate() + "Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: "
+       + algorithmType + ", " + inputType + ", " + to_string(repetitions) + ", " + to_string(-1));
 
-//    }
-//    cout << "res: " << res << endl;
-//    delete [] res;
-    return 1;
+    // ROUNDS
+    cout << "====== inputType: " << inputType << " ======" << endl;
+    for (int i = 0; i < repetitions; ++i) {
+        A = returnInputOfType(inputType, n);
+        auto [L, R, res] = ANSV_generic(algorithmType, A, BLOCK_SIZE);
+        writeToFile(filename, res);
+    }
 }
 
+
+void experimentAllInputs(const string& filename, long n, const long BLOCK_SIZE, const string& algorithmType, int repetitions){
+    // TODO: SET NUMBER OF CORES FROM SYSTEM!
+
+    // INPUT
+    string inputTypes[3] = {"MERGE", "SORTED", "RANDOM"};
+    for (const string& inputType : inputTypes){
+        experiment(filename, n, BLOCK_SIZE, algorithmType, inputType, repetitions);
+    }
+}
+
+void experimentAllInputsAllAlgorithms(const string& filename, long n, const long BLOCK_SIZE, int repetitions){
+    // TODO: for speedup experiment set P=1,2,3,...,maxNumberOfProcessors. SET NUMBER OF CORES FROM SYSTEM!
+
+    // INPUT
+    string algorithmTypes[4] = {"SEQUENTIAL", "SHUN_ZHAO", "SHUN_ZHAO_NO_HEURISTIC", "BERKMAN_VISHKIN"};
+    for (const string& algorithmType : algorithmTypes){
+        cout << "====== algorithmType: " << algorithmType << " ======" << endl;
+        cout << "===================================================================" << endl;
+        experimentAllInputs(filename, n, BLOCK_SIZE, algorithmType, repetitions);
+    }
+}
+
+// N = 2^p for p = 0,1,2,...,largestPowerOfTwo - 1. P=1 and P=maxNumberOfProcessor.
+void experimentRunningTime(long largestPowerOfTwo, const long BLOCK_SIZE, int repetitions){
+    // TODO: run for P=1 and P=maxNumberOfProcessor. SET NUMBER OF CORES FROM SYSTEM!
+    assert(largestPowerOfTwo < 64);
+    for (int p = 0; p < largestPowerOfTwo; ++p) {
+        long n = (long)pow(2, p);
+        experimentAllInputsAllAlgorithms("runningTime", n, BLOCK_SIZE, repetitions);
+    }
+}
+
+// Fix N and P.
+void experimentBlocksize(long n, int repetitions){
+    // small block size
+    for (long B = 1; B <= 256; B++) {
+        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+    }
+
+    // medium block size
+    for (long B = 64; B <= 16384; B += 64) {
+        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+    }
+
+    // large block size
+    for (long B = 2; B < n; B *= 2) {
+        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+    }
+}
 

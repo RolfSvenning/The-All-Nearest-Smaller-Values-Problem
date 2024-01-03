@@ -4,8 +4,7 @@
 
 
 
-template<typename Function>
-std::tuple<parlay::sequence<long>, parlay::sequence<long>, double> ANSV_generic(Function ANSV, parlay::sequence<long> &A_, long blockSize, bool returnLR=true);
+std::tuple<parlay::sequence<long>, parlay::sequence<long>, std::string> ANSV_generic(const std::string& algorithmType, parlay::sequence<long> &A_, long blockSize);
 
 void testArrayShunZhaoAndMineAndBerkman(parlay::sequence<long> A, long blockSize);
 

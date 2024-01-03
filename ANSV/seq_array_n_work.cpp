@@ -8,7 +8,7 @@ using namespace std;
 using namespace parlay;
 
 
-double ANSV_seq_array(long *A, long n, long *L, long *R, long blockSize) {
+string ANSV_seq_array(long *A, long n, long *L, long *R, long blockSize, bool usingHeuristic) {
     internal::timer t("Time");
     t.start();
 
@@ -38,6 +38,11 @@ double ANSV_seq_array(long *A, long n, long *L, long *R, long blockSize) {
         }
     }
 
-    return t.total_time();
+    double totalTime = t.total_time();
+    string res = " --- Sequential --- with n, blockSize, heuristic: "
+                 + to_string(n) + ", " + to_string(blockSize) + ", " + to_string(usingHeuristic) + "\n"
+                 + "Total time: " + to_string(totalTime) + "\n";
+//    cout << res << endl;
+    return res;
 }
 

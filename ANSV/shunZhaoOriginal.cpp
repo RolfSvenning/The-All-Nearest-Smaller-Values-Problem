@@ -121,9 +121,14 @@ tuple<long **, long> createBinaryTree(long *A, long n) {
     return {table, depth};
 }
 
-double shunZhaoOriginal(long *A, long n, long *left, long *right, long blockSize) {
-    internal::timer t("Time");
+string ANSV_ShunZhao(long *A, long n, long *left, long *right, long blockSize, bool usingHeuristic) {
+    internal::timer t("shunZhao");
+    auto *times = new string[3];
     t.start();
+
+    // ------------ CREATE BINARY TREE ------------
+    //
+    // 1) Create a min-binary tree for the input
     long l2 = cflog2(n);
     long depth = l2 + 1;
     long **table = new long*[depth];
@@ -149,16 +154,27 @@ double shunZhaoOriginal(long *A, long n, long *left, long *right, long blockSize
 
         m = (m + 1) / 2;
     }
-    t.next("binary tree");
 
+    // TIMING 1
+    times[0] = "Binary tree: " + to_string(t.next_time()) + "\n";
+
+    // ------------ LOCAL MATCHES & REPRESENTATIVES ------------
+    //
     parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
         ComputeANSV_Linear(A + i, j - i, left + i, right + i, i);
+    });
 
+    // TIMING 2
+    times[1] = "Local matches: " + to_string(t.next_time()) + "\n";
+
+    // ------------ NONLOCAL MATCHES BY TREE TRAVERSAL ------------
+    //
+    parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
         long tmp = i;
         for (long k = i; k < j; k++) {
             if (left[k] == -1) {
                 if (tmp != -1 && A[tmp] >= A[k]) {
-                    tmp = getLeft_opt(table, depth, n, k, tmp);
+                    tmp = getLeft_opt(table, depth, n, k, usingHeuristic ? tmp : k); // Heuristic ON/OFF
                 }
                 left[k] = tmp;
             }
@@ -168,7 +184,7 @@ double shunZhaoOriginal(long *A, long n, long *left, long *right, long blockSize
         for (long k = j - 1; k >= (long)i; k--) {
             if (right[k] == -1) {
                 if (tmp != -1 && A[tmp] >= A[k]) {
-                    tmp = getRight_opt(table, depth, n, k, tmp);
+                    tmp = getRight_opt(table, depth, n, k, usingHeuristic ? tmp : k); // Heuristic ON/OFF
                 }
                 right[k] = tmp;
             }
@@ -178,8 +194,14 @@ double shunZhaoOriginal(long *A, long n, long *left, long *right, long blockSize
     for (long i = 1; i < depth; i++) delete table[i];
     delete[] table;
 
-    t.next("blocks");
-    cout << "total time: " << t.total_time() << endl;
-    return t.total_time();
+    // TIMING 3
+    times[2] = "Tree traversal: " + to_string(t.next_time()) + "\n";
+
+    double totalTime = t.total_time();
+    string res = " --- Shun & Zhao --- with n, blockSize, heuristic: "
+                 + to_string(n) + ", " + to_string(blockSize) + ", " + to_string(usingHeuristic) + "\n"
+                 + times[0] + times[1] + times[2] + "Total time: " + to_string(totalTime) + "\n";
+//    cout << res << endl;
+    return res;
 }
 
