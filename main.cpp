@@ -25,10 +25,10 @@ int main() {
 //    printArraysVI(std::list<parlay::sequence<VI>>{L, R});
 
   cout << "running" << endl;
-  return (int)speedup(shunZhaoOriginal, 1);
+//  speedup(shunZhaoOriginal, 1);
 //      int putEnvSuccess = _putenv("PARLAY_NUM_THREADS=12");
 //      assert(putEnvSuccess == 0);
-//  return testAllCorrectness();
+  return testAllCorrectness();
 //  std::cout << "running" << std::endl;
 //  parlay::sequence<long> A = {1,2,3};
 //  std::cout << A[1] << std::endl;
