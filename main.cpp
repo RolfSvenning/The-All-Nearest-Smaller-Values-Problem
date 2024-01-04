@@ -34,20 +34,20 @@ int main() {
 //    experiment("speedup", n, algorithmType, "RANDOM", rounds);
 //    experimentAllInputs("speedup", n, algorithmType, rounds);
 
-    // SPEEDUP
-    experimentAllInputsAllAlgorithms("speedup", 16777216, 8192, rounds);
-
-    // RUNNING TIME
-    experimentRunningTime(24, 8192, rounds);
-
-    // BLOCK SIZE 64 * 64 = 4096
-    experimentBlocksize(1048576, rounds);
+//    // SPEEDUP
+//    experimentAllInputsAllAlgorithms("speedup", 16777216, 8192, rounds);
+//
+//    // RUNNING TIME
+//    experimentRunningTime(24, 8192, rounds);
+//
+//    // BLOCK SIZE 64 * 64 = 4096
+//    experimentBlocksize(1048576, rounds);
 
 
 //    totalTimeExperiment(1, 1);
 //    int putEnvSuccess = _putenv("PARLAY_NUM_THREADS=12");
 //    assert(putEnvSuccess == 0);
-//    return testAllCorrectness();
+    return testAllCorrectness();
 //    cout << "running" << endl;
 //    sequence<long> A = {1,2,3};
 //    cout << A[1] << endl;
