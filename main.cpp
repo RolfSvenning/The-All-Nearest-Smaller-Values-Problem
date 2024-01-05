@@ -37,8 +37,8 @@ int main() {
 //    experimentAllInputs("speedup", n, algorithmType, rounds);
 
 //    long largestN(const string& algorithmType, const string& inputType, string (*ANSV)(long*, long, long*, long*, long, bool), long BLOCK_SIZE){ // _iobuf fp
-//    long n = largestN("BERKMAN_VISHKIN", "MERGE", 8192);
-//    cout "largest n:" << n <<
+    long n = largestN("BERKMAN_VISHKIN", "MERGE", 8192);
+    cout << "largest n:" << n << endl;
 //    // SPEEDUP
 //    experimentAllInputsAllAlgorithms("speedup", 16777216, 8192, rounds);
 //
