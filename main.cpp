@@ -9,7 +9,8 @@ int main(int argc, char* argv[]) {
     std::cerr << "Usage: " << argv[0] << " <experiment_type> <n> <block_size> <repetitions>\n";
     return 1;
   }
-
+  auto [size, logSize] = largestN("BERKMAN_VISHKIN", "MERGE", 8192);
+        cout << "largest n:" << size << endl;
   string experimentType = argv[1];
   long n = atol(argv[2]);
   long blockSize = atol(argv[3]);

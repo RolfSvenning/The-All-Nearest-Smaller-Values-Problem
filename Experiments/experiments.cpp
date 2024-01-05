@@ -7,17 +7,8 @@
 #include <thread>
 #include "parlay/primitives.h"
 
-
-
-
-// Algorithms
-#include "../ANSV/shunZhaoOriginal.h"
-#include "../ANSV/berkmanOptimal.h"
-#include "../ANSV/seq_array_n_work.h"
-
 // DATE
 #include "ctime"
-#include "chrono"
 
 using namespace parlay;
 using namespace std;
@@ -123,19 +114,18 @@ void experimentRunningTime(long n, const long BLOCK_SIZE, int repetitions){
 
 // Fix N and P.
 void experimentBlocksize(long n, int repetitions){
-    // small block size
-    for (long B = 1; B <= 256; B++) {
-        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
-    }
+  // small block size
+  for (long B = 1; B <= 64; B++) {
+    experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+  }
 
-    // medium block size
-    for (long B = 64; B <= 16384; B += 64) {
-        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
-    }
+  // medium block size
+  for (long B = 64; B <= 16384; B += 128) {
+    experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+  }
 
-    // large block size
-    for (long B = 2; B < n; B *= 2) {
-        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
-    }
+  // large block size
+  for (long B = 2; B < n; B *= 2) {
+    experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+  }
 }
-
