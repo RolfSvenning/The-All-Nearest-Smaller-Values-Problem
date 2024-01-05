@@ -16,7 +16,7 @@ using namespace parlay;
 #define PARENT(i) ((i) >> 1)
 
 
-inline long getLeft_opt(long **table, long depth, long n, long index, long start) {
+long getLeft_opt(long **table, long depth, long n, long index, long start) {
     long value = table[0][index];
     if (value == table[depth - 1][0]) return -1;
 
@@ -38,7 +38,7 @@ inline long getLeft_opt(long **table, long depth, long n, long index, long start
     return cur;
 }
 
-inline long getRight_opt(long **table, long depth, long n, long index, long start) {
+long getRight_opt(long **table, long depth, long n, long index, long start) {
     long value = table[0][index];
     if (value == table[depth - 1][0]) return -1;
 

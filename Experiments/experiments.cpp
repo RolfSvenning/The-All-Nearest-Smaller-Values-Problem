@@ -42,7 +42,7 @@ int writeToFile(const string& fileName, const string& text){
     return 1;
 }
 
-long largestN(const string& algorithmType, const string& inputType, string (*ANSV)(long*, long, long*, long*, long, bool), long BLOCK_SIZE){ // _iobuf fp
+long largestN(const string& algorithmType, const string& inputType, long BLOCK_SIZE){ // _iobuf fp
     // TODO: https://stackoverflow.com/questions/21557479/how-to-get-environment-variables-in-c-in-a-cross-platform-way/23073039#23073039
     cout << "largestN" << endl;
     // INPUT

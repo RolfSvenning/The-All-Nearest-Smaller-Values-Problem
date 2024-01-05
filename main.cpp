@@ -27,6 +27,8 @@ int main() {
 
 
 //    long n = 16777216; // 2^24 = 16777216 2^22 = 4194304 2^20 = 1048576 2^18 = 262144 2^16 = 65536
+
+
     int rounds = 3;
 //    string algorithmType = "SHUN_ZHAO"; // SEQUENTIAL, SHUN_ZHAO, SHUN_ZHAO_NO_HEURISTIC, BERKMAN_VISHKIN
 //    experiment("speedup", n, algorithmType, "MERGE", rounds);
@@ -34,6 +36,9 @@ int main() {
 //    experiment("speedup", n, algorithmType, "RANDOM", rounds);
 //    experimentAllInputs("speedup", n, algorithmType, rounds);
 
+//    long largestN(const string& algorithmType, const string& inputType, string (*ANSV)(long*, long, long*, long*, long, bool), long BLOCK_SIZE){ // _iobuf fp
+//    long n = largestN("BERKMAN_VISHKIN", "MERGE", 8192);
+//    cout "largest n:" << n <<
 //    // SPEEDUP
 //    experimentAllInputsAllAlgorithms("speedup", 16777216, 8192, rounds);
 //
@@ -47,10 +52,10 @@ int main() {
 //    totalTimeExperiment(1, 1);
 //    int putEnvSuccess = _putenv("PARLAY_NUM_THREADS=12");
 //    assert(putEnvSuccess == 0);
-    return testAllCorrectness();
+//    return testAllCorrectness();
 //    cout << "running" << endl;
 //    sequence<long> A = {1,2,3};
-    std::cout << 123 << std::endl;
+//    std::cout << 123 << std::endl;
     std::cout << ftest(9) << std::endl;
     return 1;
 }
