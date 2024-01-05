@@ -22,9 +22,9 @@
 using namespace parlay;
 using namespace std;
 
-const int NUMBER_OF_CORES = 12;
+//const int NUMBER_OF_CORES = 12;
 //const long BLOCK_SIZE = 10240; // 32 * 32 * 10
-double TIMEOUT = 1;
+double TIMEOUT = 10; // seconds
 
 
 string getCurrentDate(){
