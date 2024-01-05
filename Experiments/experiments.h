@@ -4,9 +4,9 @@
 
 int writeToFile(const std::string& fileName, const std::string& text);
 
-long largestN(const std::string& algorithmType, const std::string& inputType, long BLOCK_SIZE);
+std::tuple<long, long> largestN(const std::string& algorithmType, const std::string& inputType, long BLOCK_SIZE);
 
-void experiment(const std::string& filename, long n, long BLOCK_SIZE, const std::string& algorithmType, const std::string& inputType,  int rounds);
+void experiment(const std::string& filename, long n, long BLOCK_SIZE, const std::string& algorithmType, const std::string& inputType,  int repetitions);
 void experimentAllInputs(const std::string& filename, long BLOCK_SIZE, long n, const std::string& algorithmType, int repetitions);
 void experimentAllInputsAllAlgorithms(const std::string& filename, long n, long BLOCK_SIZE, int repetitions);
 

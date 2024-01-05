@@ -24,7 +24,7 @@ using namespace std;
 
 //const int NUMBER_OF_CORES = 12;
 //const long BLOCK_SIZE = 10240; // 32 * 32 * 10
-double TIMEOUT = 10; // seconds
+double TIMEOUT = 1; // seconds
 
 
 string getCurrentDate(){
@@ -42,7 +42,7 @@ int writeToFile(const string& fileName, const string& text){
     return 1;
 }
 
-long largestN(const string& algorithmType, const string& inputType, long BLOCK_SIZE){ // _iobuf fp
+tuple<long, long> largestN(const string& algorithmType, const string& inputType, long BLOCK_SIZE){ // _iobuf fp
     // TODO: https://stackoverflow.com/questions/21557479/how-to-get-environment-variables-in-c-in-a-cross-platform-way/23073039#23073039
     cout << "largestN" << endl;
     // INPUT
@@ -65,8 +65,9 @@ long largestN(const string& algorithmType, const string& inputType, long BLOCK_S
         }
     }
     long nRes = (long)(n / 2);
-    cout << "Largest n is: " << nRes << endl;
-    return nRes; //TODO: divide by 4 instead?
+    long logn = (long)log2(nRes);
+    cout << "Largest n and log(n): " << nRes << ", " << logn << endl;
+    return {nRes, logn};
 }
 
 
@@ -75,11 +76,12 @@ void experiment(const string& filename, long n, const long BLOCK_SIZE, const str
 
     // INPUT
     sequence<long> A = returnInputOfType(inputType, n);
-    writeToFile(filename, "\n" + getCurrentDate() + "Speedup experiment with algorithm, usingHeuristic, inputType, repetitions, numberOfCores: "
-       + algorithmType + ", " + inputType + ", " + to_string(repetitions) + ", " + to_string(-1));
+    writeToFile(filename, "\nDate: " + getCurrentDate() + filename + " experiment with "
+        "algorithm=" + algorithmType + ", inputType=" + inputType + ", repetitions=" + to_string(repetitions) +
+        ", numberOfCores=" + getenv("PARLAY_NUM_THREADS")); // to_string(-1)
 
     // ROUNDS
-    cout << "====== inputType: " << inputType << " ======" << endl;
+//    cout << "====== inputType: " << inputType << " ======" << endl;
     for (int i = 0; i < repetitions; ++i) {
         A = returnInputOfType(inputType, n);
         auto [L, R, res] = ANSV_generic(algorithmType, A, BLOCK_SIZE);
@@ -104,8 +106,8 @@ void experimentAllInputsAllAlgorithms(const string& filename, long n, const long
     // INPUT
     string algorithmTypes[4] = {"SEQUENTIAL", "SHUN_ZHAO", "SHUN_ZHAO_NO_HEURISTIC", "BERKMAN_VISHKIN"};
     for (const string& algorithmType : algorithmTypes){
-        cout << "====== algorithmType: " << algorithmType << " ======" << endl;
-        cout << "===================================================================" << endl;
+//        cout << "====== algorithmType: " << algorithmType << " ======" << endl;
+//        cout << "===================================================================" << endl;
         experimentAllInputs(filename, n, BLOCK_SIZE, algorithmType, repetitions);
     }
 }
