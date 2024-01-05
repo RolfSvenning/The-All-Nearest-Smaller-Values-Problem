@@ -95,6 +95,7 @@ void experimentAllInputs(const string& filename, long n, const long BLOCK_SIZE, 
 
     // INPUT
     string inputTypes[3] = {"MERGE", "SORTED", "RANDOM"};
+//    string inputTypes[1] = {"MERGE", }; // TODO REVERT THIS TO ALL INPUTS
     for (const string& inputType : inputTypes){
         experiment(filename, n, BLOCK_SIZE, algorithmType, inputType, repetitions);
     }
@@ -113,11 +114,9 @@ void experimentAllInputsAllAlgorithms(const string& filename, long n, const long
 }
 
 // N = 2^p for p = 0,1,2,...,largestPowerOfTwo - 1. P=1 and P=maxNumberOfProcessor.
-void experimentRunningTime(long largestPowerOfTwo, const long BLOCK_SIZE, int repetitions){
+void experimentRunningTime(long n, const long BLOCK_SIZE, int repetitions){
     // TODO: run for P=1 and P=maxNumberOfProcessor. SET NUMBER OF CORES FROM SYSTEM!
-    assert(largestPowerOfTwo < 64);
-    for (int p = 0; p < largestPowerOfTwo; ++p) {
-        long n = (long)pow(2, p);
+    for (int p = 0; p < log2(n); ++p) {
         experimentAllInputsAllAlgorithms("runningTime", n, BLOCK_SIZE, repetitions);
     }
 }
