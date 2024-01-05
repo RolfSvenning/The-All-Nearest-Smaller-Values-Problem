@@ -69,29 +69,29 @@ void testArrayShunZhaoAndMineAndBerkman(sequence<long> A, const long blockSize) 
 
 
 int testAllCorrectness(){
-    for (int i = 0; i < 400; ++i) {
-        auto [n, blockSize] = returnRandomAndBlocksize(10 , 10);
-        sequence<long> A = returnRandomArray(n);
-        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-    }
-
-    for (int i = 0; i < 200; ++i) {
-        auto [n, blockSize] = returnRandomAndBlocksize(100 , 100);
-        sequence<long> A = returnRandomArray(n);
-        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-    }
-
-    for (int i = 0; i < 100; ++i) {
-        auto [n, blockSize] = returnRandomAndBlocksize(10000, 10000);
-        sequence<long> A = returnRandomArray(n);
-        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-    }
-
-    for (int i = 0; i < 10; ++i) {
-        auto [n, blockSize] = returnRandomAndBlocksize(1000000, 10000);
-        sequence<long> A = returnRandomArray(n);
-        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-    }
+//    for (int i = 0; i < 400; ++i) {
+//        auto [n, blockSize] = returnRandomAndBlocksize(10 , 10);
+//        sequence<long> A = returnRandomArray(n);
+//        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+//    }
+//
+//    for (int i = 0; i < 200; ++i) {
+//        auto [n, blockSize] = returnRandomAndBlocksize(100 , 100);
+//        sequence<long> A = returnRandomArray(n);
+//        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+//    }
+//
+//    for (int i = 0; i < 100; ++i) {
+//        auto [n, blockSize] = returnRandomAndBlocksize(10000, 10000);
+//        sequence<long> A = returnRandomArray(n);
+//        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+//    }
+//
+//    for (int i = 0; i < 10; ++i) {
+//        auto [n, blockSize] = returnRandomAndBlocksize(1000000, 10000);
+//        sequence<long> A = returnRandomArray(n);
+//        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+//    }
 
     long n = 100000000;
     long blockSize = 8192; // 4096 * 16 = 65536

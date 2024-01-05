@@ -1,19 +1,19 @@
-  #include "ANSV/nlogn_work_shun_and_zhao.h"
   #include "ANSV/shunZhaoOriginal.h"
   #include "Glue/_aux.h"
   #include "Glue/data.h"
   #include "Testing/TestANSV.h"
   #include "iostream"
+#include "Misc/test.h"
   #include "limits"
   #include "parlay/internal/get_time.h"
   #include "parlay/primitives.h"
   #include "ANSV/nlogn_work_mine.h"
   #include "ANSV/berkmanOptimal.h"
   #include "Experiments/experiments.h"
- #include "parlay/sequence.h"
+  #include "parlay/sequence.h"
 
 using namespace std;
-using namespace parlay;
+//using namespace parlay;
 
 int main() {
 //    long n = 4; // 1234567
@@ -37,7 +37,7 @@ int main() {
 //    // SPEEDUP
 //    experimentAllInputsAllAlgorithms("speedup", 16777216, 8192, rounds);
 //
-//    // RUNNING TIME
+    // RUNNING TIME
 //    experimentRunningTime(24, 8192, rounds);
 //
 //    // BLOCK SIZE 64 * 64 = 4096
@@ -50,7 +50,8 @@ int main() {
     return testAllCorrectness();
 //    cout << "running" << endl;
 //    sequence<long> A = {1,2,3};
-//    cout << A[1] << endl;
+    std::cout << 123 << std::endl;
+    std::cout << ftest(9) << std::endl;
     return 1;
 }
 
