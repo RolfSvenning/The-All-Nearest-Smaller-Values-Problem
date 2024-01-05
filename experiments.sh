@@ -7,8 +7,8 @@ cd cmake-build-debug || exit
 cmake .. || exit
 make || exit
 
-n=1073741824 #134217728=2^27 268435456=2^28 536870912=2^29 1073741824=2^30 (2^30 for server!)
-repetitions=10
+n=1048576 #134217728=2^27 268435456=2^28 536870912=2^29 1073741824=2^30 (2^30 for server!)
+repetitions=2
 
 run_speedup_experiment() {
     for (( i = 1; i <= $(getconf _NPROCESSORS_ONLN); i++ )); do
@@ -27,7 +27,7 @@ run_running_time_experiment() {
 }
 
 run_block_size_experiment() {
-    for (( i = 1; i <= $(getconf _NPROCESSORS_ONLN); i++ )); do
+    for i in 1 $(getconf _NPROCESSORS_ONLN); do
         echo "Running block size experiment with $i threads..."
         export PARLAY_NUM_THREADS=$i
         ./ANSV2 "block_size" $n 8192 $repetitions
