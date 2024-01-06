@@ -68,8 +68,8 @@ void experiment(const string& filename, long n, const long BLOCK_SIZE, const str
     // INPUT
     sequence<long> A = returnInputOfType(inputType, n);
     writeToFile(filename, "\nDate: " + getCurrentDate() + filename + " experiment with "
-        "algorithm=" + algorithmType + ", inputType=" + inputType + ", repetitions=" + to_string(repetitions) +
-        ", numberOfCores=" + getenv("PARLAY_NUM_THREADS")); // to_string(-1)
+                                                                     "algorithm=" + algorithmType + ", inputType=" + inputType + ", repetitions=" + to_string(repetitions) +
+                          ", numberOfCores=" + getenv("PARLAY_NUM_THREADS")); // to_string(-1)
 
     // ROUNDS
 //    cout << "====== inputType: " << inputType << " ======" << endl;
@@ -86,7 +86,6 @@ void experimentAllInputs(const string& filename, long n, const long BLOCK_SIZE, 
 
     // INPUT
     string inputTypes[3] = {"MERGE", "SORTED", "RANDOM"};
-//    string inputTypes[1] = {"MERGE", }; // TODO REVERT THIS TO ALL INPUTS
     for (const string& inputType : inputTypes){
         experiment(filename, n, BLOCK_SIZE, algorithmType, inputType, repetitions);
     }
@@ -114,18 +113,21 @@ void experimentRunningTime(long n, const long BLOCK_SIZE, int repetitions){
 
 // Fix N and P.
 void experimentBlocksize(long n, int repetitions){
-  // small block size
-  for (long B = 1; B <= 64; B++) {
-    experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
-  }
+    // small block size
+    for (long B = 1; B <= 64; B=B+3) {
+        cout << "B: " << B << endl;
+        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+    }
 
-  // medium block size
-  for (long B = 64; B <= 16384; B += 128) {
-    experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
-  }
+    // medium block size
+    for (long B = 64; B <= 16384; B += 128) {
+        cout << "B: " << B << endl;
+        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+    }
 
-  // large block size
-  for (long B = 2; B < n; B *= 2) {
-    experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
-  }
+    // large block size
+    for (long B = 2; B < n; B *= 2) {
+        cout << "B: " << B << endl;
+        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+    }
 }
