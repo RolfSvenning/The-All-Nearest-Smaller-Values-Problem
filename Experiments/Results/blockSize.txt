@@ -52872,10 +52872,6 @@ Total time: 0.062197
 
 
 
-Date: Sat Jan  6 11:03:22 2024
-blockSize experiment with algorithm=BERKMAN_VISHKIN, inputType=SORTED, repetitions=3, numberOfCores=48
-
-
 Date: Sat Jan  6 23:20:50 2024
 blockSize experiment with algorithm=SEQUENTIAL, inputType=MERGE, repetitions=3, numberOfCores=1
 
