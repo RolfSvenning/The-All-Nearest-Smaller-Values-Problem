@@ -41,5 +41,5 @@ def parseExperiment(e):
 
 
 def parseFile(fileName):
-    Es = [parseExperiment(e) for e in open("Experiments/Results/blockSize.txt").read().split("Date")[1:]]# TODO[1:]
+    Es = [parseExperiment(e) for e in open("Experiments/Results/" + fileName).read().split("Date")[1:]]# TODO[1:]
     return Es
