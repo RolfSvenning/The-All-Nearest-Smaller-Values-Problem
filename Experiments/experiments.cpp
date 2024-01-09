@@ -95,7 +95,8 @@ void experimentAllInputsAllAlgorithms(const string& filename, long n, const long
     // TODO: for speedup experiment set P=1,2,3,...,maxNumberOfProcessors. SET NUMBER OF CORES FROM SYSTEM!
 
     // INPUT
-    string algorithmTypes[4] = {"SEQUENTIAL", "SHUN_ZHAO", "SHUN_ZHAO_NO_HEURISTIC", "BERKMAN_VISHKIN"};
+//    string algorithmTypes[4] = {"SEQUENTIAL", "SHUN_ZHAO", "SHUN_ZHAO_NO_HEURISTIC", "BERKMAN_VISHKIN"};
+    string algorithmTypes[3] = {"SEQUENTIAL", "SHUN_ZHAO", "BERKMAN_VISHKIN"};
     for (const string& algorithmType : algorithmTypes){
 //        cout << "====== algorithmType: " << algorithmType << " ======" << endl;
 //        cout << "===================================================================" << endl;
