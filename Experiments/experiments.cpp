@@ -106,8 +106,13 @@ void experimentAllInputsAllAlgorithms(const string& filename, long n, const long
 // N = 2^p for p = 0,1,2,...,largestPowerOfTwo - 1. P=1 and P=maxNumberOfProcessor.
 void experimentRunningTime(long n, const long BLOCK_SIZE, int repetitions){
     // TODO: run for P=1 and P=maxNumberOfProcessor. SET NUMBER OF CORES FROM SYSTEM!
-    for (int p = 0; p < log2(n); ++p) {
-        experimentAllInputsAllAlgorithms("runningTime", n, BLOCK_SIZE, repetitions);
+
+    for (double b : {1.7, 2.0}) {
+        long p = 2;
+        while ((long)pow(b, p) <= n) {
+            experimentAllInputsAllAlgorithms("runningTime", (long)pow(b, p), BLOCK_SIZE, repetitions);
+            p++;
+        }
     }
 }
 

@@ -20302,3 +20302,1785 @@ Merging: 0.015721
 Total time: 0.046614
 
 
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000002
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000000
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000000
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000004
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000028
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000009
+Tree traversal: 0.000006
+Total time: 0.000023
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000008
+Local matches: 0.000007
+Tree traversal: 0.000006
+Total time: 0.000022
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000022
+Local matches: 0.000007
+Tree traversal: 0.000007
+Total time: 0.000036
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000007
+Tree traversal: 0.000004
+Total time: 0.000016
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000009
+Tree traversal: 0.000008
+Total time: 0.000024
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000009
+Tree traversal: 0.000009
+Total time: 0.000024
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000007
+Tree traversal: 0.000010
+Total time: 0.000024
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000007
+Local matches: 0.000008
+Tree traversal: 0.000010
+Total time: 0.000025
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000011
+Local matches: 0.000017
+Tree traversal: 0.000006
+Total time: 0.000035
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000007
+Tree traversal: 0.000005
+Total time: 0.000018
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000014
+Tree traversal: 0.000008
+Total time: 0.000029
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000009
+Tree traversal: 0.000008
+Total time: 0.000024
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000008
+Local matches: 0.000021
+Merging: 0.000008
+Total time: 0.000037
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000009
+Merging: 0.000007
+Total time: 0.000022
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000009
+Merging: 0.000006
+Total time: 0.000022
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000026
+Local matches: 0.000010
+Merging: 0.000007
+Total time: 0.000044
+
+
+
+Date: Tue Jan  9 13:01:32 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000010
+Local matches: 0.000015
+Merging: 0.000012
+Total time: 0.000037
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000014
+Merging: 0.000012
+Total time: 0.000033
+
+
+
+Date: Tue Jan  9 13:01:38 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000002
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000002
+
+
+
+Date: Tue Jan  9 13:01:38 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000000
+
+
+
+Date: Tue Jan  9 13:01:38 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+
+Date: Tue Jan  9 13:01:38 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000031
+Local matches: 0.000012
+Tree traversal: 0.000011
+Total time: 0.000055
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000039
+Local matches: 0.000010
+Tree traversal: 0.000012
+Total time: 0.000062
+
+
+
+Date: Tue Jan  9 13:01:38 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000035
+Local matches: 0.000008
+Tree traversal: 0.000006
+Total time: 0.000050
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000008
+Tree traversal: 0.000004
+Total time: 0.000018
+
+
+
+Date: Tue Jan  9 13:01:38 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000010
+Tree traversal: 0.000008
+Total time: 0.000025
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000025
+Local matches: 0.000010
+Tree traversal: 0.000010
+Total time: 0.000046
+
+
+
+Date: Tue Jan  9 13:01:38 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000019
+Local matches: 0.000010
+Tree traversal: 0.000010
+Total time: 0.000040
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000005
+Local matches: 0.000008
+Tree traversal: 0.000010
+Total time: 0.000024
+
+
+
+Date: Tue Jan  9 13:01:38 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000009
+Tree traversal: 0.000004
+Total time: 0.000020
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000011
+Local matches: 0.000007
+Tree traversal: 0.000004
+Total time: 0.000022
+
+
+
+Date: Tue Jan  9 13:01:38 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000005
+Local matches: 0.000010
+Tree traversal: 0.000008
+Total time: 0.000024
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000037
+Local matches: 0.000014
+Tree traversal: 0.000016
+Total time: 0.000068
+
+
+
+Date: Tue Jan  9 13:01:39 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000016
+Merging: 0.000006
+Total time: 0.000029
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000024
+Local matches: 0.000010
+Merging: 0.000009
+Total time: 0.000043
+
+
+
+Date: Tue Jan  9 13:01:39 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000015
+Merging: 0.000006
+Total time: 0.000027
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000008
+Local matches: 0.000012
+Merging: 0.000008
+Total time: 0.000029
+
+
+
+Date: Tue Jan  9 13:01:39 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000013
+Merging: 0.000010
+Total time: 0.000030
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000015
+Merging: 0.000010
+Total time: 0.000032
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000002
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000000
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000004
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000005
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000028
+Local matches: 0.000011
+Tree traversal: 0.000011
+Total time: 0.000051
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000008
+Tree traversal: 0.000007
+Total time: 0.000022
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000031
+Local matches: 0.000008
+Tree traversal: 0.000008
+Total time: 0.000048
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000008
+Tree traversal: 0.000004
+Total time: 0.000018
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000009
+Tree traversal: 0.000009
+Total time: 0.000025
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000010
+Tree traversal: 0.000009
+Total time: 0.000025
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000007
+Tree traversal: 0.000011
+Total time: 0.000025
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000007
+Tree traversal: 0.000012
+Total time: 0.000026
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000013
+Local matches: 0.000007
+Tree traversal: 0.000006
+Total time: 0.000026
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000007
+Tree traversal: 0.000005
+Total time: 0.000019
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000007
+Local matches: 0.000012
+Tree traversal: 0.000013
+Total time: 0.000033
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000029
+Local matches: 0.000012
+Tree traversal: 0.000016
+Total time: 0.000058
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000019
+Merging: 0.000010
+Total time: 0.000036
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000009
+Merging: 0.000007
+Total time: 0.000022
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000015
+Merging: 0.000005
+Total time: 0.000027
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000018
+Merging: 0.000005
+Total time: 0.000029
+
+
+
+Date: Tue Jan  9 13:02:07 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000012
+Merging: 0.000011
+Total time: 0.000029
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000013
+Merging: 0.000010
+Total time: 0.000029
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000004
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000049
+Local matches: 0.000016
+Tree traversal: 0.000013
+Total time: 0.000079
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000007
+Tree traversal: 0.000007
+Total time: 0.000019
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000024
+Local matches: 0.000008
+Tree traversal: 0.000007
+Total time: 0.000040
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000007
+Tree traversal: 0.000004
+Total time: 0.000016
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000023
+Local matches: 0.000010
+Tree traversal: 0.000010
+Total time: 0.000044
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000011
+Tree traversal: 0.000008
+Total time: 0.000027
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000005
+Local matches: 0.000007
+Tree traversal: 0.000010
+Total time: 0.000023
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000005
+Local matches: 0.000006
+Tree traversal: 0.000010
+Total time: 0.000022
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000006
+Tree traversal: 0.000004
+Total time: 0.000016
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000032
+Local matches: 0.000006
+Tree traversal: 0.000006
+Total time: 0.000045
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000008
+Tree traversal: 0.000007
+Total time: 0.000022
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000005
+Local matches: 0.000007
+Tree traversal: 0.000008
+Total time: 0.000020
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000020
+Local matches: 0.000013
+Merging: 0.000014
+Total time: 0.000048
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000009
+Merging: 0.000005
+Total time: 0.000020
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000007
+Merging: 0.000005
+Total time: 0.000017
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000008
+Merging: 0.000004
+Total time: 0.000018
+
+
+
+Date: Tue Jan  9 13:02:42 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000010
+Merging: 0.000009
+Total time: 0.000024
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000016
+Merging: 0.000010
+Total time: 0.000032
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000002
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000002
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000000
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000031
+Local matches: 0.000007
+Tree traversal: 0.000010
+Total time: 0.000049
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000008
+Local matches: 0.000006
+Tree traversal: 0.000005
+Total time: 0.000020
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000004
+Local matches: 0.000007
+Tree traversal: 0.000009
+Total time: 0.000021
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000007
+Tree traversal: 0.000004
+Total time: 0.000016
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000009
+Tree traversal: 0.000007
+Total time: 0.000022
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000008
+Tree traversal: 0.000008
+Total time: 0.000023
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000015
+Local matches: 0.000007
+Tree traversal: 0.000009
+Total time: 0.000031
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000010
+Local matches: 0.000008
+Tree traversal: 0.000009
+Total time: 0.000028
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000008
+Tree traversal: 0.000004
+Total time: 0.000018
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000007
+Local matches: 0.000011
+Tree traversal: 0.000006
+Total time: 0.000025
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000009
+Tree traversal: 0.000008
+Total time: 0.000023
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000010
+Tree traversal: 0.000008
+Total time: 0.000025
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000015
+Merging: 0.000007
+Total time: 0.000028
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000009
+Merging: 0.000007
+Total time: 0.000022
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000009
+Merging: 0.000006
+Total time: 0.000021
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000009
+Merging: 0.000006
+Total time: 0.000020
+
+
+
+Date: Tue Jan  9 13:03:01 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000012
+Merging: 0.000010
+Total time: 0.000029
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000019
+Merging: 0.000011
+Total time: 0.000037
+
+
+
+Date: Tue Jan  9 13:04:16 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:04:17 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:04:17 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+
+Date: Tue Jan  9 13:04:17 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000036
+Local matches: 0.000014
+Tree traversal: 0.000011
+Total time: 0.000062
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000037
+Local matches: 0.000011
+Tree traversal: 0.000013
+Total time: 0.000062
+
+
+
+Date: Tue Jan  9 13:04:17 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000008
+Tree traversal: 0.000012
+Total time: 0.000027
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000009
+Local matches: 0.000013
+Tree traversal: 0.000006
+Total time: 0.000029
+
+
+
+Date: Tue Jan  9 13:04:17 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000026
+Local matches: 0.000009
+Tree traversal: 0.000011
+Total time: 0.000047
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000017
+Local matches: 0.000012
+Tree traversal: 0.000010
+Total time: 0.000041
+
+
+
+Date: Tue Jan  9 13:04:17 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000031
+Local matches: 0.000012
+Tree traversal: 0.000016
+Total time: 0.000060
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000066
+Local matches: 0.000014
+Tree traversal: 0.000028
+Total time: 0.000110
+
+
+
+Date: Tue Jan  9 13:04:17 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000005
+Local matches: 0.000009
+Tree traversal: 0.000003
+Total time: 0.000018
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000005
+Local matches: 0.000007
+Tree traversal: 0.000004
+Total time: 0.000016
+
+
+
+Date: Tue Jan  9 13:04:17 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000007
+Local matches: 0.000011
+Tree traversal: 0.000010
+Total time: 0.000029
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000008
+Local matches: 0.000014
+Tree traversal: 0.000012
+Total time: 0.000035
+
+
+
+Date: Tue Jan  9 13:04:18 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000008
+Local matches: 0.000026
+Merging: 0.000009
+Total time: 0.000044
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000031
+Local matches: 0.000012
+Merging: 0.000008
+Total time: 0.000051
+
+
+
+Date: Tue Jan  9 13:04:18 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000012
+Merging: 0.000007
+Total time: 0.000026
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000008
+Local matches: 0.000014
+Merging: 0.000007
+Total time: 0.000030
+
+
+
+Date: Tue Jan  9 13:04:18 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000009
+Local matches: 0.000021
+Merging: 0.000016
+Total time: 0.000047
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000016
+Merging: 0.000013
+Total time: 0.000036
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000004
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000008
+Local matches: 0.000010
+Tree traversal: 0.000008
+Total time: 0.000026
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000040
+Local matches: 0.000044
+Tree traversal: 0.000007
+Total time: 0.000092
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000030
+Local matches: 0.000010
+Tree traversal: 0.000006
+Total time: 0.000047
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000031
+Local matches: 0.000017
+Tree traversal: 0.000009
+Total time: 0.000059
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000009
+Tree traversal: 0.000008
+Total time: 0.000023
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000010
+Local matches: 0.000009
+Tree traversal: 0.000008
+Total time: 0.000027
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000007
+Tree traversal: 0.000010
+Total time: 0.000024
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000006
+Tree traversal: 0.000009
+Total time: 0.000022
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000005
+Local matches: 0.000007
+Tree traversal: 0.000011
+Total time: 0.000024
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000009
+Tree traversal: 0.000004
+Total time: 0.000019
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000009
+Tree traversal: 0.000009
+Total time: 0.000025
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000023
+Local matches: 0.000009
+Tree traversal: 0.000012
+Total time: 0.000044
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000014
+Local matches: 0.000068
+Merging: 0.000012
+Total time: 0.000094
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000009
+Merging: 0.000006
+Total time: 0.000021
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000010
+Merging: 0.000005
+Total time: 0.000022
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000008
+Merging: 0.000005
+Total time: 0.000020
+
+
+
+Date: Tue Jan  9 13:05:46 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000013
+Merging: 0.000010
+Total time: 0.000029
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000006
+Local matches: 0.000012
+Merging: 0.000010
+Total time: 0.000029
+
+
+
+Date: Tue Jan  9 13:18:31 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000000
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:18:31 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+
+Date: Tue Jan  9 13:18:31 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000005
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000004
+
+
+
+Date: Tue Jan  9 13:18:31 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000048
+Local matches: 0.000014
+Tree traversal: 0.000021
+Total time: 0.000084
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000014
+Local matches: 0.000035
+Tree traversal: 0.000032
+Total time: 0.000082
+
+
+
+Date: Tue Jan  9 13:18:31 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000009
+Tree traversal: 0.000006
+Total time: 0.000023
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000009
+Local matches: 0.000007
+Tree traversal: 0.000004
+Total time: 0.000021
+
+
+
+Date: Tue Jan  9 13:18:31 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000010
+Tree traversal: 0.000010
+Total time: 0.000027
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000010
+Tree traversal: 0.000009
+Total time: 0.000027
+
+
+
+Date: Tue Jan  9 13:18:31 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000025
+Local matches: 0.000013
+Tree traversal: 0.000015
+Total time: 0.000054
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000009
+Tree traversal: 0.000011
+Total time: 0.000027
+
+
+
+Date: Tue Jan  9 13:18:31 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000007
+Local matches: 0.000009
+Tree traversal: 0.000004
+Total time: 0.000021
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000007
+Local matches: 0.000009
+Tree traversal: 0.000004
+Total time: 0.000021
+
+
+
+Date: Tue Jan  9 13:18:31 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000011
+Tree traversal: 0.000010
+Total time: 0.000028
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000006
+Local matches: 0.000011
+Tree traversal: 0.000010
+Total time: 0.000028
+
+
+
+Date: Tue Jan  9 13:18:32 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000008
+Local matches: 0.000031
+Merging: 0.000009
+Total time: 0.000049
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000010
+Merging: 0.000008
+Total time: 0.000025
+
+
+
+Date: Tue Jan  9 13:18:32 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000032
+Local matches: 0.000013
+Merging: 0.000006
+Total time: 0.000052
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000008
+Local matches: 0.000010
+Merging: 0.000006
+Total time: 0.000024
+
+
+
+Date: Tue Jan  9 13:18:32 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000009
+Local matches: 0.000020
+Merging: 0.000015
+Total time: 0.000045
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000009
+Local matches: 0.000020
+Merging: 0.000015
+Total time: 0.000045
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000000
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000001
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=SEQUENTIAL, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+ --- Sequential --- with n, blockSize, heuristic: 128, 4, 1
+Total time: 0.000003
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000024
+Local matches: 0.000005
+Tree traversal: 0.000008
+Total time: 0.000037
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000017
+Local matches: 0.000006
+Tree traversal: 0.000006
+Total time: 0.000030
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000022
+Local matches: 0.000007
+Tree traversal: 0.000003
+Total time: 0.000032
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000006
+Tree traversal: 0.000004
+Total time: 0.000016
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=SHUN_ZHAO, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000004
+Local matches: 0.000006
+Tree traversal: 0.000006
+Total time: 0.000017
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000006
+Tree traversal: 0.000006
+Total time: 0.000018
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000005
+Local matches: 0.000006
+Tree traversal: 0.000007
+Total time: 0.000018
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000004
+Local matches: 0.000006
+Tree traversal: 0.000007
+Total time: 0.000018
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000005
+Local matches: 0.000006
+Tree traversal: 0.000003
+Total time: 0.000014
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000004
+Local matches: 0.000006
+Tree traversal: 0.000003
+Total time: 0.000013
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=SHUN_ZHAO_NO_HEURISTIC, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000004
+Local matches: 0.000007
+Tree traversal: 0.000006
+Total time: 0.000018
+
+
+ --- Shun & Zhao --- with n, blockSize, heuristic: 128, 4, 0
+Binary tree: 0.000017
+Local matches: 0.000006
+Tree traversal: 0.000008
+Total time: 0.000032
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=MERGE, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000013
+Merging: 0.000005
+Total time: 0.000023
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000007
+Local matches: 0.000006
+Merging: 0.000005
+Total time: 0.000018
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=SORTED, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000017
+Local matches: 0.000006
+Merging: 0.000006
+Total time: 0.000030
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000005
+Local matches: 0.000008
+Merging: 0.000005
+Total time: 0.000018
+
+
+
+Date: Tue Jan  9 13:21:13 2024
+speedup experiment with algorithm=BERKMAN_VISHKIN, inputType=RANDOM, repetitions=2, numberOfCores=1
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000008
+Local matches: 0.000016
+Merging: 0.000010
+Total time: 0.000035
+
+
+ --- Berkman & Vishkin --- with n, blockSize, heuristic: 128, 4, 1
+Binary tree: 0.000010
+Local matches: 0.000013
+Merging: 0.000011
+Total time: 0.000034
+
+
