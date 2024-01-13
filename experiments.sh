@@ -8,7 +8,8 @@ cmake .. || exit
 make || exit
 
 #n=1048576 #134217728=2^27 268435456=2^28 536870912=2^29 1073741824=2^30 (2^30 for server!)
-n=268435456 #16777216 #134217728=2^27 268435456=2^28 536870912=2^29 1073741824=2^30 (2^30 for server!)
+n=16384 #16777216 #134217728=2^27 268435456=2^28 536870912=2^29 1073741824=2^30 (268435456 = 2^28 for server!)
+block_size=128
 repetitions=3
 
 #run_speedup_experiment() {
@@ -23,7 +24,7 @@ run_running_time_experiment() {
     for i in 1 $(getconf _NPROCESSORS_ONLN); do
         echo "Running running time experiment with $i threads..."
         export PARLAY_NUM_THREADS=$i
-        ./ANSV2 "running_time" $n 8192 $repetitions
+        ./ANSV2 "running_time" $n $block_size $repetitions
     done
 }
 
