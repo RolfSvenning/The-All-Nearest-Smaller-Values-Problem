@@ -17,6 +17,9 @@ class E:
         assert self.times
         assert 1 <= self.n
         assert all(t >= 0 for t in self.times)
+        # if not (self.minTimes <= self.averageTime <= self.maxTime):
+        #     print(self.minTimes, self.averageTime, self.maxTime)
+        # assert self.minTimes <= self.averageTime <= self.maxTime
 
     def __repr__(self):
         return (
