@@ -9,7 +9,7 @@ make || exit
 
 #n=1048576 #134217728=2^27 268435456=2^28 536870912=2^29 1073741824=2^30 (2^30 for server!)
 n=268435456 #16777216 #134217728=2^27 268435456=2^28 536870912=2^29 1073741824=2^30 (2^30 for server!)
-repetitions=1
+repetitions=3
 
 #run_speedup_experiment() {
 #    for (( i = 1; i <= $(getconf _NPROCESSORS_ONLN); i++ )); do

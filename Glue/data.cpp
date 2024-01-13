@@ -22,6 +22,23 @@ sequence<long> returnMergeArray(long n){
   return A;
 }
 
+sequence<long> returnShuffledMergeArray(long n){
+  random_device rd1;
+  mt19937 gen1(rd1());
+  uniform_int_distribution<long> dis1(0, INT_MAX);
+
+  random_generator gen(dis1(gen1));
+  uniform_int_distribution<long> dis(0, 1);
+
+  sequence<long> A = returnMergeArray(n);
+
+  for (int i = 0; i < n; i = i + 2) {
+      auto r = gen[i];
+        if (dis(r) == 1) swap(A[i], A[i + 1]);
+  }
+  return A;
+}
+
 sequence<long> returnRandomArray(long n) {
     random_device rd1;
     mt19937 gen1(rd1());
@@ -43,6 +60,7 @@ sequence<long> returnRandomArray(long n) {
 sequence<long> returnInputOfType(string inputType, long n) {
     if (inputType == "SORTED") return returnSortedArray(n);
     else if (inputType == "MERGE") return returnMergeArray(n);
+    else if (inputType == "SHUFFLED_MERGE") return returnShuffledMergeArray(n);
     else if (inputType == "RANDOM") return returnRandomArray(n);
     else {
         cout << "Invalid input type: " << inputType << endl;

@@ -1,8 +1,10 @@
-  #include "Glue/_aux.h"
-  #include "iostream"
-  #include "Experiments/experiments.h"
+#include "Glue/_aux.h"
+#include "iostream"
+#include "Experiments/experiments.h"
+#include "Glue/data.h"
 
 using namespace std;
+using namespace parlay;
 
 int main(int argc, char* argv[]) {
   if (argc < 5) {
@@ -11,6 +13,11 @@ int main(int argc, char* argv[]) {
   }
 //  auto [size, logSize] = largestN("BERKMAN_VISHKIN", "MERGE", 8192);
 //        cout << "largest n:" << size << endl;
+
+//  sequence<long> A = returnShuffledMergeArray(100);
+//  printArray(A);
+
+
   string experimentType = argv[1];
   long n = atol(argv[2]);
   long blockSize = atol(argv[3]);

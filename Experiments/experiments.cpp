@@ -85,7 +85,7 @@ void experimentAllInputs(const string& filename, long n, const long BLOCK_SIZE, 
     // TODO: SET NUMBER OF CORES FROM SYSTEM!
 
     // INPUT
-    string inputTypes[3] = {"MERGE", "SORTED", "RANDOM"};
+    string inputTypes[4] = {"MERGE", "SHUFFLED_MERGE","SORTED", "RANDOM"};
     for (const string& inputType : inputTypes){
         experiment(filename, n, BLOCK_SIZE, algorithmType, inputType, repetitions);
     }

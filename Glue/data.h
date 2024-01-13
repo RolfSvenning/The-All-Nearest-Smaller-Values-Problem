@@ -7,6 +7,8 @@ parlay::sequence<long> returnSortedArray(long n);
 
 parlay::sequence<long> returnMergeArray(long n);
 
+parlay::sequence<long> returnShuffledMergeArray(long n);
+
 parlay::sequence<long> returnRandomArray(long n);
 
 parlay::sequence<long> returnInputOfType(std::string inputType, long n);
