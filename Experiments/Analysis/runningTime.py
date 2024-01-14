@@ -39,10 +39,10 @@ def plotRunningTime(NTs_, inputType, p, title, logScale):
     ax.legend()
     plt.show()
 
-Es = parseFile("runningTime.txt")
+Es = parseFile("runningTimeOld2.txt")
 # plotRunningTimeAllInputTypes(Es, 1, True)
 # plotRunningTimeAllInputTypes(Es, 48, True)
 
 # Without sequential for P = 48
-Es = [e for e in parseFile("runningTime.txt") if e.algorithmType != "SEQUENTIAL"]
+Es = [e for e in parseFile("runningTimeOld2.txt") if e.algorithmType != "SEQUENTIAL"]
 plotRunningTimeAllInputTypes(Es, 48, True)
