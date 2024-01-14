@@ -91,6 +91,16 @@ void experimentAllInputs(const string& filename, long n, const long BLOCK_SIZE, 
     }
 }
 
+void experimentAllAlgorithms(const string& filename, long n, const long BLOCK_SIZE, const string& inputType, int repetitions){
+  // TODO: SET NUMBER OF CORES FROM SYSTEM!
+
+  // INPUT
+  string algorithmTypes[3] = {"SEQUENTIAL", "SHUN_ZHAO", "BERKMAN_VISHKIN"};
+  for (const string& algorithmType : algorithmTypes){
+    experiment(filename, n, BLOCK_SIZE, algorithmType, inputType, repetitions);
+  }
+}
+
 void experimentAllInputsAllAlgorithms(const string& filename, long n, const long BLOCK_SIZE, int repetitions){
     // TODO: for speedup experiment set P=1,2,3,...,maxNumberOfProcessors. SET NUMBER OF CORES FROM SYSTEM!
 
@@ -120,21 +130,25 @@ void experimentRunningTime(long n, const long BLOCK_SIZE, int repetitions){
 
 // Fix N and P.
 void experimentBlocksize(long n, int repetitions){
-    // small block size
-    for (long B = 1; B <= 64; B=B+3) {
-        cout << "B: " << B << endl;
-        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
-    }
+//    // small block size
+//    for (long B = 1; B <= 64; B=B+3) {
+//        cout << "B: " << B << endl;
+//        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+//    }
+//
+//    // medium block size
+//    for (long B = 64; B <= 16384; B += 128) {
+//        cout << "B: " << B << endl;
+//        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+//    }
 
-    // medium block size
-    for (long B = 64; B <= 16384; B += 128) {
-        cout << "B: " << B << endl;
-        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
-    }
+    // experimentAllInputs(filename, n, BLOCK_SIZE, algorithmType, repetitions);
 
     // large block size
-    for (long B = 2; B < n; B *= 2) {
-        cout << "B: " << B << endl;
-        experimentAllInputsAllAlgorithms("blockSize", n, B, repetitions);
+    double B = 2.5;
+    while (B < n) {
+        cout << "B: " << (long)B << endl;
+        experimentAllAlgorithms("blockSize", n, (long)B, "SHUFFLED_MERGE", repetitions);
+        B = B * 1.3;
     }
 }

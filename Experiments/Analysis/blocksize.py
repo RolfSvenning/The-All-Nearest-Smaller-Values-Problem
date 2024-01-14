@@ -2,46 +2,43 @@ from parseExperiments import parseFile
 from matplotlib import pyplot as plt
 import numpy as np
 
-Es = parseFile("blockSize.txt")
-Es1 =  [e for e in Es if e.numberOfCores ==  1]  
-Es48 = [e for e in Es if e.numberOfCores == 48]  
 
-# P = 1
-smallBlockSize1   = [(e.averageTime, e.blockSize, e.inputType) for e in Es1 if e.algorithmType == "BERKMAN_VISHKIN" and e.blockSize <= 64]
-mediumBlockSize1  = [(e.averageTime, e.blockSize, e.inputType) for e in Es1 if e.algorithmType == "BERKMAN_VISHKIN" and 64 <= e.blockSize <= 10000]
-largeBlockSize1   = [(e.averageTime, e.blockSize, e.inputType) for e in Es1 if e.algorithmType == "BERKMAN_VISHKIN"]
-
-# P = 48
-smallBlockSize48  = [(e.averageTime, e.blockSize, e.inputType) for e in Es48 if e.algorithmType == "BERKMAN_VISHKIN" and e.blockSize <= 64]
-mediumBlockSize48 = [(e.averageTime, e.blockSize, e.inputType) for e in Es48 if e.algorithmType == "BERKMAN_VISHKIN" and 64 <= e.blockSize <= 10000]
-largeBlockSize48  = [(e.averageTime, e.blockSize, e.inputType) for e in Es48 if e.algorithmType == "BERKMAN_VISHKIN"]
-
-Cmap = {"RANDOM": "blue", "SORTED":"green", "MERGE": "red"}
+AtoC = {"SEQUENTIAL": 'blue', "SHUN_ZHAO": 'orange', "BERKMAN_VISHKIN": 'black'} 
+AtoM = {"SEQUENTIAL": 'x', "SHUN_ZHAO": 'o', "BERKMAN_VISHKIN": '^'} 
 
 
-
-def plotBlockSize(TBs, title, logScale=False,):
+def plotBlocksize(E, p, title, logScale):
+    E = [e for e in E if e.numberOfCores == p]
     _, ax = plt.subplots()
-    T = np.array([t for t, _, _ in TBs])
-    B = np.array([b for _, b, _ in TBs])
-    C = np.array([Cmap[c] for _, _, c in TBs])
-    for inputType, color in Cmap.items():
-        ix = np.where(C == color)
-        ax.scatter(B[ix], T[ix], c = color, label = inputType, s = 10)
+    B = np.array([e.blockSize for e in E])
+    Tnorm = np.array([e.averageTime / e.n for e in E])
 
-    if logScale: plt.xscale('log')
-    plt.xlabel('Block Size')
-    plt.ylabel('Average Running Time')
-    plt.title(title)
+    C = np.array([AtoC[e.algorithmType] for e in E])
+
+    for algorithmType, color in AtoC.items():
+        ix = np.where(C == color)
+        N2 = B[ix]
+        Tnorm2 = Tnorm[ix]
+
+        Nall, Tall = zip(*[(e.blockSize, t / e.n) for e in np.array(E)[ix] for t in e.times])
+        ax.scatter(Nall, Tall, c=color, s=10, marker=AtoM[algorithmType])
+                
+        N2, Tnorm2 = zip(*[(n, t) for n, t in sorted(list(zip(N2, Tnorm2)), key=lambda x: x[0])])
+        ax.plot(N2, Tnorm2, c=color, label=algorithmType + " " + algorithmType)
+
+        
+    if logScale: ax.set_xscale('log')
+    ax.set_xlabel('block size')
+    ax.set_ylabel('Running time in seconds')
+    ax.set_title(title)
     ax.legend()
     plt.show()
 
+
+Es = parseFile("blockSize.txt")
+
 # P = 1
-# plotBlockSize(smallBlockSize1, "Block Size vs. Average Running Time (n = xxx, P = 1)")
-# plotBlockSize(mediumBlockSize1, "Block Size vs. Average Running Time (n = xxx, P = 1)")
-plotBlockSize(largeBlockSize1, "Block Size vs. Average Running Time (n = xxx, P = 1)", logScale=True)
+plotBlocksize(Es, 1, "Block Size vs. Average Running Time (n = xxx, P = 1)", logScale=True)
 
 # P = 48
-# plotBlockSize(smallBlockSize48, "Block Size vs. Average Running Time (n = xxx, P = 48)")
-# plotBlockSize(mediumBlockSize48, "Block Size vs. Average Running Time (n = xxx, P = 48)")
-plotBlockSize(largeBlockSize48, "Block Size vs. Average Running Time (n = xxx, P = 48)", logScale=True)
+plotBlocksize(Es, 48, "Block Size vs. Average Running Time (n = xxx, P = 48)", logScale=True)

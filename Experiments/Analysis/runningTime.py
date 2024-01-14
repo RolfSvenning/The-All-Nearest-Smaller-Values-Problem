@@ -3,16 +3,15 @@ from matplotlib import pyplot as plt
 import numpy as np
 from math import log2
 
-AtoC = {"SEQUENTIAL": 'blue', "SHUN_ZHAO": 'green', "BERKMAN_VISHKIN": 'red'} 
+AtoC = {"SEQUENTIAL": 'blue', "SHUN_ZHAO": 'orange', "BERKMAN_VISHKIN": 'black'} 
 AtoM = {"SEQUENTIAL": 'x', "SHUN_ZHAO": 'o', "BERKMAN_VISHKIN": '^'} 
 
 def plotRunningTimeAllInputTypes(Es, P, logscale):
     for inputType in ["MERGE", "SHUFFLED_MERGE", "RANDOM", "SORTED"]:
-        plotRunningTime(Es, inputType, P, "Running times (all inputs, all algorithms, blocksize = 256 * log2(n), P = " + str(P), logscale)
+        plotRunningTime(Es, inputType, P, "Running times (All algorithms, blocksize = 256 * log2(n), P = " + str(P), logscale)
 
-def plotRunningTime(NTs_, inputType, p, title, logScale):
-    # NTs = [(e.n, e.times, e.algorithmType, e.numberOfCores) for e in NTs_ if (e.inputType == inputType and e.numberOfCores == p)]
-    E = [e for e in NTs_ if (e.inputType == inputType and e.numberOfCores == p and e.n >= 10000)] # TODO: excluding small n
+def plotRunningTime(E, inputType, p, title, logScale):
+    E = [e for e in E if (e.inputType == inputType and e.numberOfCores == p and e.n >= 1000)] # TODO: excluding small n
     Cmap = {a:AtoC[a] for a in set([e.algorithmType for e in E]) } 
     Mmap = {a:AtoM[a] for a in set([e.algorithmType for e in E]) } 
 
@@ -33,7 +32,7 @@ def plotRunningTime(NTs_, inputType, p, title, logScale):
         Tnorm2 = Tnorm[ix]
 
         Nall, Tall = zip(*[(e.n, t / e.n) for e in np.array(E)[ix] for t in e.times])
-        ax.scatter(Nall, Tall, c="black", s=10, marker=Mmap[algorithmType])
+        ax.scatter(Nall, Tall, c=color, s=10, marker=Mmap[algorithmType])
         
         # ax.scatter(N2, Tnorm2, c=color, label=algorithmType + " " + inputType, s=20, marker=Mmap[algorithmType])
         
@@ -52,8 +51,8 @@ def plotRunningTime(NTs_, inputType, p, title, logScale):
 
 Es = parseFile("runningTime.txt")
 plotRunningTimeAllInputTypes(Es, 1, True)
-# plotRunningTimeAllInputTypes(Es, 48, True)
+plotRunningTimeAllInputTypes(Es, 48, True)
 
 # Without sequential for P = 48
 Es = [e for e in parseFile("runningTime.txt") if e.algorithmType != "SEQUENTIAL"]
-# plotRunningTimeAllInputTypes(Es, 48, True)
+plotRunningTimeAllInputTypes(Es, 48, True)
