@@ -41,4 +41,4 @@ Es = parseFile("blockSize.txt")
 plotBlocksize(Es, 1, "Block Size vs. Average Running Time (n = xxx, P = 1)", logScale=True)
 
 # P = 48
-plotBlocksize(Es, 48, "Block Size vs. Average Running Time (n = xxx, P = 48)", logScale=True)
+plotBlocksize(Es, 12, "Block Size vs. Average Running Time (n = xxx, P = 48)", logScale=True)

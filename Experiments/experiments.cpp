@@ -114,6 +114,11 @@ void experimentAllInputsAllAlgorithms(const string& filename, long n, const long
     }
 }
 
+void experimentSpeedup(long n, const long BLOCK_SIZE, int repetitions){
+  // TODO: for speedup experiment set P=1,2,3,...,maxNumberOfProcessors. SET NUMBER OF CORES FROM SYSTEM!
+  experimentAllAlgorithms("speedup", n, (long)log2(n) * 256, "SHUFFLED_MERGE", repetitions);
+}
+
 // N = 2^p for p = 0,1,2,...,largestPowerOfTwo - 1. P=1 and P=maxNumberOfProcessor.
 void experimentRunningTime(long n, const long BLOCK_SIZE, int repetitions){
     // TODO: run for P=1 and P=maxNumberOfProcessor. SET NUMBER OF CORES FROM SYSTEM!
