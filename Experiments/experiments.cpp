@@ -111,8 +111,8 @@ void experimentRunningTime(long n, const long BLOCK_SIZE, int repetitions){
     double b = 1.7;
     double p = 2;
     while ((long)pow(b, p) <= n) {
-        cout << (long)pow(b, p) << endl;
-        cout << "p: " << p << endl;
+//        cout << (long)pow(b, p) << endl;
+//        cout << "p: " << p << endl;
         experimentAllInputsAllAlgorithms("runningTime", (long)pow(b, p), (long)log2(n) * 256, repetitions);
         p++;
     }

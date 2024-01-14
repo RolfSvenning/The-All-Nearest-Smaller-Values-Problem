@@ -7,10 +7,10 @@ cd cmake-build-debug || exit
 cmake .. || exit
 make || exit
 
-#n=1048576 #134217728=2^27 268435456=2^28 536870912=2^29 1073741824=2^30 (2^30 for server!)
-n=16777216 #16777216 #134217728=2^27 268435456=2^28 536870912=2^29 1073741824=2^30 (134217728 = 2^2 for server!)
+#n=1048576
+n=16777216 #16777216=2^24 #134217728=2^27 268435456=2^28 536870912=2^29 1073741824=2^30 (134217728 = 2^27 for server!)
 block_size=8192
-repetitions=10
+repetitions=5
 
 #run_speedup_experiment() {
 #    for (( i = 1; i <= $(getconf _NPROCESSORS_ONLN); i++ )); do
