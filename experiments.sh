@@ -24,7 +24,7 @@ run_running_time_experiment() {
     for i in 1 $(getconf _NPROCESSORS_ONLN); do
         echo "Running running time experiment with $i threads..."
         export PARLAY_NUM_THREADS=$i
-        ./ANSV2 "running_time" $n $block_size $repetitions
+        ./ANSV2 "running_time" $n -1 $repetitions
     done
 }
 

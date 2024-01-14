@@ -108,12 +108,13 @@ void experimentAllInputsAllAlgorithms(const string& filename, long n, const long
 void experimentRunningTime(long n, const long BLOCK_SIZE, int repetitions){
     // TODO: run for P=1 and P=maxNumberOfProcessor. SET NUMBER OF CORES FROM SYSTEM!
 
-    for (double b : {1.7, 2.0}) {
-        long p = 2;
-        while ((long)pow(b, p) <= n) {
-            experimentAllInputsAllAlgorithms("runningTime", (long)pow(b, p), (long)log2(n) * 256, repetitions);
-            p++;
-        }
+    double b = 1.7;
+    double p = 2;
+    while ((long)pow(b, p) <= n) {
+        cout << (long)pow(b, p) << endl;
+        cout << "p: " << p << endl;
+        experimentAllInputsAllAlgorithms("runningTime", (long)pow(b, p), (long)log2(n) * 256, repetitions);
+        p++;
     }
 }
 
