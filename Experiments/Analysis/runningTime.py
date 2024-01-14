@@ -27,7 +27,7 @@ def plotRunningTime(NTs_, inputType, p, title, logScale):
         ix = np.where(C == color)
         N2 = N[ix]
         Tnorm2 = Tnorm[ix]
-        T2 = T[ix]
+        T2 = T[ix][(e.n, t) for e in E for t in e.times]
         Terr2 = Terr[ix]
         ax.scatter(N2, Tnorm2, c=color, label=algorithmType + " " + inputType, s=10)
         # ax.errorbar(N2, Tnorm2, Terr2, fmt='o', c=color, label=algorithmType + " " + inputType, ms=2)
