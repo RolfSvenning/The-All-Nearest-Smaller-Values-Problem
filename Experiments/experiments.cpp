@@ -74,7 +74,7 @@ void experiment(const string& filename, long n, const long BLOCK_SIZE, const str
     // ROUNDS
 //    cout << "====== inputType: " << inputType << " ======" << endl;
     for (int i = 0; i < repetitions; ++i) {
-        A = returnInputOfType(inputType, n);
+//        A = returnInputOfType(inputType, n);
         auto [L, R, res] = ANSV_generic(algorithmType, A, BLOCK_SIZE);
         writeToFile(filename, res);
     }

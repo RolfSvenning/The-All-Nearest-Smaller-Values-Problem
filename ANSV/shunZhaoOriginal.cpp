@@ -202,6 +202,7 @@ string ANSV_ShunZhao(long *A, long n, long *left, long *right, long blockSize, b
                  + to_string(n) + ", " + to_string(blockSize) + ", " + to_string(usingHeuristic) + "\n"
                  + times[0] + times[1] + times[2] + "Total time: " + to_string(totalTime) + "\n";
 //    cout << res << endl;
+    delete [] times;
     return res;
 }
 
