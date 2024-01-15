@@ -31,9 +31,11 @@ repetitions=5
 run_block_size_experiment() {
     echo "Running block size experiment"
     for i in $(getconf _NPROCESSORS_ONLN) 1; do
-        echo "Running block size experiment with $i threads..."
-        export PARLAY_NUM_THREADS=$i
-        ./ANSV2 "block_size" $n 8192 $repetitions
+      for (( e = 0; e <= 67; e++)); do
+          echo "Running block size experiment with $i threads and exponent $e"
+          export PARLAY_NUM_THREADS=$i
+          ./ANSV2 "block_size" $n $e $repetitions
+      done
     done
 }
 

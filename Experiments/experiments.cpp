@@ -75,7 +75,7 @@ void experiment(const string& filename, long n, const long BLOCK_SIZE, const str
 //    cout << "====== inputType: " << inputType << " ======" << endl;
     for (int i = 0; i < repetitions; ++i) {
 //        A = returnInputOfType(inputType, n);
-        auto [L, R, res] = ANSV_generic(algorithmType, A, BLOCK_SIZE);
+        auto res = ANSV_generic_experiments(algorithmType, A, BLOCK_SIZE);
         writeToFile(filename, res);
     }
 }
@@ -93,7 +93,7 @@ void experimentAllInputs(const string& filename, long n, const long BLOCK_SIZE, 
 
 void experimentAllAlgorithms(const string& filename, long n, const long BLOCK_SIZE, const string& inputType, int repetitions){
   // TODO: SET NUMBER OF CORES FROM SYSTEM!
-
+  cout << "blocksize: " << BLOCK_SIZE << endl;
   // INPUT
   string algorithmTypes[3] = {"SEQUENTIAL", "SHUN_ZHAO", "BERKMAN_VISHKIN"};
   for (const string& algorithmType : algorithmTypes){
@@ -134,7 +134,7 @@ void experimentRunningTime(long n, const long BLOCK_SIZE, int repetitions){
 }
 
 // Fix N and P.
-void experimentBlocksize(long n, int repetitions){
+void experimentBlocksize(long n, long e, int repetitions){
 //    // small block size
 //    for (long B = 1; B <= 64; B=B+3) {
 //        cout << "B: " << B << endl;
@@ -150,10 +150,10 @@ void experimentBlocksize(long n, int repetitions){
     // experimentAllInputs(filename, n, BLOCK_SIZE, algorithmType, repetitions);
 
     // large block size
-    double B = 2.5;
-    while (B < n) {
-        cout << "B: " << (long)B << endl;
-        experimentAllAlgorithms("blockSize", n, (long)B, "SHUFFLED_MERGE", repetitions);
-        B = B * 1.3;
-    }
+//    double B = 2.5;
+//    while (B < n) {
+    cout << "blocksize: " << (2.5 * pow(1.3, (double)e)) << endl;
+    experimentAllAlgorithms("blockSize", n, (long)(2.5 * pow(1.3, (double)e)), "SHUFFLED_MERGE", repetitions);
+//        B = B * 1.3;
+//    }
 }

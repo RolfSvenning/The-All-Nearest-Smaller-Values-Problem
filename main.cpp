@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
             experimentRunningTime(n, blockSize, repetitions);
         } else if (experimentType == "block_size") {
             // BLOCK SIZE // Fix N and P. //
-            experimentBlocksize(n, repetitions);
+            experimentBlocksize(n, blockSize, repetitions);
         } else {
           cerr << "Invalid experiment type\n";
           return -1;

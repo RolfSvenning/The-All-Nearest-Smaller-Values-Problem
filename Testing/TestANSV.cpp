@@ -43,6 +43,31 @@ std::tuple<parlay::sequence<long>, parlay::sequence<long>, string> ANSV_generic(
     return {L_, R_, time};
 }
 
+string ANSV_generic_experiments(const string& algorithmType, parlay::sequence<long> &A_, long blockSize) {
+    long n = A_.size();
+    long *L = new long[n];
+    long *R = new long[n];
+    long *A = new long[n];
+    parallel_for(0, n, [&] (size_t i){
+        A[i] = A_[i];
+    });
+
+    string time;
+    if      (algorithmType == "SEQUENTIAL")             time = ANSV_seq_array(A, n, L, R, blockSize, true);
+    else if (algorithmType == "SHUN_ZHAO")              time = ANSV_ShunZhao( A, n, L, R, blockSize, true);
+    else if (algorithmType == "SHUN_ZHAO_NO_HEURISTIC") time = ANSV_ShunZhao( A, n, L, R, blockSize, false);
+    else if (algorithmType == "BERKMAN_VISHKIN")        time = ANSV_Berkman(  A, n, L, R, blockSize, true);
+    else {
+        cout << "ERROR: algorithmType not recognized" << endl;
+        assert(1 == 0);
+    }
+
+    delete [] L;
+    delete [] R;
+    delete [] A;
+    return time;
+}
+
 void testArrayShunZhaoAndMineAndBerkman(sequence<long> A, const long blockSize) {
     cout << endl << "NEW EXPERIMENT with n, blockSize: " << A.size() << ", " << blockSize << endl << endl;
 

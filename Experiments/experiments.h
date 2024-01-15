@@ -12,5 +12,5 @@ void experimentAllInputsAllAlgorithms(const std::string& filename, long n, long 
 
 void experimentRunningTime(long n, long BLOCK_SIZE, int repetitions);
 void experimentSpeedup(long n, const long BLOCK_SIZE, int repetitions);
-void experimentBlocksize(long n, int repetitions);
+void experimentBlocksize(long n, long e, int repetitions);
 #endif // ANSV2_EXPERIMENTS_H
