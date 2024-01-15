@@ -11015,6 +11015,7 @@ Total time: 4.002372
 
 
 
+<<<<<<< HEAD
 Date: Mon Jan 15 07:10:07 2024
 blockSize experiment with algorithm=SEQUENTIAL, inputType=SHUFFLED_MERGE, repetitions=5, numberOfCores=1
 

@@ -12,13 +12,13 @@ n=134217728 #16777216=2^24 #134217728=2^27 268435456=2^28 536870912=2^29 1073741
 #block_size=-1
 repetitions=5
 
-#run_speedup_experiment() {
+# run_speedup_experiment() {
 #    for (( i = 1; i <= $(getconf _NPROCESSORS_ONLN); i++ )); do
 #        echo "Running speedup experiment with $i threads..."
 #        export PARLAY_NUM_THREADS=$i
 #        ./ANSV2 "speedup" $n 8192 $repetitions
 #    done
-#}
+# }
 #
 #run_running_time_experiment() {
 #    for i in 1 $(getconf _NPROCESSORS_ONLN); do
