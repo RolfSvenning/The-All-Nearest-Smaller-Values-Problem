@@ -11,7 +11,7 @@ def plotRunningTimeAllInputTypes(Es, P, logscale):
         plotRunningTime(Es, inputType, P, "Running times (All algorithms, blocksize = 256 * log2(n), P = " + str(P), logscale)
 
 def plotRunningTime(E, inputType, p, title, logScale):
-    E = [e for e in E if (e.inputType == inputType and e.numberOfCores == p and e.n >= 1000)] # TODO: excluding small n
+    E = [e for e in E if (e.inputType == inputType and e.numberOfCores == p and e.n >= 100)] # TODO: excluding small n
     Cmap = {a:AtoC[a] for a in set([e.algorithmType for e in E]) } 
     Mmap = {a:AtoM[a] for a in set([e.algorithmType for e in E]) } 
 
@@ -19,7 +19,7 @@ def plotRunningTime(E, inputType, p, title, logScale):
     # N = np.array([e.n for e in NTs])
     # T = np.array([e.times for e in NTs])
     N = np.array([e.n for e in E])
-    Tnorm = np.array([e.averageTime / (e.n)for e in E]) # TODO: OR DIVIDE BY nlogn !
+    Tnorm = np.array([e.averageTime / (e.n)for e in E])
 
     # Tavg = np.array([e.averageTime for e in E])
     # Ttimes = np.array([e.times for e in E])
@@ -47,6 +47,7 @@ def plotRunningTime(E, inputType, p, title, logScale):
     ax.set_ylabel('Running time in seconds')
     ax.set_title(title)
     ax.legend()
+    plt.savefig('Experiments/Analysis/runningTimePlots/' + inputType + f"_{p}.pdf", bbox_inches='tight') #"Experiments/Results/" + fileName
     plt.show()
 
 Es = parseFile("runningTime.txt")
@@ -54,5 +55,5 @@ plotRunningTimeAllInputTypes(Es, 1, True)
 plotRunningTimeAllInputTypes(Es, 48, True)
 
 # Without sequential for P = 48
-Es = [e for e in parseFile("runningTime.txt") if e.algorithmType != "SEQUENTIAL"]
-plotRunningTimeAllInputTypes(Es, 48, True)
+# Es = [e for e in parseFile("runningTime.txt") if e.algorithmType != "SEQUENTIAL"]
+# plotRunningTimeAllInputTypes(Es, 48, True)
