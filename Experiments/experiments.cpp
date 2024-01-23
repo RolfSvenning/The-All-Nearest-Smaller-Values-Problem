@@ -120,15 +120,16 @@ void experimentSpeedup(long n, const long BLOCK_SIZE, int repetitions){
 }
 
 // N = 2^p for p = 0,1,2,...,largestPowerOfTwo - 1. P=1 and P=maxNumberOfProcessor.
-void experimentRunningTime(long n, const long BLOCK_SIZE, int repetitions){
+void experimentRunningTime(long largestN, const long BLOCK_SIZE, int repetitions){
     // TODO: run for P=1 and P=maxNumberOfProcessor. SET NUMBER OF CORES FROM SYSTEM!
 
     double b = 1.7;
     double p = 2;
-    while ((long)pow(b, p) <= n) {
-//        cout << (long)pow(b, p) << endl;
+    while ((long)pow(b, p) <= largestN) {
+        long n = (long)pow(b, p);
+        cout << n << endl;
 //        cout << "p: " << p << endl;
-        experimentAllInputsAllAlgorithms("runningTime", (long)pow(b, p), (long)log2(n) * 256, repetitions);
+        experimentAllInputsAllAlgorithms("runningTime", n, (long)log2(n) * 256, repetitions);
         p++;
     }
 }

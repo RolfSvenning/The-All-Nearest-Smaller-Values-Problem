@@ -144,7 +144,7 @@ string ANSV_ShunZhao(long *A, long n, long *left, long *right, long blockSize, b
     for (long d = 1; d < depth; d++) {
         long m2 = m / 2;
 
-        parlay::parallel_for(0, m2, [&] (size_t i) {
+        parallel_for(0, m2, [&] (size_t i) {
             table[d][i] = min(table[d - 1][LEFT(i)], table[d - 1][RIGHT(i)]);
         });
 
@@ -160,7 +160,7 @@ string ANSV_ShunZhao(long *A, long n, long *left, long *right, long blockSize, b
 
     // ------------ LOCAL MATCHES & REPRESENTATIVES ------------
     //
-    parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
+    blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
         ComputeANSV_Linear(A + i, j - i, left + i, right + i, i);
     });
 
@@ -169,7 +169,7 @@ string ANSV_ShunZhao(long *A, long n, long *left, long *right, long blockSize, b
 
     // ------------ NONLOCAL MATCHES BY TREE TRAVERSAL ------------
     //
-    parlay::blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
+    blocked_for(0, n, blockSize, [&] (size_t blockNumber, size_t i, size_t j) {
         long tmp = i;
         for (long k = i; k < j; k++) {
             if (left[k] == -1) {

@@ -4,6 +4,7 @@
 #include "../Glue/data.h"
 #include "TestANSV.h"
 #include "../ANSV/seq_array_n_work.h"
+#include "../ANSV/seq_stack_n_work.h"
 #include "../ANSV/shunZhaoOriginal.h"
 #include "../ANSV/berkmanOptimal.h"
 
@@ -23,6 +24,7 @@ std::tuple<parlay::sequence<long>, parlay::sequence<long>, string> ANSV_generic(
 
     string time;
     if      (algorithmType == "SEQUENTIAL")             time = ANSV_seq_array(A, n, L, R, blockSize, true);
+    else if (algorithmType == "SEQUENTIAL_STACK")       time = ANSV_seq_stack( A, n, L, R, blockSize, true);
     else if (algorithmType == "SHUN_ZHAO")              time = ANSV_ShunZhao( A, n, L, R, blockSize, true);
     else if (algorithmType == "SHUN_ZHAO_NO_HEURISTIC") time = ANSV_ShunZhao( A, n, L, R, blockSize, false);
     else if (algorithmType == "BERKMAN_VISHKIN")        time = ANSV_Berkman(  A, n, L, R, blockSize, true);
@@ -54,6 +56,7 @@ string ANSV_generic_experiments(const string& algorithmType, parlay::sequence<lo
 
     string time;
     if      (algorithmType == "SEQUENTIAL")             time = ANSV_seq_array(A, n, L, R, blockSize, true);
+    else if (algorithmType == "SEQUENTIAL_STACK")       time = ANSV_seq_stack( A, n, L, R, blockSize, true);
     else if (algorithmType == "SHUN_ZHAO")              time = ANSV_ShunZhao( A, n, L, R, blockSize, true);
     else if (algorithmType == "SHUN_ZHAO_NO_HEURISTIC") time = ANSV_ShunZhao( A, n, L, R, blockSize, false);
     else if (algorithmType == "BERKMAN_VISHKIN")        time = ANSV_Berkman(  A, n, L, R, blockSize, true);
@@ -94,36 +97,38 @@ void testArrayShunZhaoAndMineAndBerkman(sequence<long> A, const long blockSize) 
 
 
 int testAllCorrectness(){
-//    for (int i = 0; i < 400; ++i) {
-//        auto [n, blockSize] = returnRandomAndBlocksize(10 , 10);
-//        sequence<long> A = returnRandomArray(n);
-//        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-//    }
-//
-//    for (int i = 0; i < 200; ++i) {
-//        auto [n, blockSize] = returnRandomAndBlocksize(100 , 100);
-//        sequence<long> A = returnRandomArray(n);
-//        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-//    }
-//
-//    for (int i = 0; i < 100; ++i) {
-//        auto [n, blockSize] = returnRandomAndBlocksize(10000, 10000);
-//        sequence<long> A = returnRandomArray(n);
-//        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-//    }
-//
-//    for (int i = 0; i < 10; ++i) {
-//        auto [n, blockSize] = returnRandomAndBlocksize(1000000, 10000);
-//        sequence<long> A = returnRandomArray(n);
-//        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
-//    }
+    for (int i = 0; i < 400; ++i) {
+        auto [n, blockSize] = returnRandomAndBlocksize(10 , 10);
+        sequence<long> A = returnRandomArray(n);
+        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+    }
 
-    long n = 100000000;
-    long blockSize = 8192; // 4096 * 16 = 65536
-    sequence<long> A2 = returnSortedArray(n);
-    testArrayShunZhaoAndMineAndBerkman(A2, blockSize);
-    sequence<long> A3 = returnMergeArray(n);
-    testArrayShunZhaoAndMineAndBerkman(A3, blockSize);
+    for (int i = 0; i < 200; ++i) {
+        auto [n, blockSize] = returnRandomAndBlocksize(100 , 100);
+        sequence<long> A = returnRandomArray(n);
+        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+    }
+
+    for (int i = 0; i < 100; ++i) {
+        auto [n, blockSize] = returnRandomAndBlocksize(10000, 10000);
+        sequence<long> A = returnRandomArray(n);
+        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+    }
+
+    for (int i = 0; i < 10; ++i) {
+        auto [n, blockSize] = returnRandomAndBlocksize(1000000, 10000);
+        sequence<long> A = returnRandomArray(n);
+        testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+    }
+
+//    long n = 100000;
+//    long blockSize = 8192; // 4096 * 16 = 65536
+//    sequence<long> A2 = returnSortedArray(n);
+//    testArrayShunZhaoAndMineAndBerkman(A2, blockSize);
+//    sequence<long> A3 = returnMergeArray(n);
+//    testArrayShunZhaoAndMineAndBerkman(A3, blockSize);
+//    sequence<long> A4 = returnRandomArray(n);
+//    testArrayShunZhaoAndMineAndBerkman(A4, blockSize);
 
         return 1;
 }

@@ -2,6 +2,7 @@
 #include "iostream"
 #include "Experiments/experiments.h"
 #include "Glue/data.h"
+#include "Testing/TestANSV.h"
 
 using namespace std;
 using namespace parlay;
@@ -14,15 +15,28 @@ int main(int argc, char* argv[]) {
 //  auto [size, logSize] = largestN("BERKMAN_VISHKIN", "MERGE", 8192);
 //        cout << "largest n:" << size << endl;
 
-//  sequence<long> A = returnShuffledMergeArray(100);
-//  printArray(A);
-
-
+// "SEQUENTIAL" "SEQUENTIAL_STACK" "SHUN_ZHAO" "SHUN_ZHAO_NO_HEURISTIC" "BERKMAN_VISHKIN"
   string experimentType = argv[1];
   long n = atol(argv[2]);
   long blockSize = atol(argv[3]);
   int repetitions = atoi(argv[4]);
+//  for (int i = 0; i < repetitions; i++) {
+//    cout << "repetition " << i + 1 << endl;
+//      sequence <long> A1 = returnRandomArray(n);
+////  testArrayShunZhaoAndMineAndBerkman(A, blockSize);
+//      auto [L1, R1, tStack] = ANSV_generic("BERKMAN_VISHKIN", A1, blockSize);
+//      sequence <long> A2 = returnShuffledMergeArray(n);
+//
+//      auto [L2, R2, tArray]  = ANSV_generic("BERKMAN_VISHKIN", A2, blockSize);
+////      printArray(L1);
+////      printArray(L2);
+////      assert (L1 == L2);
+////      assert (R1 == R2);
+//      cout << tStack << endl;
+//      cout << tArray << endl;
+//  }
 
+//
         // EXPERIMENTS
         if (experimentType == "speedup") {
             // SPEEDUP // Fix N //
@@ -37,7 +51,8 @@ int main(int argc, char* argv[]) {
           cerr << "Invalid experiment type\n";
           return -1;
         }
-    return 1;
+//    return testAllCorrectness();
+return 1;
 }
 // PARLAY_NUM_THREADS=1
 

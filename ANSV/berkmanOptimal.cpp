@@ -1,9 +1,7 @@
 #include "berkmanOptimal.h"
 #include "parlay/parallel.h"
 #include "parlay/primitives.h"
-#include "nlogn_work_shun_and_zhao.h"
 #include "shunZhaoOriginal.h"
-#include "../Glue/_aux.h"
 
 using namespace std;
 using namespace parlay;

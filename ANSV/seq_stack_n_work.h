@@ -6,6 +6,6 @@
 #include <tuple>
 #include "parlay/sequence.h"
 
-std::tuple<parlay::sequence<VI>, parlay::sequence<VI>> ANSV_seq_stack(parlay::sequence<long> A);
+std::string ANSV_seq_stack(long *A, long n, long *L, long *R, long blockSize, bool usingHeuristic);
 
 #endif //IMPLEMENTATIONS_SEQ_STACK_H
