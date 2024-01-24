@@ -1,14 +1,15 @@
 from parseExperiments import parseFile
 from matplotlib import pyplot as plt
 import numpy as np
+# from matplotlib.ticker import FuncFormatter
 
 
-AtoC = {"SEQUENTIAL": 'blue', "SHUN_ZHAO": 'orange', "BERKMAN_VISHKIN": 'black'} 
-AtoM = {"SEQUENTIAL": 'x', "SHUN_ZHAO": 'o', "BERKMAN_VISHKIN": '^'} 
+AtoC = {"SHUN_ZHAO": 'orange', "BERKMAN_VISHKIN": 'black'} 
+AtoM = {"SHUN_ZHAO": 'o', "BERKMAN_VISHKIN": '^'} 
 
 
 def plotSpeedup(E, title, logScale):
-    _, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(7,5))
     P = np.array([e.numberOfCores for e in E])
 
     assert E[0].numberOfCores == 1
@@ -34,15 +35,20 @@ def plotSpeedup(E, title, logScale):
 
         
     if logScale: ax.set_xscale('log')
-    ax.set_xlabel('P')
-    ax.set_ylabel('T_1 / T_P')
-    ax.set_title(title)
+    ax.set_xlabel('Number of threads P')
+    #ax.set_ylabel('T_1 / T_P') #ax.set_ylabel('$\\frac{T_1}{T_P}$')
+    ax.set_ylabel('Speedup $\\frac{T_1}{T_P}$')#, fontsize = 13)
+    #ax.set_title(title)
     ax.legend()
+    # plt.rcParams["figure.figsize"] = (20,30)
+    
+   
+    fig.set_size_inches(7, 5)
     plt.savefig('Experiments/Analysis/speedupPlots/speedup.pdf', bbox_inches='tight') 
-    plt.show()
+    # plt.show()
 
 
-Es = parseFile("speedup.txt")
+Es = [e for e in parseFile("PAPER_speedup.txt") if e.algorithmType != "SEQUENTIAL"]
 
 # P = 1
 # plotSpeedup(Es, "Number of Processors vs. Average Running Time (blocksize = 256 * log2(n))", logScale=False)
@@ -50,3 +56,23 @@ plotSpeedup(Es, "Speedup\n(blocksize = 256 * log2(n))", logScale=False)
 
 # P = 48
 # plotBlocksize(Es, 12, "Block Size vs. Average Running Time (n = xxx, P = 48)", logScale=True)
+
+def printSpeedup(E):
+    E1s =  [e for e in E if e.numberOfCores == 1]
+    E12s =  [e for e in E if e.numberOfCores == 12]
+    E24s =  [e for e in E if e.numberOfCores == 24]
+    E48s = [e for e in E if e.numberOfCores == 48]
+
+    def speedupAlgorithm(algorithmType):
+        t1 =  [e for e in E1s  if e.algorithmType == algorithmType][0].averageTime
+        t12 =  [e for e in E12s  if e.algorithmType == algorithmType][0].averageTime
+        t24 =  [e for e in E24s  if e.algorithmType == algorithmType][0].averageTime
+        t48 = [e for e in E48s if e.algorithmType == algorithmType][0].averageTime
+        print(algorithmType + f"t1: {t1} and 12: {t12} and speedup t1/t12: {t1 / t12}")
+        print(algorithmType + f"t1: {t1} and t48: {t24} and speedup t1/t24: {t1 / t24}")
+        print(algorithmType + f"t1: {t1} and t48: {t48} and speedup t1/t48: {t1 / t48}")
+    
+    speedupAlgorithm("SHUN_ZHAO")
+    speedupAlgorithm("BERKMAN_VISHKIN")
+
+printSpeedup(Es)

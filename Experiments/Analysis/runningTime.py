@@ -17,7 +17,7 @@ def plotRunningTime(E, inputType, p, title, logScale):
     Cmap = {a:AtoC[a] for a in set([e.algorithmType for e in E]) } 
     Mmap = {a:AtoM[a] for a in set([e.algorithmType for e in E]) } 
 
-    _, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(7,5))
     # N = np.array([e.n for e in NTs])
     # T = np.array([e.times for e in NTs])
     N = np.array([e.n for e in E])
@@ -46,12 +46,13 @@ def plotRunningTime(E, inputType, p, title, logScale):
 
         
     if logScale: ax.set_xscale('log')
-    ax.set_xlabel('n')
-    ax.set_ylabel('Running time in seconds')
-    ax.set_title(title)
+    ax.set_xlabel('Input size $n$ (log scale)')
+    ax.set_ylabel('Running time in seconds divided by $n$')
+    # ax.set_title(title)
     ax.legend()
+    fig.set_size_inches(7, 5)
     plt.savefig('Experiments/Analysis/runningTimePlots/' + inputType + f"_{p}.pdf", bbox_inches='tight') #"Experiments/Results/" + fileName
-    plt.show()
+    # plt.show()
 
 
 def getLastRunningTimes(E):
@@ -118,12 +119,12 @@ def generate_latex_table(input_data):
     return latex_code
 
 
-Es = parseFile("runningTime.txt")
+Es = parseFile("PAPER_runningTime.txt")
 data = getLastRunningTimes(Es)
 latexCode = generate_latex_table(data)
 print(latexCode)
-# plotRunningTimeAllInputTypes(Es, 1, True)
-# plotRunningTimeAllInputTypes(Es, 48, True)
+plotRunningTimeAllInputTypes(Es, 1, True)
+plotRunningTimeAllInputTypes(Es, 48, True)
 
 # Without sequential for P = 48
 # Es = [e for e in parseFile("runningTime.txt") if e.algorithmType != "SEQUENTIAL"]
