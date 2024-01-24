@@ -116,7 +116,7 @@ void experimentAllInputsAllAlgorithms(const string& filename, long n, const long
 
 void experimentSpeedup(long n, const long BLOCK_SIZE, int repetitions){
   // TODO: for speedup experiment set P=1,2,3,...,maxNumberOfProcessors. SET NUMBER OF CORES FROM SYSTEM!
-  experimentAllAlgorithms("speedup", n, (long)log2(n) * 256, "SHUFFLED_MERGE", repetitions);
+  experimentAllAlgorithms("speedup", n, 256 * (long)log2(n), "SHUFFLED_MERGE", repetitions);
 }
 
 // N = 2^p for p = 0,1,2,...,largestPowerOfTwo - 1. P=1 and P=maxNumberOfProcessor.
@@ -153,7 +153,7 @@ void experimentBlocksize(long n, long e, int repetitions){
     // large block size
 //    double B = 2.5;
 //    while (B < n) {
-    cout << "blocksize: " << (2.5 * pow(1.3, (double)e)) << endl;
+    cout << "blocksize: " << (long)(2.5 * pow(1.3, (double)e)) << endl;
     experimentAllAlgorithms("blockSize", n, (long)(2.5 * pow(1.3, (double)e)), "SHUFFLED_MERGE", repetitions);
 //        B = B * 1.3;
 //    }

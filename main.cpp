@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
         // EXPERIMENTS
         if (experimentType == "speedup") {
             // SPEEDUP // Fix N //
-            experimentSpeedup(n, blockSize, repetitions);
+            experimentSpeedup(n, -1, repetitions);
         } else if (experimentType == "running_time") {
             // RUNNING TIME // Fix P=1, maxNumberOfProcessors. //
             experimentRunningTime(n, blockSize, repetitions);
