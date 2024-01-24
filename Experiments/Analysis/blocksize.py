@@ -60,6 +60,7 @@ def plotBreakdownRunningTime(E, p, algorithmType, logScale, proportional=False):
         total = T_tree + T_local + T_merging
         Ts = [T_tree / total, T_local / total, T_merging / total]
         # Ts = [T_tree / total, (T_tree + T_local) / total, (T_tree + T_local + T_merging) / total]
+    # else: Ts = [T_tree, T_local, T_merging]
     else: Ts = [T_tree, T_tree + T_local, T_tree + T_local + T_merging]
     
 
