@@ -153,7 +153,7 @@ string ANSV_Berkman(long *A, long n, long *L, long *R, long blockSize, bool usin
     string res = " --- Berkman & Vishkin --- with n, blockSize, heuristic: "
                  + to_string(n) + ", " + to_string(blockSize) + ", " + to_string(usingHeuristic) + "\n"
                  + times[0] + times[1] + times[2] + "Total time: " + to_string(totalTime) + "\n";
-//    cout << res << endl;
+
     delete [] times;
     return res;
 }

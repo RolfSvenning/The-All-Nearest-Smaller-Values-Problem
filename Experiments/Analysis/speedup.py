@@ -6,6 +6,8 @@ import numpy as np
 
 AtoC = {"SHUN_ZHAO": 'orange', "BERKMAN_VISHKIN": 'black'} 
 AtoM = {"SHUN_ZHAO": 'o', "BERKMAN_VISHKIN": '^'} 
+AtoL = {"SHUN_ZHAO": "BSZ", "BERKMAN_VISHKIN": "BSV"}
+AtoS = {"SHUN_ZHAO": (0, (3, 1, 1)), "BERKMAN_VISHKIN": (0, (5, 1))} 
 
 
 def plotSpeedup(E, title, logScale):
@@ -31,7 +33,7 @@ def plotSpeedup(E, title, logScale):
         ax.scatter(Pall, Tall, c=color, s=10, marker=AtoM[algorithmType])
                 
         P2, Tnorm2 = zip(*[(n, t) for n, t in sorted(list(zip(P2, Tnorm2)), key=lambda x: x[0])])
-        ax.plot(P2, Tnorm2, c=color, label=algorithmType)
+        ax.plot(P2, Tnorm2, c=color, label=AtoL[algorithmType], linestyle=AtoS[algorithmType])
 
         
     if logScale: ax.set_xscale('log')

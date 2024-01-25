@@ -67,8 +67,10 @@ def plotBreakdownRunningTime(E, p, algorithmType, logScale, proportional=False):
     ItoC = {0:"blue", 1:"orange", 2:"black"}
     ItoL = {0:"tree", 1:"local",  2:"nonlocal"}
     ItoS = {0:"dashdot", 1:"dashed",  2:"solid"}
+    ItoM = {0: 'x', 1: 'o', 2: '^'}
+
     for i, T in enumerate(Ts):
-        ax.plot(B, T, c=ItoC[i], label=ItoL[i], linestyle=ItoS[i]) # TODO: change line type
+        ax.plot(B, T, c=ItoC[i], marker=ItoM[i], markersize=3, label=ItoL[i], linestyle=ItoS[i]) # TODO: change line type
     
     # plt.fill_between(B, 0, Ts[0], color='blue', alpha=0.7)
     # plt.fill_between(B, Ts[0], Ts[1], color='orange', alpha=0.7)

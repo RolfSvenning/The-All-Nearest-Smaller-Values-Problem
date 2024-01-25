@@ -1,6 +1,26 @@
-//
-// Created by Rolf on 12/29/2023.
-//
+//// This code is part of the 15418 course project: Implementation and Comparison
+//// of Parallel LZ77 and LZ78 Algorithms and DCC 2013 paper: Practical Parallel
+//// Lempel-Ziv Factorization
+//// Copyright (c) 2012 Fuyao Zhao, Julian Shun
+////
+//// Permission is hereby granted, free of charge, to any person obtaining a
+//// copy of this software and associated documentation files (the
+//// "Software"), to deal in the Software without restriction, including
+//// without limitation the rights (to use, copy, modify, merge, publish,
+//// distribute, sublicense, and/or sell copies of the Software, and to
+//// permit persons to whom the Software is furnished to do so, subject to
+//// the following conditions:
+////
+//// The above copyright notice and this permission notice shall be included
+//// in all copies or substantial portions of the Software.
+////
+//// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+//// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+//// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+//// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+//// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+//// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <iostream>
 #include "shunZhaoOriginal.h"
@@ -22,7 +42,7 @@ long getLeft_opt(long **table, long depth, long n, long index, long start) {
 
     long cur = PARENT(start), d, dist = 2;
     for (d = 1; d < depth; d++) {
-        if ((cur + 1) * dist > start + 1) cur --;  //TODO: changed from index to start
+        if ((cur + 1) * dist > start + 1) cur --;
         if (cur < 0) return -1;
 
         if (table[d][cur] >= value) cur = PARENT(cur);
@@ -44,7 +64,7 @@ long getRight_opt(long **table, long depth, long n, long index, long start) {
 
     long cur = PARENT(start), d, dist = 2;
     for (d = 1; d < depth; d++) {
-        if (cur * dist < start) cur ++; //TODO: changed from index to start
+        if (cur * dist < start) cur ++;
         if (cur * dist >= n) return -1;
 
         if (table[d][cur] >= value) cur = PARENT(cur);
@@ -94,7 +114,6 @@ inline long cflog2(long i) {
     return res;
 }
 
-// TODO: remember to delete in code when using!
 tuple<long **, long> createBinaryTree(long *A, long n) {
     long l2 = cflog2(n);
     long depth = l2 + 1;
@@ -201,7 +220,7 @@ string ANSV_ShunZhao(long *A, long n, long *left, long *right, long blockSize, b
     string res = " --- Shun & Zhao --- with n, blockSize, heuristic: "
                  + to_string(n) + ", " + to_string(blockSize) + ", " + to_string(usingHeuristic) + "\n"
                  + times[0] + times[1] + times[2] + "Total time: " + to_string(totalTime) + "\n";
-//    cout << res << endl;
+
     delete [] times;
     return res;
 }

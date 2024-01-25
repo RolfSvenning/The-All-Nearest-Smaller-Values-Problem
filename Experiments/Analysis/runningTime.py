@@ -5,6 +5,8 @@ from math import log2
 
 AtoC = {"SEQUENTIAL": 'blue', "SHUN_ZHAO": 'orange', "BERKMAN_VISHKIN": 'black'} 
 AtoM = {"SEQUENTIAL": 'x', "SHUN_ZHAO": 'o', "BERKMAN_VISHKIN": '^'} 
+AtoL = {"SEQUENTIAL": "SEQ", "SHUN_ZHAO": "BSZ", "BERKMAN_VISHKIN": "BSV"}
+AtoS = {"SEQUENTIAL": (0, (1, 1)), "SHUN_ZHAO": (0, (3, 1, 1)), "BERKMAN_VISHKIN": (0, (5, 1))} 
 
 def plotRunningTimeAllInputTypes(Es, P, logscale):
     for inputType in ["MERGE", "SHUFFLED_MERGE", "RANDOM", "SORTED"]:
@@ -40,14 +42,14 @@ def plotRunningTime(E, inputType, p, title, logScale):
         # ax.scatter(N2, Tnorm2, c=color, label=algorithmType + " " + inputType, s=20, marker=Mmap[algorithmType])
         
         N2, Tnorm2 = zip(*[(n, t) for n, t in sorted(list(zip(N2, Tnorm2)), key=lambda x: x[0])])
-        ax.plot(N2, Tnorm2, c=color, label=algorithmType + " " + inputType)
+        ax.plot(N2, Tnorm2, c=color, label=AtoL[algorithmType], linestyle=AtoS[algorithmType])
 
 
 
         
     if logScale: ax.set_xscale('log')
     ax.set_xlabel('Input size $n$ (log scale)')
-    ax.set_ylabel('Running time in seconds divided by $n$')
+    ax.set_ylabel('Running time in seconds normalized by $n$')
     # ax.set_title(title)
     ax.legend()
     fig.set_size_inches(7, 5)
