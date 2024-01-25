@@ -14,6 +14,7 @@ int main(int argc, char* argv[]) {
   }
 //  auto [size, logSize] = largestN("BERKMAN_VISHKIN", "MERGE", 8192);
 //        cout << "largest n:" << size << endl;
+    cout << sizeof(long) << endl;
 
 // "SEQUENTIAL" "SEQUENTIAL_STACK" "SHUN_ZHAO" "SHUN_ZHAO_NO_HEURISTIC" "BERKMAN_VISHKIN"
   string experimentType = argv[1];
@@ -37,20 +38,20 @@ int main(int argc, char* argv[]) {
 //  }
 
 //
-        // EXPERIMENTS
-        if (experimentType == "speedup") {
-            // SPEEDUP // Fix N //
-            experimentSpeedup(n, -1, repetitions);
-        } else if (experimentType == "running_time") {
-            // RUNNING TIME // Fix P=1, maxNumberOfProcessors. //
-            experimentRunningTime(n, blockSize, repetitions);
-        } else if (experimentType == "block_size") {
-            // BLOCK SIZE // Fix N and P. //
-            experimentBlocksize(n, blockSize, repetitions);
-        } else {
-          cerr << "Invalid experiment type\n";
-          return -1;
-        }
+//        // EXPERIMENTS
+//        if (experimentType == "speedup") {
+//            // SPEEDUP // Fix N //
+//            experimentSpeedup(n, -1, repetitions);
+//        } else if (experimentType == "running_time") {
+//            // RUNNING TIME // Fix P=1, maxNumberOfProcessors. //
+//            experimentRunningTime(n, blockSize, repetitions);
+//        } else if (experimentType == "block_size") {
+//            // BLOCK SIZE // Fix N and P. //
+//            experimentBlocksize(n, blockSize, repetitions);
+//        } else {
+//          cerr << "Invalid experiment type\n";
+//          return -1;
+//        }
 //    return testAllCorrectness();
 return 1;
 }
