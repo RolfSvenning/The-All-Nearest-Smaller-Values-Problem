@@ -13,7 +13,6 @@ add_executable(ANSV2 main.cpp
         ANSV/naive_n2_work.cpp
         ANSV/seq_array_n_work.cpp
         ANSV/seq_stack_n_work.cpp
-        ANSV/nlogn_work_shun_and_zhao.cpp
         ANSV/nlogn_work_mine.cpp
         ParallelMinBinaryTrees/parallelMinBinaryTreeArray.cpp
         ANSV/berkmanOptimal.cpp

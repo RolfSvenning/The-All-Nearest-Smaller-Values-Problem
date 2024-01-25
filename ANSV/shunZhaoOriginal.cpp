@@ -22,10 +22,8 @@
 //// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#include <iostream>
 #include "shunZhaoOriginal.h"
 #include "parlay/primitives.h"
-#include "../Glue/_aux.h"
 
 
 using namespace std;

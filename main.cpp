@@ -52,8 +52,8 @@ int main(int argc, char* argv[]) {
 //          cerr << "Invalid experiment type\n";
 //          return -1;
 //        }
-//    return testAllCorrectness();
-return 1;
+    return testAllCorrectness();
+//return 1;
 }
 // PARLAY_NUM_THREADS=1
 
