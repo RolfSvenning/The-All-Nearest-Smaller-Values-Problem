@@ -25,6 +25,7 @@ Building the Project:
 ---------------------
 1. Ensure CMake (version 3.16 or higher) and a C++20 compliant compiler are installed.
 2. Clone this repository to your system.
+3. Ensure ParlayLib is cloned into your project. It's available on [GitHub](https://cmuparlay.github.io/parlaylib/).
 3. Navigate to the project directory and run the following commands:
    cmake .
    make
