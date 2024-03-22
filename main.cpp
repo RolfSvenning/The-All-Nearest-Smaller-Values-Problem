@@ -12,14 +12,15 @@ using namespace parlay;
 
 int main(int argc, char* argv[]) {
   if (argc < 5) {
-    std::cerr << "Usage: " << argv[0] << " <experiment_type> <n> <block_size> <repetitions>\n";
+//    std::cerr << "Usage: " << argv[0] << " <experiment_type> <n> <block_size> <repetitions>\n";
+    std::cerr << "Usage: " << argv[0] << " <inputType> <n> <block_size> <algorithmType>\n";
     return 1;
   }
 
 
   // "SEQUENTIAL" "SEQUENTIAL_STACK" "SHUN_ZHAO" "SHUN_ZHAO_NO_HEURISTIC" "BERKMAN_VISHKIN"
 //  string experimentType = argv[1];
-  string inputType = argv[1]; // shuffledMerge or random
+  string inputType = argv[1]; // merge or shuffledMerge or random
   long n = atol(argv[2]);
   long blockSize = atol(argv[3]);
 //  int repetitions = atoi(argv[4]);
@@ -31,11 +32,13 @@ int main(int argc, char* argv[]) {
       // string ANSV_generic_experiments(const string& algorithmType, parlay::sequence<long> &A_, long blockSize) {
   // input
   parlay::sequence<long> A;
-  if (inputType == "shuffledMerge") {
+  if (inputType == "merge") {
+    A = returnMergeArray(n);
+  } else if (inputType == "shuffledMerge") {
     A = returnShuffledMergeArray(n);
   } else if (inputType == "random") {
     A = returnRandomArray(n);
-  } else {
+  }  else {
     cerr << "Invalid input type\n";
     return -1;
   }
