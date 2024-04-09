@@ -5,6 +5,8 @@ parlaylib/
 .vs/
 build/
 /parlaylib/
+perf.data
+perf.data.old
 # /Experiments/Results/
 
 
