@@ -32,11 +32,13 @@ int main(int argc, char* argv[]) {
       // string ANSV_generic_experiments(const string& algorithmType, parlay::sequence<long> &A_, long blockSize) {
   // input
   parlay::sequence<long> A;
-  if (inputType == "merge") {
-    A = returnMergeArray(n);
-  } else if (inputType == "shuffledMerge") {
+  if (inputType == "sorted") {
+    A = returnSortedArray(n);
+  }  else if (inputType == "merge") {
     A = returnShuffledMergeArray(n);
-  } else if (inputType == "random") {
+  }  else if (inputType == "shuffledMerge") {
+    A = returnShuffledMergeArray(n);
+  }  else if (inputType == "random") {
     A = returnRandomArray(n);
   }  else {
     cerr << "Invalid input type\n";
