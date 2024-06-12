@@ -91,14 +91,22 @@ def plotBreakdownRunningTime(E, p, algorithmType, logScale, proportional=False):
     else: ax.set_ylabel('Stacked (cumulative) running time in seconds')
     #ax.set_title(title + titleSpecs)
     ax.legend()
-    plt.legend(reverse=True)
+    # Retrieve handles and labels
+    handles, labels = plt.gca().get_legend_handles_labels()
+
+    # Reverse the order
+    handles = handles[::-1]
+    labels = labels[::-1]
+
+    # Create legend with reversed order
+    plt.legend(handles, labels)
     plt.xlim(B[0], B[-1])
     plt.ylim(0)
     plt.savefig('Experiments/Analysis/blocksizePlots/' + titleSpecs + f" and proportional={proportional}.pdf", bbox_inches='tight') #"Experiments/Results/" + fileName
     # plt.show()
 
 
-Es = parseFile("blockSize.txt")
+Es = parseFile("blockSizePAPER.txt")
 # Es = parseFile("PAPER_blockSize.txt")
 # # P = 1
 plotBlocksize(Es, 1,  logScale=True)
