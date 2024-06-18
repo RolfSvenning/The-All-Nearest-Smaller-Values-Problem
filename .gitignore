@@ -7,6 +7,8 @@ build/
 /parlaylib/
 perf.data
 perf.data.old
+.DS_Store
+Experiments/Analysis/.DS_Store
 # /Experiments/Results/
 
 

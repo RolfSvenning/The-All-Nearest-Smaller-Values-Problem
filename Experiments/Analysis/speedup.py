@@ -15,9 +15,8 @@ def plotSpeedup(E, title, logScale):
     P = np.array([e.numberOfCores for e in E])
 
     assert E[0].numberOfCores == 1
-    T1 = E[0].averageTime
 
-    Tnorm = np.array([T1 / e.averageTime for e in E])
+    #Tnorm = np.array([T1 / e.averageTime for e in E])
     # else: Tnorm = np.array([e.averageTime / e.n for e in E])
 
     C = np.array([AtoC[e.algorithmType] for e in E])
@@ -25,15 +24,16 @@ def plotSpeedup(E, title, logScale):
     for algorithmType, color in AtoC.items():
         ix = np.where(C == color)
         P2 = P[ix]
-        Tnorm2 = Tnorm[ix]
+        T1 = E[0].averageTime if algorithmType == "SHUN_ZHAO" else E[1].averageTime
+        Tnorm = np.array([T1 / e.averageTime for e in E if e.algorithmType == algorithmType])
 
         Pall, Tall = zip(*[(e.numberOfCores, T1 / t) for e in np.array(E)[ix] for t in e.times])
         # else: Pall, Tall = zip(*[(e.numberOfCores, t / e.n) for e in np.array(E)[ix] for t in e.times])
         
         ax.scatter(Pall, Tall, c=color, s=10, marker=AtoM[algorithmType])
                 
-        P2, Tnorm2 = zip(*[(n, t) for n, t in sorted(list(zip(P2, Tnorm2)), key=lambda x: x[0])])
-        ax.plot(P2, Tnorm2, c=color, label=AtoL[algorithmType], linestyle=AtoS[algorithmType])
+        P2, Tnorm = zip(*[(n, t) for n, t in sorted(list(zip(P2, Tnorm)), key=lambda x: x[0])])
+        ax.plot(P2, Tnorm, c=color, label=AtoL[algorithmType], linestyle=AtoS[algorithmType])
 
         
     if logScale: ax.set_xscale('log')
