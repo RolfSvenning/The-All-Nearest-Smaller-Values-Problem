@@ -3,16 +3,15 @@ ANSV2: All Nearest Smaller Values Problem
 
 Overview:
 ---------
-The ANSV2 project is focused on solving the All Nearest Smaller Values (ANSV) problem, a fundamental problem in computational theory with a wide array of applications. In this problem, given an array A of n totally ordered distinct elements, the goal is to compute for each element in the array the indices of the nearest smaller values to its left and right.
+This project focuses on algorithms for the All Nearest Smaller Values (ANSV) problem, a fundamental computational problem with many applications. In this problem, given an array A of n totally ordered distinct elements, the goal is for each element in the array to compute the indices of the nearest smaller values to its left and right.
 
-This repository includes various algorithmic implementations to solve the ANSV problem efficiently, and highlights a range of applications.
+This repository includes various implementations of ANSV algorithms.
 
 Features:
 ---------
-- Implementations of the ANSV problem using various algorithmic approaches:
 - Sequential array-based solution with O(n) complexity.
-- The Berkman, Schieber, and Vishkin Optimal solution.
-- The original Shun and Zhao approach.
+- The Berkman, Schieber, and Vishkin optimal solution.
+- The Shun and Zhao heuristic approach.
 
 Dependencies:
 -------------
@@ -59,7 +58,7 @@ License:
 
 This code is part of the paper The All Nearest Smaller Values Problem Revisited in Practice, Parallel and External Memory.
 
-Copyright (c) [2024] [Anonymous authors]
+Copyright (c) [2024] [Nodari Sitchinava, Rolf Svenning]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
